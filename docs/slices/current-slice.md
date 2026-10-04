@@ -3,61 +3,60 @@
 Status: done
 
 ## Slice Goal
-- Let the learner see their demonstrated level and first failure point on one topic, with only that topic's map status updated.
+- Let the learner see specific errors, missing steps, and possible shorter paths in their own work without having it rewritten.
 
 ## Slice Boundary
-- Learner runs `examiner` on a topic and answers progressively harder questions one at a time until the first clear failure or guess, or demonstrates the goal-fitted target; the skill reports the level and stopping point, changes only that topic to `learning` or `passed`, captures mistakes, and appends one scored session line.
+- Learner runs `checker` and supplies a summary, proof, code, or solution; the skill reviews each intermediate step against a rubric and shows located findings and shorter-path opportunities, appending supported mistakes and one session line.
 
 ## Stories In Scope
-- `US-08 Get examined on a topic`
+- `US-09 Check work with the checker`
 
 ## Stories Completed In This Slice
-- `US-08 Get examined on a topic`
+- `US-09 Check work with the checker`
 
 ## Stories Remaining In This Slice
 - None.
 
 ## Contract Inputs
-- `docs/contracts.md`: Contracts 1 (confirmed-card add CLI), 3 (goal and level), 4 (target-topic status only; absent topic leaves map unchanged), 5 (mistakes), 6 (scored session), 7 (source-only grading), and 8 (portable skill).
+- `docs/contracts.md`: Contracts 1 (confirmed-card add CLI), 3 (goal context and missing-level handling), 5 (mistake log), 6 (session log), 7 (read-only sources and source-only grading), and 8 (portable skill).
 
 ## Decision Inputs
-- `DECISIONS.md`: Core Business Rules (examiner asks increasingly hard questions until failure); Interface / Contract Expectations (no grading without sources).
+- None.
 
 ## Shared State Required Now
-- Existing subject, optional goal, one selected map topic, applicable learner-supplied sources, and append-only mistake/session logs.
-- A finite source-supported difficulty ladder fitted to the goal, with a stated target for passing; answers and exam progression remain in the conversation.
+- Existing subject folder, learner-supplied work and rubric, applicable sources, and append-only mistake/session logs.
+- Work, review checklist, and located findings remain in the conversation; no copied learner artifacts or new rubric storage.
 
 ## Operations / Endpoints / Surfaces In This Slice
-- `.agents/skills/examiner/SKILL.md`.
-- Only the selected topic's status token in `subjects/<subject>/map.md`.
-- Appends to `mistakes.md` and `sessions.md`; existing `scripts/cards.py add` only for confirmed suggestions.
+- `.agents/skills/checker/SKILL.md`.
+- Skill-owned appends to `subjects/<subject>/mistakes.md` and `sessions.md`.
+- Existing `scripts/cards.py add` only for confirmed mistake-based suggestions.
 
 ## Tests Required
-- Review instructions against US-08: one question at a time, each scored question harder, production before feedback, immediate stop on clear failure or guess, and source-supported level and score reporting.
-- Check first-question failure, correct guesses, all target levels completed, ambiguous answers, missing goal/sources, learner interruption, and insufficient or conflicting evidence.
-- Check only the exact selected topic's status changes; absent, duplicate, or malformed topics leave the map unchanged; preserve all other map bytes and handle write failures safely.
-- Check automatic mistake capture, confirmed-only cards, local dates, existing log preservation, exactly one scored session line, and failed/uncertain writes or adds.
+- Review instructions against US-09: learner work before feedback, explicit rubric, each intermediate step reviewed, findings tied to exact locations and source evidence, and shorter paths described without rewriting work.
+- Check summaries, proofs, code, and solutions; missing work/rubric/intermediate steps; ambiguous content; no errors; cascading errors; and static-review limitations.
+- Check missing, insufficient, or conflicting sources, safe subject paths, preservation of learner work, automatic mistake capture, confirmed-only cards, local dates, one session line, and failed/uncertain persistence.
 - Run `make test`, `make coverage`, `make check`, and `git diff --check`; maintain 100% Python coverage.
-- No automated skill-Markdown tests per SPEC.md. No runnable agent-session harness exists; live exams, topic-status edits, and agent-owned logs cannot be exercised by repository end-to-end tests. Existing CLI tests cover card addition, not learner confirmation.
+- No automated skill-Markdown tests per SPEC.md. No runnable agent-session harness exists; live checking, confirmation, and agent-owned log writes cannot be exercised by repository end-to-end tests. Existing CLI tests cover card addition, not the skill's confirmation behavior.
 
 ## Not Now
-- US-09 checker and US-10 listener; other learning roles.
-- Bulk exams, map creation or reordering, prerequisite status changes, fixed global score thresholds, stored transcripts, new Python behavior, and agent-session test infrastructure.
+- US-10 listener and US-11 sparring partner; other learning roles.
+- Rewriting or executing learner work, topic-status updates, numeric grading schemes, stored rubrics/transcripts, new Python behavior, and agent-session test infrastructure.
 
 ## Done When
-- The portable examiner skill tests one topic with source-supported, progressively harder questions and stops at the first clear failure or guess.
-- It reports the highest demonstrated level, explicit score basis, and failure or target-completion point; incomplete or ungraded sessions do not falsely pass.
-- Only the examined topic's existing status changes to `learning` on failure/guess or `passed` on demonstrated target completion; supported mistakes and one session line are appended.
-- Cards are suggested from session mistakes and added only on explicit confirmation; instruction review and existing automated checks pass.
+- The portable checker skill reviews learner-produced work step by step against a clear rubric and applicable sources.
+- Every finding names a specific step or location, distinguishes confirmed mistakes from uncertainties and downstream effects, and identifies supported shorter paths without supplying replacement work.
+- Supported mistakes are captured automatically, cards require explicit confirmation through the CLI, and exactly one session line records the review and limitations.
+- Only permitted logs and confirmed card additions change; instruction review and existing automated checks pass.
 
 ## Completion Summary
-- Added the portable examiner skill: one-topic, source-supported questions with increasing difficulty, immediate stop on first clear failure or guess, and an announced goal-fitted target for passing.
-- Instructions report demonstrated level and score basis, automatically capture supported mistakes, and update only the selected topic's existing status token while preserving all other map content.
-- Missing sources, inconclusive evidence, or interruption do not produce a false pass; missing, duplicate, or malformed map entries are reported without map changes.
-- Card suggestions use supported session mistakes and require explicit confirmation through the existing CLI; exactly one scored or explicitly ungraded session line is appended.
-- Instruction review covered US-08 and the listed contracts, including first-question failure, correct guesses, target completion, ambiguous answers, absent goals/maps/sources, partial writes, safe paths, and retry safety.
+- Added the portable checker skill: review learner-produced summaries, proofs, code, or solutions in order against an explicit rubric and applicable sources.
+- Findings identify exact work locations, rubric criteria, and source evidence; shorter-path opportunities are described without rewriting or modifying learner work.
+- Instructions distinguish confirmed mistakes, cascading effects, unverified portions, and static code-review limitations; missing sources do not produce invented grades or corrections.
+- Supported mistakes are captured automatically, cards require explicit confirmation through the existing CLI, and exactly one append-only session line records the outcome and limitations.
+- Instruction review covered US-09 and the listed contracts, including missing work/rubrics/steps, unclear content, no errors, source conflicts, safe paths, interrupted reviews, and failed or uncertain persistence.
 - `make test`, `make coverage`, and `make check` passed: 48 existing tests, formatting, lint, and 100% Python statement/branch coverage (unchanged). `git diff --check` passed.
-- No live learner exam or automated agent-session end-to-end test was run; questioning, map-status edits, confirmations, and log behavior were reviewed as instructions.
+- No live learner session or automated agent-session end-to-end test was run; review, confirmation, and log behavior were reviewed as instructions.
 
 ## Next Slice Recommendation
-- `US-09 Check work with the checker`. Keep US-10 Explain back to the listener and US-11 Spar in a timed simulation in view for shared source-supported feedback, mistake/session logs, and confirmed-card suggestions, but outside that slice.
+- `US-10 Explain back to the listener`. Keep US-11 Spar in a timed simulation and US-12 Organise notes with the clerk in view for shared session logs and confirmed-card suggestions, but outside that slice.
