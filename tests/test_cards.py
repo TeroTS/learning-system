@@ -17,7 +17,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = REPO_ROOT / "scripts" / "cards.py"
 
 
-class AddCardTest(unittest.TestCase):
+class CardsTestCase(unittest.TestCase):
     def setUp(self) -> None:
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
@@ -66,6 +66,8 @@ class AddCardTest(unittest.TestCase):
         self.assertEqual(self.path.read_bytes() if self.path.exists() else None, before)
         self.assertEqual(list(self.subject.glob("*.tmp")), [])
 
+
+class AddCardTest(CardsTestCase):
     def test_end_to_end_add_creates_file_and_reports_card(self) -> None:
         result = subprocess.run(
             [sys.executable, str(SCRIPT), *self.arguments()], capture_output=True, text=True, cwd=self.temp.name
@@ -255,7 +257,7 @@ class AddCardTest(unittest.TestCase):
             self.assert_rejected(self.arguments())
 
     def test_bad_usage_exits_two_without_writing(self) -> None:
-        for arguments in ([], ["add", "statistics"], ["due", "statistics"], [*self.arguments(), "--unexpected"]):
+        for arguments in ([], ["add", "statistics"], ["unknown", "statistics"], [*self.arguments(), "--unexpected"]):
             with self.subTest(arguments=arguments):
                 result = subprocess.run([sys.executable, str(SCRIPT), *arguments], capture_output=True, text=True)
                 self.assertEqual(result.returncode, 2)
@@ -280,6 +282,141 @@ class AddCardTest(unittest.TestCase):
         self.assertEqual(raised.exception.code, 0)
         self.assertEqual(stderr.getvalue(), "")
         self.assertEqual(json.loads(self.path.read_text(encoding="utf-8")), [json.loads(stdout.getvalue())])
+
+
+class DueCardTest(CardsTestCase):
+    def arguments(self, **overrides: str) -> list[str]:
+        options = {"today": "2025-10-04"}
+        options.update(overrides)
+        return [
+            "due",
+            "statistics",
+            "--subjects-dir",
+            str(self.subjects),
+            *[argument for name, value in options.items() for argument in (f"--{name}", value)],
+        ]
+
+    def test_lists_overdue_and_today_cards_sorted_by_due_then_numeric_id(self) -> None:
+        stored = [
+            {**self.original_card, "id": 10, "due": "2025-10-04"},
+            {**self.original_card, "id": 4, "due": "2025-10-05"},
+            {**self.original_card, "id": 2, "due": "2025-10-04"},
+            self.original_card,
+        ]
+        self.path.write_text(json.dumps(stored), encoding="utf-8")
+        before = self.path.read_bytes()
+        first = self.invoke(self.arguments())
+        second = self.invoke(self.arguments())
+        self.assertEqual(first, second)
+        code, stdout, stderr = first
+        self.assertEqual((code, stderr), (0, ""))
+        self.assertEqual(json.loads(stdout), [stored[3], stored[2], stored[0]])
+        self.assertEqual(self.path.read_bytes(), before)
+        self.assertEqual(list(self.subject.iterdir()), [self.path])
+
+    def test_missing_empty_and_future_only_storage_list_no_cards(self) -> None:
+        for stored in (None, [], [{**self.original_card, "due": "2025-10-05"}]):
+            with self.subTest(stored=stored):
+                if stored is not None:
+                    self.path.write_text(json.dumps(stored), encoding="utf-8")
+                before = self.path.read_bytes() if self.path.exists() else None
+                code, stdout, stderr = self.invoke(self.arguments())
+                self.assertEqual((code, stdout, stderr), (0, "[]\n", ""))
+                self.assertEqual(self.path.read_bytes() if self.path.exists() else None, before)
+                self.assertEqual(list(self.subject.iterdir()), [] if stored is None else [self.path])
+
+    def test_default_date_is_local_today(self) -> None:
+        yesterday = date.today() - timedelta(days=1)
+        stored = [{**self.original_card, "due": yesterday.isoformat()}]
+        self.path.write_text(json.dumps(stored), encoding="utf-8")
+        code, stdout, stderr = self.invoke(self.arguments()[:-2])
+        self.assertEqual((code, stderr), (0, ""))
+        self.assertEqual(json.loads(stdout), stored)
+
+    def test_maximum_date_is_valid_for_read_only_listing(self) -> None:
+        stored = [{**self.original_card, "due": "9999-12-31"}]
+        self.path.write_text(json.dumps(stored), encoding="utf-8")
+        code, stdout, stderr = self.invoke(self.arguments(today="9999-12-31"))
+        self.assertEqual((code, stderr), (0, ""))
+        self.assertEqual(json.loads(stdout), stored)
+
+    def test_invalid_subject_or_date_is_rejected_without_creating_storage(self) -> None:
+        for subject in ("../statistics", "Statistics", "missing"):
+            with self.subTest(subject=subject):
+                arguments = self.arguments()
+                arguments[1] = subject
+                self.assert_rejected(arguments)
+        for today in ("20251004", "2025-02-29", "2025-W40-6"):
+            with self.subTest(today=today):
+                self.assert_rejected(self.arguments(today=today))
+        self.assertFalse(self.path.exists())
+
+    def test_invalid_storage_and_invalid_future_cards_are_rejected_without_repair(self) -> None:
+        invalid = [
+            b"not JSON Original front",
+            b"\xff",
+            b"{}",
+            json.dumps([{**self.original_card, "due": "2025-10-05", "box": 6}]).encode(),
+            json.dumps([self.original_card, {**self.original_card, "due": "2025-10-05"}]).encode(),
+        ]
+        for content in invalid:
+            with self.subTest(content=content):
+                self.path.write_bytes(content)
+                self.assert_rejected(self.arguments())
+
+    def test_subject_escape_and_storage_symlink_are_rejected(self) -> None:
+        outside = Path(self.temp.name) / "outside"
+        outside.mkdir()
+        (self.subjects / "escape").symlink_to(outside, target_is_directory=True)
+        arguments = self.arguments()
+        arguments[1] = "escape"
+        self.assert_rejected(arguments)
+        outside_cards = outside / "cards.json"
+        outside_cards.write_text("[]", encoding="utf-8")
+        self.path.symlink_to(outside_cards)
+        self.assert_rejected(self.arguments())
+        self.assertEqual(outside_cards.read_text(encoding="utf-8"), "[]")
+
+    def test_end_to_end_listing_is_deterministic_and_read_only(self) -> None:
+        stored = [
+            {**self.original_card, "id": 2, "due": "2025-10-04"},
+            {**self.original_card, "id": 1, "due": "2025-10-05"},
+            self.original_card,
+        ]
+        self.path.write_text(json.dumps(stored), encoding="utf-8")
+        before = self.path.read_bytes()
+        command = [sys.executable, str(SCRIPT), *self.arguments()]
+        first = subprocess.run(command, capture_output=True, text=True, cwd=self.temp.name)
+        second = subprocess.run(command, capture_output=True, text=True, cwd=self.temp.name)
+        self.assertEqual((first.returncode, first.stderr), (0, ""))
+        self.assertEqual((second.returncode, second.stderr), (0, ""))
+        self.assertEqual(first.stdout, second.stdout)
+        self.assertEqual(json.loads(first.stdout), [stored[2], stored[0]])
+        self.assertEqual(self.path.read_bytes(), before)
+        self.assertEqual(list(self.subject.iterdir()), [self.path])
+
+    def test_end_to_end_missing_file_and_invalid_data(self) -> None:
+        command = [sys.executable, str(SCRIPT), *self.arguments()]
+        result = subprocess.run(command, capture_output=True, text=True)
+        self.assertEqual((result.returncode, result.stdout, result.stderr), (0, "[]\n", ""))
+        self.assertFalse(self.path.exists())
+        original = b"not JSON: private learner content"
+        self.path.write_bytes(original)
+        result = subprocess.run(command, capture_output=True, text=True)
+        self.assertEqual(result.returncode, 1)
+        self.assertEqual(result.stdout, "")
+        self.assertTrue(result.stderr.strip())
+        self.assertNotIn("private learner content", result.stderr)
+        self.assertEqual(self.path.read_bytes(), original)
+
+    def test_bad_usage_exits_two(self) -> None:
+        for arguments in (["due"], [*self.arguments(), "--front", "not accepted"]):
+            with self.subTest(arguments=arguments):
+                result = subprocess.run([sys.executable, str(SCRIPT), *arguments], capture_output=True, text=True)
+                self.assertEqual(result.returncode, 2)
+                self.assertEqual(result.stdout, "")
+                self.assertTrue(result.stderr.strip())
+        self.assertFalse(self.path.exists())
 
 
 if __name__ == "__main__":

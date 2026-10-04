@@ -1,4 +1,4 @@
-# Add confirmed cards to an existing subject's UTF-8 JSON store.
+# Add confirmed cards to an existing subject's UTF-8 JSON store and list due cards without modifying it.
 # CLI output is JSON on stdout; invalid input or storage failures leave existing cards unchanged.
 
 import argparse
@@ -74,21 +74,28 @@ def write_cards(path: Path, cards: list[dict[str, str | int]]) -> None:
             temporary.unlink(missing_ok=True)
 
 
-# Validate subject and card text, then append a box-1 card due tomorrow and return it.
-# Read all existing cards before writing; reject escaped paths and symlinked storage, preserving existing data.
-# ponytail: single-writer local store; add per-subject locking if concurrent writers are required.
-def add_card(subjects_dir: Path, subject: str, front: str, back: str, today: date) -> dict[str, str | int]:
+# Resolve card storage inside an existing subject folder; reject invalid names, escaped paths and symlinked files.
+# Return the validated path without creating or changing files; invalid paths raise ValueError.
+def cards_path(subjects_dir: Path, subject: str) -> Path:
     if re.fullmatch(SUBJECT_PATTERN, subject) is None:
         raise ValueError("Invalid subject name; use lowercase hyphenated names.")
     subject_dir = subjects_dir / subject
     if not subject_dir.is_dir() or subject_dir.resolve().parent != subjects_dir.resolve():
         raise ValueError("Subject folder must already exist inside the subjects directory.")
-    front, back = front.strip(), back.strip()
-    if not front or not back:
-        raise ValueError("Card front and back must not be empty.")
     path = subject_dir / "cards.json"
     if path.is_symlink():
         raise ValueError("cards.json must not be a symlink.")
+    return path
+
+
+# Validate subject and card text, then append a box-1 card due tomorrow and return it.
+# Read all existing cards before writing, preserving existing data on input or storage failures.
+# ponytail: single-writer local store; add per-subject locking if concurrent writers are required.
+def add_card(subjects_dir: Path, subject: str, front: str, back: str, today: date) -> dict[str, str | int]:
+    path = cards_path(subjects_dir, subject)
+    front, back = front.strip(), back.strip()
+    if not front or not back:
+        raise ValueError("Card front and back must not be empty.")
     cards = load_cards(path)
     card = {
         "id": max((existing["id"] for existing in cards), default=0) + 1,
@@ -103,29 +110,43 @@ def add_card(subjects_dir: Path, subject: str, front: str, back: str, today: dat
     return card
 
 
-# Parse add CLI arguments, configure stderr logging once, and print the created card as JSON.
+# Return validated cards due on or before today, sorted by due date then id; missing storage returns [].
+# Read-only: never creates or changes files; propagate validation and read failures.
+def due_cards(subjects_dir: Path, subject: str, today: date) -> list[dict[str, str | int]]:
+    cards = load_cards(cards_path(subjects_dir, subject))
+    return sorted(
+        (card for card in cards if card["due"] <= today.isoformat()), key=lambda card: (card["due"], card["id"])
+    )
+
+
+# Parse add/due CLI arguments, configure stderr logging once, and print the result as JSON.
 # Return 0 on success or 1 for input/data/storage failures; argparse exits 2 for bad usage.
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Manage subject cards.")
     subcommands = parser.add_subparsers(dest="command", required=True)
     add = subcommands.add_parser("add", help="Add a confirmed card.")
-    add.add_argument("subject")
     add.add_argument("--front", required=True)
     add.add_argument("--back", required=True)
-    add.add_argument("--today", help="Local calendar date (YYYY-MM-DD).")
-    add.add_argument("--subjects-dir", type=Path, default=Path(__file__).resolve().parents[1] / "subjects")
+    due = subcommands.add_parser("due", help="List due cards without changing storage.")
+    for command in (add, due):
+        command.add_argument("subject")
+        command.add_argument("--today", help="Local calendar date (YYYY-MM-DD).")
+        command.add_argument("--subjects-dir", type=Path, default=Path(__file__).resolve().parents[1] / "subjects")
     args = parser.parse_args(argv)
     try:
         configure_logging()
         today = parse_date(args.today) if args.today is not None else date.today()
-        card = add_card(args.subjects_dir, args.subject, args.front, args.back, today)
+        if args.command == "add":
+            result = add_card(args.subjects_dir, args.subject, args.front, args.back, today)
+        else:
+            result = due_cards(args.subjects_dir, args.subject, today)
     except ValueError as exc:
         print(str(exc), file=sys.stderr)
         return 1
     except (OSError, OverflowError):
-        print("Cannot add card: storage failure or date outside the supported range.", file=sys.stderr)
+        print("Cannot manage cards: storage failure or date outside the supported range.", file=sys.stderr)
         return 1
-    print(json.dumps(card, ensure_ascii=False))
+    print(json.dumps(result, ensure_ascii=False))
     return 0
 
 
