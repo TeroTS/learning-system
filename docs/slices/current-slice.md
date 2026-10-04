@@ -3,57 +3,60 @@
 Status: done
 
 ## Slice Goal
-- Let the learner get past one stuck step and demonstrate an unaided redo of the task from the start.
+- Let the learner discover and state a gap in their understanding through follow-up questions rather than supplied answers.
 
 ## Slice Boundary
-- Learner runs `explainer`, names a task and stuck step, receives an explanation of only that step, and attempts the entire task again without help; one session line records whether the redo succeeded unaided.
+- Learner runs `socratic-questioner` on a topic and answers one question at a time until they state the gap themselves; supported mistakes are appended to `mistakes.md`, one session line is appended, and mistake-based cards are added only after explicit confirmation.
 
 ## Stories In Scope
-- `US-06 Get unstuck with the explainer`
+- `US-07 Find gaps with the Socratic questioner`
 
 ## Stories Completed In This Slice
-- `US-06 Get unstuck with the explainer`
+- `US-07 Find gaps with the Socratic questioner`
 
 ## Stories Remaining In This Slice
 - None.
 
 ## Contract Inputs
-- `docs/contracts.md`: Contracts 3 (`goal.md` and missing-level handling), 6 (session log), 7 (read-only sources and no grading without sources), and 8 (portable skill); Contract 1 subject-name pattern.
+- `docs/contracts.md`: Contracts 1 (confirmed-card add CLI), 3 (goal and current level), 5 (mistake log), 6 (session log), 7 (read-only sources and no grading without sources), and 8 (portable skill).
 
 ## Decision Inputs
 - None.
 
 ## Shared State Required Now
-- Existing subject folder, optional recorded goal and learner-supplied sources, and an append-only session log.
-- Task, stuck step, learner attempt, and redo outcome remain in the current conversation, not a stored transcript.
+- Existing subject folder, optional goal, learner-supplied sources for supported correctness judgments, and append-only mistake/session logs.
+- Current topic, answers, and learner-stated gap remain in the conversation; no stored transcript or new question-state model.
 
 ## Operations / Endpoints / Surfaces In This Slice
-- `.agents/skills/explainer/SKILL.md`.
-- `subjects/<subject>/sessions.md` at skill runtime only.
+- `.agents/skills/socratic-questioner/SKILL.md`.
+- Skill-owned appends to `subjects/<subject>/mistakes.md` and `sessions.md`.
+- Existing `scripts/cards.py add` only for explicitly confirmed suggestions.
 
 ## Tests Required
-- Review instructions against US-06: production before explanation, one question per turn, recorded or stated level, explanation limited to the stuck step, and a full unaided redo before normal completion.
-- Check vague task/step, missing goal or sources, failed or aided redo, abandonment before redo, unsafe subject names, existing log preservation, and failed or uncertain appends.
+- Review instructions against US-07: learner production, one question per turn, adaptive follow-up questions without direct answers, and the learner stating the gap in their own words.
+- Check indirect answer leaks through hints, source excerpts, log contents, summaries, or card backs before discovery.
+- Check source-supported automatic mistake capture, missing/insufficient sources, unclear answers, no discovered gap, interrupted sessions, declined/unconfirmed suggestions, and failed or uncertain writes/adds.
+- Check safe subject paths, local dates, contracted single-line formats, preservation of prior logs, and exactly one session line.
 - Run `make test`, `make coverage`, `make check`, and `git diff --check`; preserve 100% Python coverage.
-- No automated skill-Markdown tests per SPEC.md. No runnable agent-session harness exists; live explanations and learner redo behavior cannot be exercised by repository end-to-end tests.
+- No automated skill-Markdown tests per SPEC.md. No runnable agent-session harness exists; live questioning and agent-owned log writes cannot be exercised by repository end-to-end tests. Existing CLI integration tests cover card addition, not the skill's confirmation behavior.
 
 ## Not Now
-- US-07 Socratic questioner and US-08 examiner; other learning roles.
-- Mistake capture, card suggestions, goal/map updates, learner transcripts, sample data, and agent-session test infrastructure.
+- US-08 examiner and US-09 checker; other learning roles.
+- Topic-status updates, grading scores, goal/map edits, new card CLI behavior, stored transcripts, sample data, and agent-session test infrastructure.
 
 ## Done When
-- The portable explainer skill collects a concrete task, stuck step, learner attempt, and current level without supplying a full solution.
-- Only the stuck step is explained; the learner must attempt the task again from the start without help before the session can be called complete.
-- Exactly one contracted session line records the observed outcome and any verification limitations; no other subject files are changed.
+- The portable skill asks adaptive questions without supplying the answer and requires the learner to state their own gap before claiming discovery.
+- Every source-supported mistake is captured automatically with a correct idea; missing sources do not lead to invented judgments or corrections.
+- Cards use already-discovered ideas and are added only after explicit confirmation; exactly one session line records the outcome and any limitations.
 - Instruction review and existing automated checks pass.
 
 ## Completion Summary
-- Added the portable explainer skill: concrete task and stuck-step collection, learner production before explanation, and depth fitted to the recorded or stated level.
-- Instructions limit explanation to the stuck step and require a fresh, unaided redo from the start before normal completion; failed, aided, partial, and abandoned attempts are not mislabeled as success.
-- Writes only one contracted session line, preserving earlier entries and distinguishing source-verified outcomes from learner-reported or unverified outcomes.
-- Instruction review covered US-06 and the listed contracts, including missing goal/sources, vague requests, unsafe subject paths, interrupted redo, and failed or uncertain log appends.
+- Added the portable Socratic questioner skill: adaptive, one-at-a-time production questions without direct answers and explicit learner articulation of the discovered gap.
+- Instructions automatically capture source-supported mistakes without exposing corrections during questioning, and distinguish discovery from correction or unverified self-report.
+- Mistake-based cards use learner-articulated, supported ideas and are added only after explicit confirmation through the existing CLI; one append-only session line records the outcome.
+- Instruction review covered US-07 and the listed contracts, including answer leaks, vague answers, missing/conflicting sources, unresolved gaps, interrupted sessions, safe paths, declined cards, and failed or uncertain persistence.
 - `make test`, `make coverage`, and `make check` passed: 48 existing tests, formatting, lint, and 100% Python statement/branch coverage (unchanged). `git diff --check` passed.
-- No live learner session or automated agent-session end-to-end test was run; the skill's explanation, redo, and log behavior were reviewed as instructions.
+- No live learner session or automated agent-session end-to-end test was run; questioning, confirmation, and agent-owned log behavior were reviewed as instructions, not exercised by the existing CLI tests.
 
 ## Next Slice Recommendation
-- `US-07 Find gaps with the Socratic questioner`. Keep US-08 Get examined on a topic and US-09 Check work with the checker in view for shared mistake/session logs and confirmed-card suggestions, but outside that slice.
+- `US-08 Get examined on a topic`. Keep US-09 Check work with the checker and US-10 Explain back to the listener in view for shared source-only judgments, mistake/session logs, and confirmed-card suggestions, but outside that slice.
