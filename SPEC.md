@@ -316,6 +316,4 @@ Deferred follow-ups:
 - None.
 
 ## Open Questions
-- How card ids are made up, and what `scripts/cards.py` prints and accepts as arguments. This can be settled when the contracts are written.
-- Where the diagnostician's session line goes, since `sessions.md` is per subject. US-13 assumes one line in each related
-  subject's file.
+- None. Card ids, CLI arguments and output, and where the diagnostician's session line goes are settled in `docs/contracts.md`.
