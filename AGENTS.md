@@ -47,3 +47,14 @@ The accepted decisions are in `DECISIONS.md`.
   `CONTEXT.md` as authoritative for naming.
 - Preserve public-interface compatibility; do not silently rename established
   CLI, JSON, or API fields.
+
+## Commenting Convention
+
+- Every production module and function must have comment directly above it.
+- The comment must state its purpose, key inputs/output, and externally visible effects or
+failure handling where applicable.
+- Docstrings do not satisfy this rule.
+
+Exemptions:
+
+- generated files

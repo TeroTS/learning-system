@@ -1,4 +1,5 @@
-"""Logging configuration shared by repository scripts."""
+# Logging configuration shared by repository scripts.
+# Call configure_logging() once at each script entry point.
 
 import logging
 import os
@@ -8,8 +9,10 @@ DEFAULT_LEVEL = "WARNING"
 LOG_FORMAT = "%(asctime)s %(levelname)s %(name)s: %(message)s"
 
 
+# Configure the root logger to write to stderr, keeping stdout free for command output.
+# Input: the LOG_LEVEL environment variable (case-insensitive, default WARNING).
+# Effect: replaces any existing root handlers. Raises ValueError if LOG_LEVEL is not a known level.
 def configure_logging() -> None:
-    """Send logs to stderr, keeping stdout for command output. The level comes from LOG_LEVEL (default WARNING)."""
     level_name = os.environ.get("LOG_LEVEL", DEFAULT_LEVEL).upper()
     level = logging.getLevelNamesMapping().get(level_name)
     if level is None:
