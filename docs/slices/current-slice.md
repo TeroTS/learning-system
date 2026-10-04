@@ -3,55 +3,56 @@
 Status: done
 
 ## Slice Goal
-- Let the learner accept a goal-fitted subject map with topics in dependency order and usual sticking points.
+- Let the learner add a confirmed card and see its id and next-day due date.
 
 ## Slice Boundary
-- Learner runs `mapmaker`, reviews and accepts a proposed map, sees ordered topics and sticking points, and writes one subject's `map.md` with every included topic set to `todo` plus one `sessions.md` line.
+- Learner confirms a suggested card; the agent runs `scripts/cards.py add`; stdout shows the created card with its id and due date, and the existing subject's `cards.json` gains a box-1 card, creating the file if missing.
 
 ## Stories In Scope
-- `US-02 Map a subject`
+- `US-03 Add a card`
 
 ## Stories Completed In This Slice
-- `US-02 Map a subject`
+- `US-03 Add a card`
 
 ## Stories Remaining In This Slice
 - None.
 
 ## Contract Inputs
-- `docs/contracts.md`: Contracts 3 (`goal.md`), 4 (`map.md`), 6 (`sessions.md`), 7 (`sources/`), 8 (skill format); Contract 1 subject-name pattern.
+- `docs/contracts.md`: Contract 1 (add CLI, common options, exit codes, atomic writes) and Contract 2 (card shape, ids, ordering, initial scheduling).
 
 ## Decision Inputs
 - None.
 
 ## Shared State Required Now
-- One subject folder, optional existing goal and map, unique topic names with ordered dependencies, and an append-only session log.
+- An existing subject folder and a validated JSON array of uniquely identified cards; missing `cards.json` means an empty array.
 
 ## Operations / Endpoints / Surfaces In This Slice
-- `.agents/skills/mapmaker/SKILL.md`.
-- `subjects/<subject>/map.md` and `subjects/<subject>/sessions.md` at skill runtime only.
+- `python3 scripts/cards.py add <subject> --front TEXT --back TEXT [--today YYYY-MM-DD] [--subjects-dir PATH]`.
+- `subjects/<subject>/cards.json`.
 
 ## Tests Required
-- Review instructions against US-02 and applicable contracts: learner production, goal fitting, known-topic omission, dependency order, sticking points, acceptance before writing, and all statuses initially `todo`.
-- Check missing goals, existing maps, ambiguous or unsafe subject names, unverified resource links, and write failures.
-- Run `make check` for existing code regressions and coverage, plus `git diff --check`.
-- No automated skill-Markdown tests per SPEC.md. No runnable agent-session harness exists; a real learner mapmaking session is not an executable repository end-to-end test.
+- Test first: new file, existing cards, max-id allocation, id ordering, local-date default, explicit-date scheduling across calendar boundaries, and UTF-8 content.
+- Validate subject names and folders, empty text, strict ISO dates, malformed JSON and every card field; failures preserve original bytes and emit no learner content.
+- Test atomic replacement and temporary-file cleanup on filesystem failures.
+- Run a real subprocess end-to-end add and verify JSON stdout, persisted state, stderr, and exit codes; verify default store resolution from outside the repository.
+- Run `make test`, `make coverage`, `make check`, and `git diff --check`; Python coverage must not decrease from 100%.
 
 ## Not Now
-- US-03 Add a card and US-04 List due cards; US-08 examiner status changes; other learning roles.
-- Card scheduling, agent-session test infrastructure, and sample learner data.
+- US-04 List due cards; US-05 grade and review; learning-role card suggestions.
+- Adaptive scheduling, shared locking, HTTP APIs, and sample learner data.
 
 ## Done When
-- The portable mapmaker skill asks for learner production before proposing a goal-fitted map and skips topics already known.
-- The learner accepts a map with unique kebab-case topics in dependency order, explicit sticking points, and every included topic set to `todo`.
-- The skill writes the contracted map and appends exactly one contracted session line without touching other subject files; links are checked or marked unverified.
-- Instruction review and `make check` pass.
+- The add CLI implements the contracted arguments and prints exactly the created card as JSON, with a new positive id, box 1, created today, and due tomorrow.
+- Only existing valid subject folders are used; invalid input or data exits 1 with stderr and unchanged card storage; bad usage exits 2.
+- Card storage is validated and written atomically in id order, using only the standard library and shared logging configuration.
+- Automated tests, real CLI end-to-end checks, formatting, lint, and unchanged coverage pass.
 
 ## Completion Summary
-- Added the portable mapmaker skill: learner production, goal-fitted scope, known-topic omission, dependency-ordered topics, and usual sticking points.
-- Instructions require explicit learner acceptance before writing the contracted map with all statuses `todo`, and exactly one append-only session line.
-- Instruction review covered US-02 and the listed contracts, including missing goals or sources, existing-map replacement, unsafe names, unverified links, and partial write failures.
-- `make check` passed: 4 existing tests, formatting, lint, and 100% Python coverage (unchanged). `git diff --check` passed.
-- No live learner mapmaking session or automated agent-session end-to-end test was run; skill execution remains manually validated at use time.
+- Added `scripts/cards.py add`: JSON stdout, max-id allocation, box 1, next-day due date, explicit or local date, and repository-relative default store.
+- Validates subject paths, card text, strict calendar dates, JSON shape, every stored field, and unique ids before changing storage; failures preserve existing bytes and do not disclose learner content.
+- Writes cards atomically in id order and cleans up temporary files on write or replacement failure.
+- Tests were written first and observed failing because the CLI was missing. Real subprocess tests cover successful addition, default-store resolution from another working directory, invalid-data preservation, and usage errors.
+- `make test` and `make check` passed: 26 tests, formatting, lint, and 100% statement/branch coverage (unchanged). `make coverage` and `git diff --check` also passed.
 
 ## Next Slice Recommendation
-- `US-03 Add a card`. Keep US-04 List due cards and US-05 Review due cards in view, but outside that slice.
+- `US-04 List due cards`. Keep US-05 Review due cards in view; defer grading and the review skill until that story.
