@@ -3,61 +3,60 @@
 Status: done
 
 ## Slice Goal
-- Let the learner face a tough simulated counterpart at their chosen difficulty and per-answer time limit, then see their score and weak answers.
+- Let the learner see their messy notes as a clean outline or proposed cards, with no new substantive content.
 
 ## Slice Boundary
-- Learner runs `sparring-partner` with a scenario, difficulty, and time limit per answer; they answer one simulated prompt at a time, receive pushback during the session and a source-supported score at the end, with supported weak answers appended to `mistakes.md` and one scored session line.
+- Learner runs `clerk` with their notes; the skill restructures only that material into the selected outline or card proposals, shows the result, appends one session line, and adds proposed cards through the CLI only after explicit confirmation.
 
 ## Stories In Scope
-- `US-11 Spar in a timed simulation`
+- `US-12 Organise notes with the clerk`
 
 ## Stories Completed In This Slice
-- `US-11 Spar in a timed simulation`
+- `US-12 Organise notes with the clerk`
 
 ## Stories Remaining In This Slice
 - None.
 
 ## Contract Inputs
-- `docs/contracts.md`: Contracts 1 (confirmed-card add CLI), 3 (goal context), 5 (mistake log), 6 (scored session line), 7 (source-only grading), and 8 (portable skill).
+- `docs/contracts.md`: Contracts 1 (confirmed-card add CLI), 2 (non-empty card front/back), 6 (one session line), and 8 (portable skill); Contract 7 source files remain unchanged.
 
 ## Decision Inputs
 - None.
 
 ## Shared State Required Now
-- Existing subject, scenario and counterpart, learner-selected difficulty and positive per-answer time limit, applicable sources, and append-only mistake/session logs.
-- Agreed session endpoint, source-backed scoring criteria, answers, and measured or learner-reported timing stay in the conversation; no timer service, transcript, or new persistent simulation model.
+- Existing subject, learner-supplied notes, selected output form, and append-only session log.
+- Outline, proposals, and confirmations stay in the conversation; no new notes file, outline store, or mistake data.
 
 ## Operations / Endpoints / Surfaces In This Slice
-- `.agents/skills/sparring-partner/SKILL.md`.
-- Skill-owned appends to `mistakes.md` and `sessions.md`; existing `scripts/cards.py add` only for confirmed suggestions.
-- Learner-operated timer or reliable visible message timing for per-answer elapsed time, with provenance and limitations stated explicitly.
+- `.agents/skills/clerk/SKILL.md`.
+- Conversation-only outline or proposed cards.
+- `subjects/<subject>/sessions.md`; existing `scripts/cards.py add` for explicitly confirmed proposals.
 
 ## Tests Required
-- Review instructions against US-11: required scenario/difficulty/time limit, tough counterpart, one prompt per turn, learner production before feedback, in-session pushback on vague answers, and final score basis.
-- Check exact supplied difficulty and limit are preserved, units and non-positive limits are clarified, timing starts at prompt availability, each new prompt has its own timer, and on-limit/late/partial answers are handled explicitly without invented elapsed times.
-- Check unavailable or self-reported timing, missing/conflicting sources, scenario adaptation without role drift, session endpoint and interruption, automatic supported mistake capture, confirmed-only cards, safe paths, local dates, and one session line.
-- Check failed/uncertain writes or additions preserve prior data and do not produce false save claims or duplicate cards.
+- Review instructions against US-12: supplied notes satisfy production, output form is clarified, all substantive output is traceable to learner content, and formatting does not silently change meaning.
+- Check duplicates, contradictions, uncertainty, incomplete notes/questions, empty input, and card pairs without a supported back; no invented corrections, explanations, headings that imply new facts, or imported source content.
+- Check original notes remain unchanged, outline is not persisted into another subject file, cards need explicit confirmation, declined/unconfirmed cards are not added, and uncertain additions are not blindly retried.
+- Check safe subject paths, local dates, contracted single-line formatting, existing log preservation, one session line, and failed or partial persistence.
 - Run `make test`, `make coverage`, `make check`, and `git diff --check`; maintain 100% Python coverage.
-- No automated skill-Markdown tests per SPEC.md. No agent-session/timing harness exists; live simulation, answer timing, scoring, confirmations, and logs cannot be exercised by repository end-to-end tests. Existing CLI tests cover card addition, not skill confirmation.
+- No automated skill-Markdown tests per SPEC.md. No runnable agent-session harness exists; live note transformation and confirmations cannot be exercised by repository end-to-end tests. Existing CLI tests cover card addition, not this skill's content-preservation or confirmation behavior.
 
 ## Not Now
-- US-12 clerk and US-13 diagnostician; other learning roles.
-- Automated message interception or hard timeout enforcement, audio/video analysis, fixed global scoring scales, goal/map updates, stored transcripts, new Python behavior, and agent-session test infrastructure.
+- US-13 diagnostician; other learning roles.
+- Correcting or grading notes, enriching from sources, mistake capture, goal/map changes, saved outlines/transcripts, new Python behavior, and agent-session test infrastructure.
 
 ## Done When
-- The portable skill applies the supplied scenario, difficulty, and time limit to each prompt, challenges vague answers during the simulation, and does not supply model answers before attempts.
-- Timing uses an agreed real measurement method; learner-reported or unavailable timing is identified rather than fabricated or silently treated as compliant.
-- Final scoring uses applicable sources, supported weak answers are captured automatically, and exactly one session line records score and timing limitations; no sources means explicitly ungraded rather than invented scores.
-- Cards require explicit confirmation through the existing CLI; instruction review and existing automated checks pass.
+- The portable clerk skill returns the learner's own content as an outline or card proposals without filling gaps or adding facts.
+- Uncertainty and contradictions are preserved, original notes and sources remain untouched, and incomplete card backs are not invented.
+- Cards are added only after explicit confirmation through the existing CLI, and exactly one session line records the outcome and any limitations.
+- Instruction review and existing automated checks pass.
 
 ## Completion Summary
-- Added the portable sparring-partner skill: agreed scenario, counterpart, difficulty, finite endpoint, and per-answer time limit, with one prompt at a time and in-character pushback on vague answers.
-- Timing uses a learner-operated timer or reliable message timestamps; exact-limit, late, partial, and unavailable-timing cases are explicit, without fabricated elapsed times or false hard-timeout claims.
-- Final score uses applicable sources and separates timing compliance and provenance; missing sources produce an explicitly ungraded simulation rather than invented correctness scores.
-- Supported weak answers are captured automatically, confirmed cards use the existing CLI, and exactly one session line records score, difficulty, time limit, timing provenance, and limitations.
-- Instruction review covered US-11 and the listed contracts, including invalid limits/elapsed reports, unverified timing, source gaps, endpoint/interruption behavior, safe paths, and failed or uncertain persistence.
+- Added the portable clerk skill: learner notes become the selected outline or card proposals using only supplied content and faithful restructuring.
+- Instructions preserve qualifications, contradictions, unfinished thoughts, and original files; outlines stay in the conversation rather than being saved into unrelated subject files.
+- Card proposals do not invent missing backs, and only explicitly confirmed pairs are added through the existing CLI; one session line records the actual transformation and additions.
+- Instruction review covered US-12 and the listed contracts, including missing/ambiguous notes, duplicate handling, unsupported additions, revised or declined proposals, safe paths, and failed or uncertain persistence.
 - `make test`, `make coverage`, and `make check` passed: 48 existing tests, formatting, lint, and 100% Python statement/branch coverage (unchanged). `git diff --check` passed.
-- No live timed learner simulation or automated agent-session end-to-end test was run; timing, pushback, scoring, confirmation, and log behavior were reviewed as instructions.
+- No live learner session or automated agent-session end-to-end test was run; content preservation, confirmation, and session logging were reviewed as instructions.
 
 ## Next Slice Recommendation
-- `US-12 Organise notes with the clerk`. Keep US-13 Diagnose recurring mistakes in view for stored session/mistake handling, but outside that slice.
+- `US-13 Diagnose recurring mistakes`. This is the final explicit story remaining in `SPEC.md`; do not invent follow-up story IDs or additional scope after it.
