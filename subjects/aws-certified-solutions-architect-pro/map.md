@@ -1,0 +1,24 @@
+# AWS Certified Solutions Architect - Professional (SAP-C02) Map
+
+- [todo] iam-and-cross-account-access | sticking points: identity policies vs resource policies, role trust, temporary credentials, federation
+- [todo] multi-account-governance | depends on: iam-and-cross-account-access | sticking points: SCPs restrict rather than grant permissions, account structure, Control Tower, resource sharing
+- [todo] advanced-vpc-networking | sticking points: CIDR planning, route evaluation, security groups vs network ACLs, failure domains
+- [todo] private-service-connectivity | depends on: advanced-vpc-networking, iam-and-cross-account-access | sticking points: gateway vs interface endpoints, PrivateLink vs authorization, endpoint policies
+- [todo] hybrid-and-transit-networking | depends on: advanced-vpc-networking | sticking points: peering vs Transit Gateway, transitive routing, Direct Connect vs VPN, hybrid DNS
+- [todo] encryption-and-secrets | depends on: iam-and-cross-account-access | sticking points: KMS key policies, cross-account decryption, certificates, secret rotation
+- [todo] security-detection-and-compliance | depends on: multi-account-governance, encryption-and-secrets | sticking points: CloudTrail vs Config vs GuardDuty, centralized auditing, WAF vs Shield, automated remediation
+- [todo] compute-and-container-selection | depends on: iam-and-cross-account-access, advanced-vpc-networking | sticking points: EC2 vs containers vs Lambda, ECS vs EKS, Fargate trade-offs, quotas
+- [todo] storage-design | depends on: encryption-and-secrets | sticking points: object vs block vs file storage, lifecycle and retention, replication, access patterns
+- [todo] database-design | depends on: storage-design | sticking points: purpose-built databases, Multi-AZ vs read replicas, consistency, partitioning, caching
+- [todo] decoupling-and-event-driven-design | depends on: iam-and-cross-account-access | sticking points: SQS vs SNS vs EventBridge, ordering, duplicate delivery, retries, workflow orchestration
+- [todo] high-availability-and-scaling | depends on: compute-and-container-selection, database-design, decoupling-and-event-driven-design | sticking points: scaling signals, state management, dependency failures, failover, service quotas
+- [todo] global-traffic-and-content-delivery | depends on: high-availability-and-scaling, hybrid-and-transit-networking | sticking points: Route 53 routing policies, health checks, CloudFront vs Global Accelerator, latency
+- [todo] observability-and-operational-metrics | depends on: multi-account-governance | sticking points: metrics vs logs vs traces, actionable alarms, centralized monitoring, SLAs and KPIs
+- [todo] performance-analysis-and-rightsizing | depends on: observability-and-operational-metrics, high-availability-and-scaling, global-traffic-and-content-delivery | sticking points: bottleneck identification, caching vs replicas, instance selection, measurable requirements
+- [todo] backup-and-disaster-recovery | depends on: storage-design, database-design, high-availability-and-scaling, global-traffic-and-content-delivery | sticking points: RTO vs RPO, backup vs replication, pilot light vs warm standby, recovery testing
+- [todo] infrastructure-and-deployment-strategies | depends on: compute-and-container-selection, high-availability-and-scaling | sticking points: CloudFormation changes, blue/green vs rolling deployments, rollback, database compatibility
+- [todo] operational-automation-and-patching | depends on: infrastructure-and-deployment-strategies, observability-and-operational-metrics, security-detection-and-compliance | sticking points: Systems Manager, configuration drift, safe remediation, patching without downtime
+- [todo] cost-optimization-and-allocation | depends on: multi-account-governance, performance-analysis-and-rightsizing, storage-design | sticking points: Savings Plans vs Reserved Instances vs Spot, data-transfer costs, tagging, budgets and usage reports
+- [todo] migration-assessment-and-planning | depends on: cost-optimization-and-allocation | sticking points: the 7Rs, application dependencies, portfolio assessment, TCO, migration waves
+- [todo] migration-tools-and-cutover | depends on: migration-assessment-and-planning, hybrid-and-transit-networking, backup-and-disaster-recovery | sticking points: application vs database vs file migration tools, schema conversion, replication, downtime and rollback
+- [todo] workload-modernization | depends on: migration-assessment-and-planning, compute-and-container-selection, database-design, decoupling-and-event-driven-design | sticking points: replatforming vs refactoring, serverless suitability, managed-service trade-offs, incremental change
