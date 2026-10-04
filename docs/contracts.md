@@ -149,7 +149,7 @@ every skill reads and writes the same formats. Source: `SPEC.md`, with `DECISION
 
 - Kind: Append-only Markdown log.
 - Producers / Owners: every skill.
-- Consumers: `diagnostician`, and the learner.
+- Consumers: `diagnostician`, the learner, and `explainer`, `socratic-questioner` and `examiner` for exam readiness.
 - Trigger / Direction: Exactly one line is appended at the end of each session. `diagnostician` appends to each subject it reports on.
 - Payload / Shape: created with a `# Sessions` heading if missing:
 
@@ -158,6 +158,9 @@ every skill reads and writes the same formats. Source: `SPEC.md`, with `DECISION
   ```
 
   - Line pattern: `- <YYYY-MM-DD> | <skill> | <topic or "-"> | <result or score>`. A literal `|` inside a field is written as `/`.
+  - `explainer` and `socratic-questioner` name specific concepts attempted and their outcomes (unaided, aided,
+    unresolved or incomplete) in the existing result field. Historical lines stay unchanged; vague entries do not
+    establish exam readiness. No new fields or tracking files are required.
 - Ordering / Idempotency expectations: Append only, in chronological order.
 - Visibility / Security: Learner-owned.
 - Failure / Retry expectations: A missing file is created on the first append.

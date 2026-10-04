@@ -22,7 +22,7 @@ Source: `DECISIONS.md`
 - SM-2 or adaptive scheduling, and Anki export.
 - Saving full conversation transcripts.
 - CI.
-- Automated tests for skill Markdown.
+- Automated behavioral evaluation of skills through LLM APIs. Focused instruction-contract checks are allowed.
 - Global skill installation.
 - Features specific to one agent.
 
@@ -172,6 +172,10 @@ Slice boundary: `explainer` skill, `sessions.md` line.
 Acceptance criteria:
 - The explanation covers only the stuck step, at the level recorded in `goal.md` or stated by the learner.
 - The skill requires the redo from the start and does not count the session as complete until the redo is attempted.
+- The session result names the specific concepts attempted and their outcomes (unaided, aided, unresolved or
+  incomplete); historical lines are not rewritten.
+- A successful redo does not automatically trigger a whole-topic exam offer. Apply the exam-readiness rule in US-08
+  before offering a handoff, and wait for explicit confirmation before switching roles.
 
 Deferred follow-ups:
 - None.
@@ -191,6 +195,10 @@ Slice boundary: `socratic-questioner` skill, `mistakes.md`, `sessions.md`, card 
 
 Acceptance criteria:
 - The skill never gives the answer directly. It responds with follow-up questions.
+- The session result names the specific concepts attempted and their outcomes (unaided, aided, unresolved or
+  incomplete); historical lines are not rewritten.
+- A demonstrated correction does not automatically trigger a whole-topic exam offer. Apply the exam-readiness rule
+  in US-08 before offering a handoff, and wait for explicit confirmation before switching roles.
 - Card suggestions follow the shared rule.
 
 Deferred follow-ups:
@@ -210,8 +218,19 @@ Authoritative state transition: The topic's status in `map.md` is updated (`lear
 Slice boundary: `examiner` skill, `map.md`, `mistakes.md`, `sessions.md`, card suggestions.
 
 Acceptance criteria:
+- Before proposing or starting an exam, compare the selected topic's sticking points in `map.md` with concrete
+  learner production in `sessions.md` and the current conversation. Sticking points are a minimum checklist,
+  not an exhaustive topic specification; establish the goal-relevant scope using the goal and applicable sources.
+- Coverage requires concrete learner production with a resolved outcome. Aided production establishes coverage,
+  not unaided mastery. Passive exposure, self-report, missing or vague evidence, and unresolved attempts do not
+  establish readiness. One correction or redo is not evidence of whole-topic readiness.
+- The examiner independently checks readiness before the first question. If coverage is incomplete or unknown,
+  name the gaps and offer continued learning without silently switching roles or changing map status.
+- An early diagnostic exam requires an explicit learner request and informed confirmation after disclosing gaps
+  and the normal map-status effects. A bare `ok` to a premature offer is insufficient. Do not shrink the target to
+  covered concepts; diagnostic exams keep the normal grading and status rules.
 - Each question is harder than the last, and the exam stops at the first clear failure or guess.
-- Only the examined topic's status changes in `map.md`.
+- Only the examined topic's status changes in `map.md`; interrupted or unstarted exams leave it unchanged.
 - Card suggestions follow the shared rule.
 
 Deferred follow-ups:

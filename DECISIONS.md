@@ -33,7 +33,7 @@ working on many subjects.
 - SM-2 or adaptive scheduling, and Anki export.
 - Saving full conversation transcripts.
 - CI.
-- Automated tests for skill Markdown.
+- Automated behavioral evaluation of skills through LLM APIs. Focused instruction-contract checks are allowed.
 - Global skill installation.
 
 ## Locked Decisions
@@ -109,12 +109,26 @@ working on many subjects.
   The agent judges the answer right or wrong and calls `grade`.
 - Every skill that catches a mistake (`socratic-questioner`, `examiner`, `checker`, `listener`,
   `sparring-partner`, `review`) adds it to `mistakes.md` automatically.
-- Every skill adds one line to `sessions.md` per session.
+- Every skill adds one line to `sessions.md` per session. `explainer` and `socratic-questioner` name the specific
+  concepts attempted and their outcomes in the existing result field; historical lines are not rewritten.
 
 ## UX / Workflow Rules
 
 - Typical flow: `interviewer` → `mapmaker` → study, with `explainer` as needed → `socratic-questioner` /
   `examiner` / `checker` / `listener` / `sparring-partner` → `review` on a schedule → `diagnostician` from time to time.
+- Before proposing or starting a whole-topic exam, compare the topic's sticking points in `map.md` with concrete
+  learner production in `sessions.md` and the current conversation. Sticking points are a minimum checklist,
+  not an exhaustive topic specification; use the goal and applicable sources to establish the topic's scope.
+- Coverage requires concrete learner production with a resolved outcome. Aided production can establish coverage,
+  not unaided mastery. Passive exposure, self-report, missing or vague evidence, and unresolved attempts do not
+  establish readiness. One successful correction or redo does not establish whole-topic readiness.
+- If coverage is incomplete or unknown, name the gaps and offer continued learning without silently switching roles.
+  The examiner independently checks readiness before the first question. Readiness checks never change map status.
+- An early diagnostic exam requires an explicit learner request and informed confirmation after disclosing gaps
+  and the existing map-status effects (`learning` on failure, `passed` on target completion). A bare `ok` to a
+  premature offer is insufficient. Diagnostic exams keep the whole-topic target and normal grading rules.
+- Focused automated instruction-contract checks protect these rules; scenario review complements them but neither
+  proves that every agent will follow the instructions.
 - `interviewer` asks for specifics, including the goal, current level, deadline and test format, and pushes
   back on vague answers.
 - `mapmaker` lists the main parts of the subject, how the topics depend on each other and where learners

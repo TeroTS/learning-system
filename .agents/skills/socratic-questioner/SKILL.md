@@ -17,7 +17,7 @@ repository paths from the repository root, not this skill's directory.
 - Require a subject name matching `^[a-z0-9]+(-[a-z0-9]+)*$`; reject paths, slashes, `..`, and empty names. Ask about
   ambiguous names. Do not follow a subject-folder symlink outside `subjects/`, or goal, source, or log file symlinks
   outside the subject folder.
-- Read `goal.md`, `mistakes.md`, and `sessions.md` if present. Use the recorded level to fit the questions; if the
+- Read `goal.md`, `map.md`, `mistakes.md`, and `sessions.md` if present. Use the recorded level to fit the questions; if the
   goal or level is missing, treat it as unknown and ask the learner about their current understanding.
 - Read applicable learner-supplied text files in `sources/` privately for correctness judgments. Never add or
   change sources, and do not expose excerpts that would give the answer away.
@@ -97,9 +97,11 @@ Append exactly one line to `sessions.md`, creating it with `# Sessions` if missi
 - <YYYY-MM-DD> | socratic-questioner | <topic or -> | <learner-stated gap; correction demonstrated, unresolved, unverified, or incomplete>
 ```
 
-Use the learner's local calendar date in ISO `YYYY-MM-DD`, asking if uncertain. Date mistakes when caught and
-cards when added; date the session line at session end. Replace literal `|` inside log fields with `/` and collapse
-field newlines to spaces. Preserve earlier lines; do not add session entries for individual questions or cards.
+Name the specific concepts attempted and their outcomes (unaided, aided, unresolved or incomplete) in the existing
+result field; a topic name alone is insufficient coverage evidence. Do not rewrite historical session lines or save
+full answers. Use the learner's local calendar date in ISO `YYYY-MM-DD`, asking if uncertain. Date mistakes when
+caught and cards when added; date the session line at session end. Replace literal `|` inside log fields with `/`
+and collapse field newlines to spaces. Preserve earlier lines; do not add session entries for individual questions or cards.
 
 If a write fails, report what did and did not save and do not claim success for failed writes. Before retrying an
 uncertain log append, read the file to see whether the intended entry was already written; do not duplicate it or
@@ -109,3 +111,30 @@ Write only this subject's `mistakes.md` and `sessions.md` directly; confirmed ca
 goals, maps, sources, topic statuses, or existing card grades. Do not suggest resource links. Finish by briefly
 reflecting the learner's own stated gap, any unresolved uncertainty, and paths actually changed, without adding
 a new answer or explanation.
+
+## Check exam readiness
+
+- Compare the selected topic's sticking points in `map.md` with concrete learner production in `sessions.md` and
+  the current conversation. Sticking points are a minimum checklist, not an exhaustive topic specification.
+  Use the goal and applicable sources to establish the goal-relevant scope; do not add unrelated concepts.
+- Coverage requires learner production with a resolved outcome. Aided production may establish coverage, not
+  unaided mastery. Passive exposure, self-report, topic status and dependency status are not coverage evidence.
+  Missing or vague evidence means coverage is unknown, not complete. If the map or scope is missing or ambiguous,
+  clarify the scope and evidence with the learner rather than assume readiness.
+- A single correction or successful redo does not establish whole-topic readiness.
+- If any required concept is uncovered, unresolved, or unknown, do not propose or start a whole-topic exam.
+  Name the gaps and offer continued learning within the current role or a learner-confirmed handoff; do not teach
+  outside this role's boundaries or silently switch roles. Readiness checks never change map status.
+- An early diagnostic exam is allowed only when explicitly requested by the learner. Disclose the uncovered or
+  unknown concepts and that this exam can set the topic to `learning` on failure or `passed` on target completion,
+  then obtain informed confirmation before starting or handing off. A bare `ok` to a premature exam offer is not
+  an informed diagnostic request. Do not silently shrink the exam target to the concepts already covered.
+
+## Offer an exam handoff
+
+After the learner demonstrates a correction, finish this session and any card confirmations. Apply
+`Check exam readiness` before offering an `examiner` session for the current topic. Use its exact name from
+`map.md`; if the topic is unclear, ask which map topic applies rather than guessing. Only offer the handoff when
+ready, or honor an explicitly requested diagnostic under the rule above. Explain that only an exam updates map
+status. Wait for explicit confirmation before switching roles. Readiness is not a pass. If the learner declines,
+respect that choice and leave the map unchanged.

@@ -30,9 +30,35 @@ shell commands. Resolve repository paths from the repository root, not this skil
   session line. Judgement-based results have the same effects as source-based ones: level report, mistakes, card
   suggestions, and map status updates, including `passed`.
 
-Before the first question, establish a finite ladder of increasingly demanding, source-supported tasks for this
-topic, from basic recall to the target outcome. Briefly state the target and score basis without showing questions,
-answers, or source excerpts. Use the goal's target, or the learner's stated target when no goal exists; do not
+## Check exam readiness
+
+Apply `Check exam readiness` independently before the first question, including after a handoff from another skill.
+
+- Compare the selected topic's sticking points in `map.md` with concrete learner production in `sessions.md` and
+  the current conversation. Sticking points are a minimum checklist, not an exhaustive topic specification.
+  Use the goal and applicable sources to establish the goal-relevant scope; do not add unrelated concepts.
+- Coverage requires learner production with a resolved outcome. Aided production may establish coverage, not
+  unaided mastery. Passive exposure, self-report, topic status and dependency status are not coverage evidence.
+  Missing or vague evidence means coverage is unknown, not complete. If the map or scope is missing or ambiguous,
+  clarify the scope and evidence with the learner rather than assume readiness.
+- A single correction or successful redo does not establish whole-topic readiness.
+- If any required concept is uncovered, unresolved, or unknown, do not propose or start a whole-topic exam.
+  Name the gaps and offer continued learning within the current role or a learner-confirmed handoff; do not teach
+  outside this role's boundaries or silently switch roles. Readiness checks never change map status.
+- An early diagnostic exam is allowed only when explicitly requested by the learner. Disclose the uncovered or
+  unknown concepts and that this exam can set the topic to `learning` on failure or `passed` on target completion,
+  then obtain informed confirmation before starting or handing off. A bare `ok` to a premature exam offer is not
+  an informed diagnostic request. Do not silently shrink the exam target to the concepts already covered.
+
+If readiness is blocked and the learner ends or chooses continued learning before the exam starts, record
+`not started: coverage incomplete or unknown` in the single session line, with the specific gaps and no invented
+score. Leave the map unchanged.
+
+## Announce the exam target
+
+Only after readiness or an informed diagnostic request is established, create a finite ladder of increasingly
+demanding, source-supported tasks for this topic, from basic recall to the target outcome. Briefly state the target
+and score basis without showing questions, answers, or source excerpts. Use the goal's target, or the learner's stated target when no goal exists; do not
 invent a fixed global passing threshold or move the target after the exam starts.
 
 Completing the target unaided counts as `passed`; a clear failure or guess counts as `learning`. Disclose that
