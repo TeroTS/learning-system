@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "front": "What does console.log(value?.toLowerCase()) print when value is undefined, and why?",
+    "back": "undefined. Optional chaining skips toLowerCase(), but console.log still executes.",
+    "box": 1,
+    "due": "2026-10-05",
+    "created": "2026-10-04"
+  },
+  {
+    "id": 2,
+    "front": "How do you check whether an unknown value is a primitive string?",
+    "back": "typeof value === \"string\". TypeScript type annotations are erased; this check runs in JavaScript.",
+    "box": 1,
+    "due": "2026-10-05",
+    "created": "2026-10-04"
+  },
+  {
+    "id": 3,
+    "front": "Why isn’t typeof value === \"object\" enough before reading properties?",
+    "back": "typeof null returns \"object\", so null must be excluded before reading properties.",
+    "box": 1,
+    "due": "2026-10-05",
+    "created": "2026-10-04"
+  }
+]
