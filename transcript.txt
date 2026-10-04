@@ -1,0 +1,242 @@
+Osa 1: AI Learning Principles
+0.000 sekuntiaHow is it that some people can learn in just a day what other people take weeks or months to learn? And how can we use AI to positively augment our learning as
+0.080 sekuntiaopposed to confuse us, reduce our focus, and destroy our attention spans? Well, in this video, I'm going to show you everything that you need to know about
+0.150 sekuntiahow to use AI to learn anything in the modern era and just a fraction of the time. I use these tactics in order to build a business that does over $400,000
+0.220 sekuntiaa month. I also went to school for behavioral neuroscience and this is exactly what we focused on. It's how to use technology to augment and improve our ability to learn. Uh it was by far
+0.310 sekuntiathe subject I was I was most interested in. And so I use this sort of stuff all the time to help people, yourself included, you know, learn things faster.
+0.380 sekuntiaSo before we get into how to actually use AI to learn, it's important to understand how human beings actually learn because I feel like a lot of people, you know, they they misunderstand this part. And if you
+0.460 sekuntiamisunderstand this part, it will lead to a bunch of downstream issues in, you know, productive and effective learning.
+0.510 sekuntiaYou know, most people believe that you learn through consumption, which is where you will read something. Okay, you will watch something like this video or you'll get it explained to you say via
+1.001 sekuntian AI bot or a chatbot. And the issue is this feels like learning, right? But the way the human beings actually learn, the way the you know memory encoding
+1.071 sekuntimechanisms in our brain uh and the retrieval mechanisms in our mind actually work is based off of production. And so this involves
+1.141 sekuntirecalling things actively, predicting things actively, explaining things actively, and even attempting to do things out there in the real world.
+1.221 sekuntiOkay? Okay. And this feels way harder, which is why our brains constantly trying to preserve energy avoid that.
+1.271 sekuntiBut when you understand this distinction, you also understand what leads people to being extremely effective learners versus uh ineffective learners. You know, there have been a bunch of studies done on this subject.
+1.361 sekuntiOne of them showed that, you know, if you were to reread some source document four times and then get quizzed on it 5 minutes later, you would remember 83% of
+1.441 sekuntithe source document. Okay? So, you'd think, "Wow, I've only lost 17% of that.
+1.491 sekuntiThat's pretty good, right?" Likewise, if you know you read a document once and then you are tested on that three times immediately after, 5 minutes later
+1.561 sekuntiyou'll remember 71%. But the thing that we're most interested in is not how much are you going to remember in 5 minutes, right? The thing that you're most interested in is how much are you going
+2.042 sekuntiato remember in a week or a month or a year. How deeply will the things that you've learned stick with you for the rest of your life? And when a person rereads some source document four times, which many of us will do, right?
+2.142 sekuntiaThinking that rereading the source document will teach us things and make us learn it, in a week they only remember 40%. Whereas actively producing and testing gets you closer to 61%.
+2.262 sekuntiaMeaning there was a decay of only 10% in the read once, test three times group, whereas there's a decay of I mean, gez,
+2.332 sekuntiaat least 50% in the rereading it a bunch of times group. Okay, so I'm sure people have probably talked all day about this sort of result to you and it's just
+2.402 sekuntiaglossed in one ear out the other. Um, but the reality is active production is ultimately how you learn. And so the whole idea of using AI to learn faster
+2.482 sekuntiaand better is actually augmenting your ability to actively produce things, not just necessarily passively read things.
+2.552 sekuntiaThere are many different roles that artificial intelligence can play for us.
+2.582 sekuntiaThe issue is most people will only have ever used one. They use the explainer role which is where you've tried to understand something you're a little bit
+3.063 sekuntiastuck and so maybe you paste in the source document to AI and you say hey I'm stuck can you help me out explain this in a different way the issue with
+3.133 sekuntiathat is first as we see already that's a passive consumption mechanism you're just reading the second is that that's only one of about 10 different roles
+3.223 sekuntiathat an AI can help you play and those other nine roles are primarily focused on your ability to produce information so if all you've ever done with AI is
+3.303 sekuntiayou've had explain things to you in a really simple manner. Not only are you only, you know, scratching the surface of what is truly possible in consumption
+3.383 sekuntiaversus production, but you also have nine other fundamentally different mechanisms that you're just leaving on the table. And so I'm going to cover these nine mechanisms. The first is the
+Osa 2: AI Learning Roles
+3.463 sekuntiainterviewer. That's when you're starting out and you're unsure of what you need.
+3.493 sekuntiaYou don't even know enough to know what you don't know. So you just have an AI who has a shallow knowledge of virtually everything in existence ask you
+3.573 sekuntiaquestions to determine what direction you want to go uh what your state of learning is right now and so on and so forth. The mapmaker is where you know
+4.044 sekuntiayou're just starting a subject. It feels really shapeless. You don't have a defined curriculum in place. And as we know if you put a road map in front of most people they'll be able to do a
+4.124 sekuntiathing but if they don't have a road map they don't know where to go. Often times they're they're lost. They'll just be swimming you know listlessly in the water. Well the mapmaker can help you
+4.194 sekuntiafigure out where to go. We can essentially produce a curriculum for you. I'll show you guys how to do that in a moment. How about the Socratic questioner? This is where you think you
+4.274 sekuntiaunderstand a topic. The Socratic questioner allows you to better develop your understanding of the topic by forcing you to actively produce. Or an examiner. You know, you've covered a
+4.354 sekuntiatopic fully. You want to figure out how much you actually get of a topic. You want to score yourself with some percentage. Well, that's what AI can do for you. It can literally be essentially
+4.444 sekuntiaan oral or verbal or written examiner just like you used to have back in the good old days. you know, 16, 1700s university where you'd be doing your
+4.524 sekuntiathesis defense in front of a bunch of people. You can do that now with AI. How about a checker? You know, maybe as part of your learning, you've made something.
+4.584 sekuntiaWell, you can actually have AI verify certain domains to ensure that your knowledge was effective in producing the outcome that you want. Maybe a listener
+5.075 sekuntiawhere you explain it back, but in your own words, AI then helps you determine the gap based off of its understanding of the topic. More generally, there's
+5.145 sekuntiadiagnosticians where, you know, if you have the same mistake that keeps on coming up in your learning, you can now actually ask your AI agent, and I'll show you how. Hey, you know, I want you
+5.215 sekuntiato go through the last five or 10 or 20 conversations we had about this subject. What am I persistently getting wrong?
+5.265 sekuntiaWhat do I persistently need to understand to patch these holes in my in my knowledge? How about a sparring partner? A lot of the time, you're learning a skill because it is a real
+5.345 sekuntiaworld applicable thing. You want to public speak. Maybe, you know, you're preparing for an interview. Maybe you're trying to crush the, you know, elite code circuit. Well, you can actually
+5.425 sekuntiahave a sparring partner with which to, you know, assist you on that and basically simulate things. And finally, clerk, how many hours have you spent just coming up with notes and trying to
+5.505 sekuntiakeep track of all this information that you've digitized? You don't need to do that anymore. AI can do all of that for you. And so, what I'm going to do is I'm going to show you guys how to apply AI
+5.585 sekuntiain all of these different ways and ultimately improve your learning from a scientific perspective, not just a thing that sounds nice like most other people will. A really simple example of this is
+Osa 3: Spaced Repetition Strategy
+6.066 sekuntiasomething termed space repetition. For those of you guys that don't know, okay, if the y-axis here is how strong your memory of a subject is, and then the
+6.146 sekuntiax-axis is the amount of time since you learned the thing, okay, you can see that when you learn the thing initially, you have a lot of memory for that thing.
+6.236 sekuntiaYou've you've really consolidated that thing. But when you don't review it periodically, what happens is the strength of that memory decays almost as
+6.316 sekuntialike this this inverse exponential. And so spaced repetition is the process whereby you consult frequently with the
+6.386 sekuntiathing that you learned. You actively produce that knowledge. Let's say you're trying to learn how a car engine works.
+6.446 sekuntiaAnd then based off of what's called the Ebinghouse forgetting curve, which is this uh psychological idea developed, you know, and something years ago, you
+6.526 sekuntiatest yourself on a structure on a basis every now and then using, you know, AI or another tool uh to ask yourself how the hell does this engine actually work?
+7.007 sekuntiaOkay, the pistons, the cylinders, what are the four stages of combustion, you know, intake and so on and so forth. And then in that way, your memory actually gets extremely strong. And as you see,
+7.087 sekuntiaevery time you, you know, repeat this spaced repetition thing, which I'm going to talk a little bit about in a moment, um, two things occur. One, the memory lasts a lot longer. You can see the
+7.167 sekuntiaslope of this curve is actually a lot less steep. And two, it never dips as far down. And so the strength of the base memory just gets stronger and
+7.247 sekuntiastronger. This also means that in just a few moments of studying a topic, you can usually remember it far more than if you were to like wait this whole time and then have to restudy it again from
+7.327 sekuntiascratch. Right? So that's just one of many ways that you can use AI. Um AI can write your flash cards for you. It can keep a schedule or you can use an app
+7.397 sekuntialike an it can turn any mistakes you make during a sparring session or some sort of listening session into new cards for you to review. Um you know I'm going
+7.477 sekuntiato give you guys some prompts and stuff like that that you can use for that sort of thing as well. Uh but the whole idea is you know this is one simple example of how AI can help you. So if you don't
+Osa 4: Interviewer and Map Maker
+7.567 sekuntiaknow enough about a topic to even begin knowing what you know what you don't know. Let's chat about the interviewer.
+8.028 sekuntiaThe interviewer is the simple idea where you have a chatbot up here on the left.
+8.068 sekuntiaYou have you on the right and basically you're saying hey I really want to learn X Y and Z thing. And instead of just saying help me learn XYZ thing, you say
+8.148 sekuntiacould you drill me on anything and everything under the sun to determine how much I already know about XYZ thing and then in conjunction with the
+8.228 sekuntiamapmaker in a second um what I need to learn in order to patch the holes in my knowledge. And this makes sense that AI would be good at this, right? I mean, it's a massive uh uh compressed form of
+8.328 sekuntiabasically the whole internet. That is essentially the whole point of AI really, just to point you in the right direction to act as a fast way of approximating knowledge. And so, you
+8.418 sekuntiaknow, if you're like, "Hey, I want to learn, you know, coding." AI might ask you, "Okay, what is this for?" Well, it's for a job interview in 3 weeks.
+8.478 sekuntiaNow, the AI knows, okay, it's not actually that you need to learn all of coding. You need to learn enough coding to make a job interview work. Okay. So, what do you know already? Well, I know
+8.558 sekuntiasome basic Python. You know, maybe I've spent two weeks doing some boot camp a while ago. H. Okay. How will you be tested? Well, live coding with some sort
+9.029 sekuntiaof timer. From here, AI is determining a variety of different things to help you accomplish your stated goal, not just the goal that you might think you have.
+9.109 sekuntiaOkay? And so, in this case, the goal is not actually learn coding. The goal is pass the interview. You don't need to learn Python basics because that's a waste of time. You've already gotten to
+9.199 sekuntiathat point. You know, in order to practice and evaluate and assess your learning, the simplest, and easiest way to do that is going to be some sort of timed live coding because it's going to mirror the the actual examination
+9.279 sekuntiaconditions. This is all stuff you would have figured out, you know, eventually if you were a perfectly rational agent, but it's stuff that you probably wouldn't know enough to know right up
+9.369 sekuntiafront. So, if you are starting out and unsure of what you need, you can just ask the AI, hey, you know, before you teach me anything about coding, could you ask me questions about my goal, my
+9.439 sekuntialevel, everything that I need to know basically in order to make this work really effectively. And the AI model will go absolutely. Couple of things to watch for here. Vague answers, vague
+9.529 sekuntiaplans. You know, ultimately you want to be specific. So, it's not about, oh, you know, my goal is to pass an interview.
+9.569 sekuntiaIt's like, oh, my goal is to pass an interview that's going to be taking place on leak code. Uh, you know, I know a little bit of basic Python. You know, I spent two weeks getting all the way up
+10.0410 sekuntiato, I don't know, like HTTP requests or something like that. Um, the timer is 5 minutes per question and we're going to be pulling from this question bank, right? Like, you want to be more
+10.1210 sekuntiaspecific than just that. And that takes me to the idea of a mapmaker. So the reason why it's very important to have a map or a plan in place is because if you
+10.2010 sekuntiadon't the vast majority of your time and energy will simply be spent like fighting off the almost emotional anxiety of not knowing what you are going to do next. And so you can
+10.2910 sekuntiaeliminate that completely by just giving yourself something to do next rather than finishing a a module and then wondering okay what the hell am I going to learn next what fits you know just
+10.3710 sekuntiabuild a plan and then you can follow a plan even if it's not perfect you're going to be a lot more productive as a result. So let's say you want to learn statistics. That's a pretty damn broad
+10.4610 sekuntiaterm. There's a lot that goes on in statistics, right? So if you just say I want to learn statistic, that's pretty shapeless. What AI can help you do, okay, is it can help you break that down
+10.5410 sekuntiainto the core fundamental subm modules of statistics. And so maybe you'll start with averages. Then you'll learn about spread and probability. Maybe after that
+11.0211 sekuntiayou'll learn about distributions, sampling, and then finally loop around to some sort of AB test. This is what AI can essentially allow you to do. If a
+11.0911 sekuntiasubject feels really shapeless, what I will always do before I even try learning is, hey, just map out, you know, statistics for me. I want the main parts. I want the various things that
+11.1711 sekuntiadepend on a bunch of other things. And I want to know where people usually get stuck on so I can, you know, plan my time ahead of time. And that takes me to the explainer. Many people here are already using the explainer dayto-day.
+Osa 5: Explainer and Review
+11.2811 sekuntiaUh, you know, they'll have read how to do something. They'll even have set up how to do something. When it comes time to actually solving the problem that they initially wanted to solve, they'll
+11.3611 sekuntiabe stuck at it. So the explainer just helps you illuminate just that one part for you. Explains, you know, how the solution works or something that allows you to then, you know, learn it faster.
+11.4511 sekuntia[snorts] The issue is most people don't do this next step, which is redoing the initial thing you wanted to do without help. Remember that learning is almost
+11.5211 sekuntiaentirely a production thing. It's not a passive consumption thing. If you don't know something and you ask, "Hey, can you help me figure this thing out?" And then it explains it to you and you nod along and say, "Yeah, that makes sense.
+12.0112 sekuntiaOkay, cool. I've now learned the thing." without actually assessing you know from a baseline whether or not you know the thing without the as help you have not
+12.0912 sekuntialearned that thing you have merely read about that thing and there's a very big difference between the two right so after you've gone through a whole process once it is integral that you
+12.1812 sekuntiarevert back to the very first step which in your case might be reading about you know how to set this thing up and actually walk through it from first principles from the start in order to go
+12.2512 sekuntiafrom you know zero all the way up to one that's the way you demonstrate your knowledge and that's the way that you actually productively remember it and so anytime I'm trying to learn let's say a new AI tool or something like that, you
+12.3412 sekuntiaknow, I will use AI quite heavily to, you know, interview me on my current state of knowledge to create a map for me on the various concepts I need to know in order to learn it quickly. And
+12.4212 sekuntiathen I'll actually try and if I struggle, I'll have AI explain things to me. But I don't just stop there. I'll actually once I've figured it out and we made it all the way to the end of
+12.4912 sekuntiawhatever task I have, revert all the way back to the beginning and then try doing it all myself. This only will ever take you a few additional moments of time, 10
+12.5712 sekuntiaor 15% of the total length of time you spend studying a subject. But the end result and your ability to know, learn, and then articulate it to other people like I'm doing to you right now is
+13.0513 sekuntiainsane. It's it's unmatched. So you need to redo things without help. You can't just, you know, try and oneshot things progressively as you go. You really do
+13.1313 sekuntianeed to loop back. And that's ultimately how to use an explainer. Simple thing to say here is, hey, I tried doing XYZ. I got stuck at XYZ. Could you explain just
+13.2113 sekuntiathat part at my knowledge level so that I understand it? Once you're done with that, again, circle back and then finish the rest. The Socratic questioner is
+Osa 6: Socratic Learning Loop
+13.2813 sekuntiaalso extremely powerful. You know, you a lot of the time are going to think that you understand stuff again because AI will have explained something to you.
+13.3613 sekuntiaYou'll have gone through it at least once and you'll say, "Yeah, I think I get the gist of it." But the Socratic questioner is a way for AI to basically act as a study buddy with you and ask
+13.4313 sekuntiayou things like, "Okay, so why does this statistical principle work?" Well, the reality is if you don't know how to answer it, it will immediately have
+13.5113 sekuntiaclarified to you where your gaps in knowledge are. And then if you don't know, maybe it can ask you a follow-up question like, okay, like what if the input to the statistical thing is doubled. Then you'll say, okay, then
+13.5913 sekuntiathat would break. Now the AI is learning the gaps in your knowledge. You're also seeing the gaps in your knowledge. And then that can help direct you back to the uh explainer to learn exactly how
+14.0814 sekuntiathat process works. And then you can circle back and forth between Socratic questioning, explanations, creating a new map to learn new things that you didn't realize you didn't know, and so
+14.1614 sekuntiaon. This allows you to find the gap yourself. You now know the answer. it'll never just hand it over to you because it's now asking questions productively forcing you to come up with things and
+14.2514 sekuntiathen as a result you uh can actually understand something not just think you understand. So how to try that is you know hey I want to learn x y and z thing
+14.3214 sekuntiadon't just give me the answer ask me questions until I find what I don't know myself. Next up is the examiner. Now, there are a lot of situations where you think you understand something, okay?
+Osa 7: Examiners and Checks
+14.4214 sekuntiaAnd then because you don't test yourself, you don't actually realize where you fall short. But with an exam that is punctuated at varying levels of knowledge, what you can do is you can
+14.5014 sekuntiaactually figure out, okay, I figured out level one, I understand how that works.
+14.5314 sekuntiaI know level two, I get level three, level four makes sense. Level five didn't actually pass that test. Why? And so, it's another way of you figuring out
+15.0215 sekuntiawhere you need to go next in order to maximally direct your learning. And that's all ultimately that this whole process is about. It's about maximally directing your learning. Human beings
+15.1115 sekuntiahave so much potential buried inside of them. Our brains are so incredible. But simply because of like old deprecated educational institutions uh uh formats
+15.1915 sekuntialike lectures which were developed thousands of years ago and just do not scale into our current era and then other gaps in in knowledge and so on and so forth. We're just not capable of squeezing out more than 10 or 20% of it.
+15.2915 sekuntiaSo this helps you do that. It's very straightforward and easy. A simple way to do this is saying, "Hey, could you quiz me on this topic? I just want one question at a time. Make every question
+15.3715 sekuntiaharder until you know I don't get things right. And then at that point, you'll know where the gap in your knowledge is.
+15.4315 sekuntiaHow about the checker? In this situation, there are a lot of places where, you know, you don't learn for the sake of learning. A lot of the time you learn for the sake of creating
+15.5015 sekuntiasomething. And so what the checker does is basically scores you on almost like a rubric similar to an examiner, but this time checking uh you know whether or not
+15.5815 sekuntiayour process works to begin with. And so the value here is you're not assessing just the end result of your knowledge.
+16.0416 sekuntiaWhat you're doing is you're assessing the process required to create the knowledge itself. And so, you know, I don't know if you guys have ever taken a really introductory math class. A lot of
+16.1216 sekuntiathe time they don't just say, "Don't just give me the answer. I actually want to know the process behind your work.
+16.1516 sekuntiaSo, show your work. Show me, you know, how you multiply the two variables together or whatever." What the checker does is it assesses the intermediate steps to determine that your logic and
+16.2416 sekuntiayour reasoning was correct in order to get there. In this way, you know, if you have any issues, uh the model can figure figure this out. So if you made
+16.3116 sekuntiasomething like a summary, a proof, some sort of code, math problem or something like that, actually have it evaluate or check your reasoning to see if there's a
+16.3916 sekuntiashorter and faster way you could have made it to the same point. In this result, you know, maybe we could have shortened the summary down twice, got it literally to about half the length, and
+16.4816 sekuntiaas a result, the next time you encounter this problem, your process itself will be faster, not just the end result. So in this case, you might say, "Hey, here's my work for determining X, Y, and
+16.5716 sekuntiaZ. Can you find what's wrong or missing?" And let me know if there's a faster or easier way to get there. Don't rewrite any of it. Next up is this idea of the listener. So the end result is,
+Osa 8: Listener and Diagnosis
+17.0517 sekuntiayou know, you've now learned something to a reasonable amount of time, but you have to understand that there are different ways to demonstrate your knowledge. There's like a written way of
+17.1217 sekuntiadoing it. There's like a verbal way of doing it. I mean, there's like five or 10. And the best learners know how to provide that knowledge in multiple different formats. And so it's not
+17.2117 sekuntiaenough just to, you know, say something or write something um, you know, with your fingers. My recommendation is if you really want to maximize all the different uh highways of your mind, you
+17.2917 sekuntiaknow, you should say something, you should visualize something with maybe some sort of graphic, you should write something, you should really try and engage yourself maximally across all s
+17.3817 sekuntiasenses. What the listener does is it compares your words across all of these to the source document on all of these different testing mechanisms on the
+17.4617 sekuntiaverbal reasoning, on like your ability to write things out, on your ability to visualize things and so on and so forth to determine whether or not you were correct. And so what I will typically do
+17.5417 sekuntiais when I really want to make sure I understand a topic, I will just hold down my voice transcription key and I'll just start talking into uh you know my computer. After I do my voice
+18.0218 sekuntiatranscription, I will try and draw a quick image of the concept to make sure I understand. And in addition, I will write a much more short and succinct version of my explanation since you know
+18.1018 sekuntiaverbal voice transcriptions and stuff like that tend to be a lot longer than their their written counterparts. I will then compare it to the source document, whatever it is I'm trying to learn.
+18.1718 sekuntiaMaybe it's a new like neural network architecture or something like that. And now it has three different means by which to assess whether or not I understand something. The visual, the verbal, and then ultimately the written.
+18.2718 sekuntiaAnd it can compare all three of these to the source document. And as a result, it can listen to me and determine whether or not I've made it. So here maybe you'll say, "Hey, I want to explain this
+18.3618 sekuntiaidea in my own words. I want you to grade it against the source and tell me exactly what I missed." The diagnostician, you know, despite being kind of a tongue twister, is a very important part of understanding.
+18.4718 sekuntiaEssentially, a lot of the mistakes that you make in learning occur at the same fundamental roots. Maybe you just don't really understand some simple
+18.5518 sekuntiamathematical operation or something and as a result, you don't understand how to do a specific thing in statistics. You don't understand how to do a specific thing in biology and then you don't understand how to do a specific thing in
+19.0419 sekuntiachemistry. Let's say you're just in a university uh environment trying to learn all this stuff. The reality is you don't actually know what's holding you
+19.1119 sekuntiaup despite the fact that these are all templated issues. So what the diagnostician does is all of these things are the result of a shared misunderstanding. What you do is you
+19.1919 sekuntiajust ask the model, hey like what is the recurring mistake in reasoning or logic that I keep on making across all of these, you know, listenings, uh, examinations,
+19.2719 sekuntiau, you know, checks and so on and so forth. Read through my last, you know, 100 conversations, let's say, and figure this out. And it'll actually go and it'll find the core reasons why you
+19.3519 sekuntiamisunderstand stuff. It will literally go and tell you like, hm, you appear to be making the same sort of logical leap from X to Y. The reason for that is probably that you don't understand Z.
+19.4319 sekuntiaAnd now you instead of trying to learn the specific outcome of each can just learn the root thing that keeps on making you make the same mistake. So you know here are a bunch of things I keep
+19.5119 sekuntiagetting wrong. What misunderstanding do all of these things have in common? Just feed that to your AI agent and you will be far better off. The sparring partner is extremely valuable and I personally
+Osa 9: Sparring for Practice
+19.5919 sekuntiabeen using this a lot especially as I've started doing more podcasts interviews and then high stakes negotiations in business. So I will often actually have
+20.0620 sekuntiaAI give me some sort of back and forth Q&A. You know if I'm like hey I have an interview coming up for XY andZ. I want to spar back and forth to, you know,
+20.1420 sekuntiaverify that I know what I'm doing. Um, I'm going to do this verbally and then I also am going to set a timer with every question to try and figure it out within 30 seconds because I think that's probably how much time I'm actually
+20.2320 sekuntiagoing to be given. Let's do it. Hey, why should we hire you? Well, it's because I work hard, right? You send that back to an AI agent that you've pre-rimed as a
+20.3120 sekuntiasparring partner. It's probably not going to be too happy. And it's right, right? So, it'll say something like too vague. Give me an example. Well, last month I cut our weight times in half, so maybe that's what you should have
+20.3920 sekuntiaultimately led with. the sort of sparring in process is it's very difficult to do correctly and you have the ability to adjust that difficulty slider. You can reduce the amount of
+20.4720 sekuntiatime you have to come up with each question. You can obviously, you know, uh force the AI model to be a higher and higher and higher level interviewer as
+20.5420 sekuntiayou go across. But the result is you actually end up getting a couple of reps in without actually having to do the reps. And I mean that in a good way. You know, a common thing that I'll teach people how to do is uh I'll teach them
+21.0321 sekuntiahow to do, you know, sales calls for AI and automation services because that is part of what I sell and what I show people how to sell on this channel. And so, you know, they will have never
+21.1121 sekuntiajumped on a sales call before in their entire life. They'll be absolutely terrified. Uh, you know, they don't know what to say. They don't know how to frame the call. They don't know how to like, uh, you know, generate any
+21.2021 sekuntiaperceived value for their service. A lot of the time, I'll say like, "Hey, go into a conversation with an AI agent.
+21.2521 sekuntiaHere is a brief like template of the call and it's going to pretend that it's a client and or a prospective client, and you are a prospective salesperson,
+21.3221 sekuntiaand you guys can just go at it. This won't 100% be the exact same thing that you are going to see in real life, but this is going to allow you to get at least a rough go through the very first
+21.4021 sekuntiarep, which will make you significantly better. This sort of like simulated training environment is going to be extremely important over the coming
+21.4721 sekuntiamonths and years as AI makes us better and we make AI better in turn. So, use this when you're practicing a skill.
+21.5421 sekuntiaIt's speaking, it's interviews, it's sales calls. And in order to do this, all you need to say is something, hey, I want you to play a tough hiring manager for XYZ thing that I'm trying to do or I want you to pretend that you're
+22.0222 sekuntiainterviewing me. Here's a big list of all the previous interviews this interviewer has done. Don't go easy on me. Push back hard and make sure I fully understand it. I I want every answer to
+Osa 10: Clerk and Organization
+22.1022 sekuntiabe generated in 30 seconds. Finally, highly undervalued role of AI here is the clerk. That's where you have a bunch of really messy notes or messy
+22.1822 sekuntiaintermediate checking steps. What you do is you just feed that in AI and you say, "Hey, can you make me a clean outline of this?" Or, "Hey, can you use this to make a bunch of flash cards for me?" As
+22.2622 sekuntiamentioned before, with space repetition, you can get 5 to 10x as time efficient.
+22.3022 sekuntiayou know, per unit time you spend, you can remember five to 10x more simply by organizing your information and then consulting with it on a regular basis.
+22.3722 sekuntiaAnd in this case, the reason I like the clerk is because all of the thinking is your own. What you're doing is you're just organizing it a little bit better.
+22.4322 sekuntiaUh because, you know, as a human being, you're constantly juggling all these different disciplines and ideas and concepts. AI really can bring those together for you into higher and higher
+22.5122 sekuntialevel and more simple abstractions, which can ultimately improve your ability to to organize it mentally as well. Here, you might just say, "Turn my messy notes into a clean outline. Don't
+22.5922 sekuntiaadd anything I didn't write. just make it clear um you know the hierarchy of information and how I intend to I don't know turn this into an essay or something. So that covers all of the
+Osa 11: Learning at the Right Level
+23.0623 sekuntiarules. Next I just want to talk about some highle principles behind AI including uh reasons not to use AI as well for certain types of learning. One
+23.1423 sekuntiareally valuable thing to use AI to do is to help find stuff at your level. Now in case you didn't know you learn the most
+23.2123 sekuntiawhen you are pushed just a little bit outside of your comfort zone. Not too much or too little. The whole idea is you need something that challenges you.
+23.2923 sekuntiaOkay? It's called the zone of proximal development in psychology and it's a zone that's just a little bit out of reach that consistently allows you to,
+23.3623 sekuntiayou know, lengthen your your your reach until eventually you can grasp the subject. So, you know, here we go. So, a simple way to do this is, hey, find
+23.4323 sekuntiastuff at my level. I want you to quiz me on statistics. Easy all the way up to hard. Stop when I start guessing things and I clearly don't realize them. Then I want you to tell me my level. From
+23.5123 sekuntiathere, you know, we can go back to these other roles. map maker. We can do interviewers. We could start checking.
+23.5623 sekuntiaWe could start doing evaluations and eventually diagnosticians. I also want you to explain this concept at three different levels. For a child, for a
+24.0324 sekuntiabeginner, for you know a teenager, for a high schooler, for an expert, and so on and so forth. What you can do here is you can determine, okay, what level of
+24.1224 sekuntiaunderstanding do I have around the vocabulary, the nuanced subjects, and so on and so forth, and what do I need to know in order to be able to communicate topics like this more uh diligently and
+24.2024 sekuntiabetter. Finally, you can also say, "Hey, you know, I want you to find me the best possible explanations for this thing.
+24.2624 sekuntiaYou know, in my case, I know how to do A. I don't know how to do B. I'm approximately the level of a beginner, as we've assessed earlier. Um, I want you to figure out why each one is really
+24.3424 sekuntiagood. And I also want you to give me a bunch of links for it." The reason why this is good is because human beings are still sort of the the arbiter, at least for now, of taste and our ability to
+24.4124 sekuntiaexplain things in simple ways. Um, I've come up with so many really simple uh explanations that I've learned in like 5
+24.4924 sekuntiaseconds because somebody just put it in the perfect metaphorical way that makes sense for me that I never would have really found had I not had AI. Um, and as a result, you know, when you find
+24.5724 sekuntiathat perfect explanation explanation that just clicks, you can usually save yourself days, weeks, or months of trying to learn it another way. And human beings ultimately are just the
+25.0525 sekuntiaones that have created the most of that so far. So, you know, what I'll do is I'll basically say, "Hey, can you find me a bunch of resources for somebody that knows how to do this, but maybe
+25.1325 sekuntiadoesn't know how to do that." Um, I give them every piece of information that they need about me in order to be able to find that information better. And then they'll come back with a hit list
+25.2025 sekuntiaof like, yeah, you know, neural networks, easily explained, was written a couple years ago by this person, probably the simplest and easiest beginner tutorial. And then I'll just take that tutorial instead of trying to
+25.2825 sekuntiamuddy around with like crappy textbooks or crappy lectures that might be a little bit advanced or a little bit too simple for me. Another great use of AI is as a simulation. We talked a little
+Osa 12: Simulations and Practice Apps
+25.3725 sekuntiabit about this in the context of interviewing. So you could role play.
+25.4025 sekuntiaYou could say, "Hey, could you play a tough interviewer for, you know, a stat statistics job at uh, I don't know, Anthropic or something? One question at a time. I want you to score me at the
+25.4825 sekuntiaend." But you could also actually give it a realistic task and then have it produce the deliverables you would need to generate. So I don't know, maybe you
+25.5525 sekuntiahave some sort of uh customer concern or Q&A or something like that. You have to respond to it. Maybe that's the job you want, sort of customer service role. we
+26.0326 sekuntiacan actually have it like come up with a bunch of emails and then you have to go through and navigate and then answer those questions intelligently. Um so then it can grade you based off what you
+26.1126 sekuntiado. Um it can grade you based off an examination. So just the end result or the checked process that gets you there and then once you have all that you know you you'll know a lot better about where
+26.1926 sekuntiayou're learning. Likewise you can actually have clawed uh uh you know codecs other agents build you practice apps. These practice apps make it really
+26.2726 sekuntiaeasy to just blitz through a bunch of flashcard style things. uh they allow you to you know visualize your knowledge in a variety of ways and I use this sort
+26.3426 sekuntiaof thing because it's important to have as mentioned not just like a textual ability to understand a subject but you have to be able to articulate it like with your words you have to be able to
+26.4226 sekuntialike visualize it on a screen you know hey draw a thing that corresponds to this thing cloud and other agents are actually at the level where you can legitimately do this today you don't
+26.5026 sekuntianeed to like have a whole examiner doing that for you and they can do it for cents on the dollar um so building practice apps and stuff like that can also be very cool ultimately just run it
+26.5826 sekuntiaget feedback continuously make it harder, run it again. This thing's like the hyperbolic time chamber for knowledge. Finally, there is a case against AI. Um, the big case is learning
+Osa 13: When AI Hinders Learning
+27.0727 sekuntiatends to happen during the struggle. If you think about the difficulty on this graph is the y-axis and the amount of time it takes sort of is this axis.
+27.1527 sekuntiaWell, maybe that's not entirely correct, but the the difficulty is this hump here. Um, you know, normally you would have to go through a hump of really squinting at the screen and being what
+27.2327 sekuntiathe hell's going on? I can't make this work in order to learn something because again, it's active production. AI allows you to shortcut that a lot of the time and that leads to you ultimately
+27.3027 sekuntiaremembering nothing. Um, you know, if it explains something to you, it'll feel like understanding, but it isn't. Uh, a very interesting scientific result a few
+27.3827 sekuntiayears ago was that people that use like GPS apps tend to have poorer representations of their environment in their brains. And I think AI is quite
+27.4527 sekuntiasimilar in so far that you know if you're not doing the thinking now you're just shortcutting it to get to the end result. It will like a GPS weaken the
+27.5327 sekuntiabrain regions that are responsible ultimately for coming up with the logic that gets you places. So you know when AI agrees with you when you're halfright
+28.0028 sekuntiawhen it invents random numbers and sources it turns this process of learning and struggling into just collecting a bunch of notes let's say on a subject. This of course can actually be very detrimental to your learning.
+28.1128 sekuntiaThe important thing to realize is you don't have to use AI the same way that everybody else is using AI. AI at the end of the day can be a thought partner
+28.1828 sekuntiaand it can improve multiple areas of your life. You just cannot fall into that default way that people tend to, you know, be incentivized to use it. Hey
+28.2628 sekuntiaClaude, make me a billion dollars and make no mistakes. I want to be the president of the United States codeex. I want you to make it happen. Like you're going to need to spend a little bit more
+28.3328 sekuntiatime and effort being strategic about how you deploy it until you know we get to the point where it's just generally a lot more intelligent. So, it's the same thing with any technology, right? It's the same thing with social media apps.
+28.4328 sekuntiaIt's the same thing with, you know, Facebook. There are a lot of useful and legitimate uses of technology like Facebook, but the default mode, the way
+28.5128 sekuntiathat most people use technology like this is pretty bad. And so, it's important just to understand that you have the ability to make this powerful for you. And hopefully, this video has
+29.0029 sekuntiahelped illuminate at least a little bit about how to do that. Really hope you guys appreciated the video. Had a lot of fun putting it together. As mentioned, I use tools like this virtually every day in my own life and my own business in
+29.0829 sekuntiaorder to achieve what I would consider to be, you know, pretty above average results. If you guys want to learn how to do this sort of thing yourself practically for the purposes of a business, definitely check out Maker
+29.1629 sekuntiaSchool in the description. It's my 90-day accountability program where I help people get their very first paying customer for an AI or automation service or I give you all your money back. I
+29.2429 sekuntiadeveloped it using the similar concepts and methodologies to what I talked about today. So, uh, absolutely give it a go.
