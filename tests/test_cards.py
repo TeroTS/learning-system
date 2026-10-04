@@ -51,7 +51,10 @@ class CardsTestCase(unittest.TestCase):
         cards = importlib.import_module("scripts.cards")
         stdout, stderr = io.StringIO(), io.StringIO()
         with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
-            code = cards.main(arguments)
+            try:
+                code = cards.main(arguments)
+            except SystemExit as exc:
+                code = exc.code
         return code, stdout.getvalue(), stderr.getvalue()
 
     def assert_rejected(self, arguments: list[str]) -> None:
@@ -417,6 +420,173 @@ class DueCardTest(CardsTestCase):
                 self.assertEqual(result.stdout, "")
                 self.assertTrue(result.stderr.strip())
         self.assertFalse(self.path.exists())
+
+
+class GradeCardTest(CardsTestCase):
+    def arguments(self, **overrides: str) -> list[str]:
+        options = {"result": "right", "today": "2025-10-04"}
+        options.update(overrides)
+        return [
+            "grade",
+            "statistics",
+            "3",
+            "--subjects-dir",
+            str(self.subjects),
+            *[argument for name, value in options.items() for argument in (f"--{name}", value)],
+        ]
+
+    def test_every_right_and_wrong_transition_uses_new_box_interval(self) -> None:
+        for result, transitions in {
+            "right": [(1, 2, 3), (2, 3, 7), (3, 4, 14), (4, 5, 30), (5, 5, 30)],
+            "wrong": [(box, 1, 1) for box in range(1, 6)],
+        }.items():
+            for old_box, new_box, interval in transitions:
+                with self.subTest(result=result, old_box=old_box):
+                    original = {**self.original_card, "box": old_box}
+                    unrelated = {**self.original_card, "id": 1}
+                    self.path.write_text(json.dumps([original, unrelated]), encoding="utf-8")
+                    code, stdout, stderr = self.invoke(self.arguments(result=result))
+                    self.assertEqual((code, stderr), (0, ""))
+                    expected = {
+                        **original,
+                        "box": new_box,
+                        "due": (date(2025, 10, 4) + timedelta(days=interval)).isoformat(),
+                    }
+                    self.assertEqual(json.loads(stdout), expected)
+                    self.assertEqual(json.loads(self.path.read_text(encoding="utf-8")), [unrelated, expected])
+                    self.assertEqual(list(self.subject.iterdir()), [self.path])
+
+    def test_scheduling_uses_grading_date_not_old_due_date(self) -> None:
+        for old_due in ("2020-01-01", "2030-01-01"):
+            with self.subTest(old_due=old_due):
+                self.path.write_text(json.dumps([{**self.original_card, "due": old_due}]), encoding="utf-8")
+                code, stdout, stderr = self.invoke(self.arguments())
+                self.assertEqual((code, stderr), (0, ""))
+                self.assertEqual(json.loads(stdout)["due"], "2025-11-03")
+
+    def test_scheduling_crosses_calendar_boundaries(self) -> None:
+        for today, due in [("2024-02-28", "2024-02-29"), ("2024-02-29", "2024-03-01"), ("2025-12-31", "2026-01-01")]:
+            with self.subTest(today=today):
+                self.path.write_text(json.dumps([self.original_card]), encoding="utf-8")
+                code, stdout, stderr = self.invoke(self.arguments(result="wrong", today=today))
+                self.assertEqual((code, stderr), (0, ""))
+                self.assertEqual(json.loads(stdout)["due"], due)
+
+    def test_default_date_is_local_today(self) -> None:
+        self.path.write_text(json.dumps([self.original_card]), encoding="utf-8")
+        before = date.today()
+        code, stdout, stderr = self.invoke(self.arguments()[:-2])
+        after = date.today()
+        self.assertEqual((code, stderr), (0, ""))
+        self.assertIn(json.loads(stdout)["due"], ((day + timedelta(days=30)).isoformat() for day in (before, after)))
+
+    def test_unknown_ids_preserve_storage_including_missing_file(self) -> None:
+        self.assert_rejected(self.arguments())
+        for stored in ([], [self.original_card]):
+            self.path.write_text(json.dumps(stored), encoding="utf-8")
+            for card_id in ("1", "0", "-1", "99"):
+                with self.subTest(stored=stored, card_id=card_id):
+                    arguments = self.arguments()
+                    arguments[2] = card_id
+                    self.assert_rejected(arguments)
+
+    def test_invalid_subject_date_or_data_preserves_storage(self) -> None:
+        self.path.write_text(json.dumps([self.original_card]), encoding="utf-8")
+        for subject in ("../statistics", "Statistics", "missing"):
+            with self.subTest(subject=subject):
+                arguments = self.arguments()
+                arguments[1] = subject
+                self.assert_rejected(arguments)
+        for today in ("20251004", "2025-02-29", "2025-W40-6", "9999-12-31"):
+            with self.subTest(today=today):
+                self.assert_rejected(self.arguments(today=today))
+        for content in (
+            b"not JSON Original front",
+            b"\xff",
+            b"{}",
+            json.dumps([self.original_card, {**self.original_card, "id": 1, "box": 6}]).encode(),
+        ):
+            with self.subTest(content=content):
+                self.path.write_bytes(content)
+                self.assert_rejected(self.arguments())
+
+    def test_grade_rejects_storage_symlink(self) -> None:
+        outside = Path(self.temp.name) / "outside.json"
+        outside.write_text(json.dumps([self.original_card]), encoding="utf-8")
+        before = outside.read_bytes()
+        self.path.symlink_to(outside)
+        self.assert_rejected(self.arguments())
+        self.assertEqual(outside.read_bytes(), before)
+
+    def test_atomic_write_failure_preserves_cards_and_cleans_temporary_file(self) -> None:
+        self.path.write_text(json.dumps([self.original_card]), encoding="utf-8")
+        with mock.patch("os.replace", side_effect=OSError("simulated replacement failure")):
+            self.assert_rejected(self.arguments())
+
+    def test_grade_is_not_idempotent(self) -> None:
+        self.path.write_text(json.dumps([{**self.original_card, "box": 1}]), encoding="utf-8")
+        first = self.invoke(self.arguments())
+        second = self.invoke(self.arguments())
+        self.assertEqual((first[0], first[2], second[0], second[2]), (0, "", 0, ""))
+        self.assertEqual((json.loads(first[1])["box"], json.loads(second[1])["box"]), (2, 3))
+        self.assertEqual(json.loads(second[1])["due"], "2025-10-11")
+
+    def test_bad_usage_exits_two_without_writing(self) -> None:
+        invalid_id = self.arguments()
+        invalid_id[2] = "not-an-id"
+        for arguments in (["grade", "statistics"], invalid_id, self.arguments(result="maybe")):
+            with self.subTest(arguments=arguments):
+                result = subprocess.run([sys.executable, str(SCRIPT), *arguments], capture_output=True, text=True)
+                self.assertEqual(result.returncode, 2)
+                self.assertEqual(result.stdout, "")
+                self.assertTrue(result.stderr.strip())
+        self.assertFalse(self.path.exists())
+
+    def test_end_to_end_due_grade_and_rescheduled_due_list(self) -> None:
+        stored = [self.original_card, {**self.original_card, "id": 1, "box": 1}]
+        self.path.write_text(json.dumps(stored), encoding="utf-8")
+        due_command = [
+            sys.executable,
+            str(SCRIPT),
+            "due",
+            "statistics",
+            "--subjects-dir",
+            str(self.subjects),
+            "--today",
+            "2025-10-04",
+        ]
+        initial = subprocess.run(due_command, capture_output=True, text=True, cwd=self.temp.name)
+        self.assertEqual((initial.returncode, initial.stderr), (0, ""))
+        self.assertEqual([card["id"] for card in json.loads(initial.stdout)], [1, 3])
+        for card_id, result, box, due in [("1", "right", 2, "2025-10-07"), ("3", "wrong", 1, "2025-10-05")]:
+            arguments = self.arguments(result=result)
+            arguments[2] = card_id
+            graded = subprocess.run(
+                [sys.executable, str(SCRIPT), *arguments], capture_output=True, text=True, cwd=self.temp.name
+            )
+            self.assertEqual((graded.returncode, graded.stderr), (0, ""))
+            card = json.loads(graded.stdout)
+            self.assertEqual((card["id"], card["box"], card["due"]), (int(card_id), box, due))
+        after = subprocess.run(due_command, capture_output=True, text=True, cwd=self.temp.name)
+        self.assertEqual((after.returncode, after.stdout, after.stderr), (0, "[]\n", ""))
+        due_command[-1] = "2025-10-05"
+        next_day = subprocess.run(due_command, capture_output=True, text=True, cwd=self.temp.name)
+        self.assertEqual((next_day.returncode, next_day.stderr), (0, ""))
+        self.assertEqual([card["id"] for card in json.loads(next_day.stdout)], [3])
+        self.assertEqual(list(self.subject.iterdir()), [self.path])
+
+    def test_end_to_end_unknown_card_preserves_bytes(self) -> None:
+        self.path.write_text(json.dumps([self.original_card]), encoding="utf-8")
+        before = self.path.read_bytes()
+        arguments = self.arguments()
+        arguments[2] = "99"
+        result = subprocess.run([sys.executable, str(SCRIPT), *arguments], capture_output=True, text=True)
+        self.assertEqual(result.returncode, 1)
+        self.assertEqual(result.stdout, "")
+        self.assertTrue(result.stderr.strip())
+        self.assertNotIn("Original front", result.stderr)
+        self.assertNotIn("Original back", result.stderr)
+        self.assertEqual(self.path.read_bytes(), before)
 
 
 if __name__ == "__main__":

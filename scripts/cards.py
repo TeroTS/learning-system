@@ -1,4 +1,4 @@
-# Add confirmed cards to an existing subject's UTF-8 JSON store and list due cards without modifying it.
+# Add, list due, and grade cards in an existing subject's UTF-8 JSON store using Leitner scheduling.
 # CLI output is JSON on stdout; invalid input or storage failures leave existing cards unchanged.
 
 import argparse
@@ -17,6 +17,7 @@ else:
 
 SUBJECT_PATTERN = r"[a-z0-9]+(-[a-z0-9]+)*"
 CARD_FIELDS = {"id", "front", "back", "box", "due", "created"}
+BOX_INTERVALS = (1, 3, 7, 14, 30)
 
 
 # Parse a strict ISO calendar date from CLI or stored data; invalid input raises a content-free ValueError.
@@ -119,7 +120,22 @@ def due_cards(subjects_dir: Path, subject: str, today: date) -> list[dict[str, s
     )
 
 
-# Parse add/due CLI arguments, configure stderr logging once, and print the result as JSON.
+# Apply a validated right/wrong result to one card: promote with a box-5 cap or reset to box 1.
+# Schedule from today using the new box's interval, write atomically in id order, and return the updated card.
+# Unknown ids raise ValueError; validation, date overflow and storage failures leave the persisted cards unchanged.
+def grade_card(subjects_dir: Path, subject: str, card_id: int, result: str, today: date) -> dict[str, str | int]:
+    path = cards_path(subjects_dir, subject)
+    cards = load_cards(path)
+    for card in cards:
+        if card["id"] == card_id:
+            card["box"] = min(card["box"] + 1, 5) if result == "right" else 1
+            card["due"] = (today + timedelta(days=BOX_INTERVALS[card["box"] - 1])).isoformat()
+            write_cards(path, sorted(cards, key=lambda item: item["id"]))
+            return card
+    raise ValueError("Unknown card id.")
+
+
+# Parse add/due/grade CLI arguments, configure stderr logging once, and print the result as JSON.
 # Return 0 on success or 1 for input/data/storage failures; argparse exits 2 for bad usage.
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Manage subject cards.")
@@ -128,18 +144,23 @@ def main(argv: list[str] | None = None) -> int:
     add.add_argument("--front", required=True)
     add.add_argument("--back", required=True)
     due = subcommands.add_parser("due", help="List due cards without changing storage.")
-    for command in (add, due):
+    grade = subcommands.add_parser("grade", help="Record a right or wrong recall result.")
+    grade.add_argument("--result", choices=("right", "wrong"), required=True)
+    for command in (add, due, grade):
         command.add_argument("subject")
         command.add_argument("--today", help="Local calendar date (YYYY-MM-DD).")
         command.add_argument("--subjects-dir", type=Path, default=Path(__file__).resolve().parents[1] / "subjects")
+    grade.add_argument("id", type=int)
     args = parser.parse_args(argv)
     try:
         configure_logging()
         today = parse_date(args.today) if args.today is not None else date.today()
         if args.command == "add":
             result = add_card(args.subjects_dir, args.subject, args.front, args.back, today)
-        else:
+        elif args.command == "due":
             result = due_cards(args.subjects_dir, args.subject, today)
+        else:
+            result = grade_card(args.subjects_dir, args.subject, args.id, args.result, today)
     except ValueError as exc:
         print(str(exc), file=sys.stderr)
         return 1
