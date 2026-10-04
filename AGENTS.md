@@ -1,5 +1,42 @@
 # AGENTS.md
 
+## Project
+
+An agent-agnostic learning system based on `transcript.txt`. It is a set of skills, one for each learning role, plus a
+local store for each subject, with spaced repetition handled by a Python script.
+The accepted decisions are in `DECISIONS.md`.
+
+## Repo Layout
+
+- `.agents/skills/<skill>/SKILL.md`: the skills, one per role, plus `review`.
+- `subjects/<subject>/`: the learner's store (`goal.md`, `map.md`, `mistakes.md`, `sessions.md`, `cards.json`, `sources/`).
+- `scripts/`: Python scripts, standard library only (`cards.py`, `logging_setup.py`).
+- `tests/`: `unittest` tests, one `test_<module>.py` per script module.
+- `.python-version`: pinned Python version (3.11, the minimum supported).
+
+## Commands
+
+- `make install`: create `.venv` and install pinned dev dependencies.
+- `make fmt` / `make fmt-check`: format with ruff, or check formatting only.
+- `make lint`: run ruff lint.
+- `make test`: run the unittest suite.
+- `make coverage`: run tests under coverage (fails below 80%).
+- `make check`: run the format check, lint and coverage; run this before committing.
+
+## Run a Single Test
+
+```bash
+.venv/bin/python -m unittest tests.test_logging_setup                                       # one file
+.venv/bin/python -m unittest tests.test_logging_setup.ConfigureLoggingTest.test_defaults_to_warning  # one case
+```
+
+## Logging
+
+- Scripts call `configure_logging()` from `scripts/logging_setup.py` once at the entry point.
+- Use `logging.getLogger(__name__)`. Logs go to stderr; stdout is for command output only.
+- Set the level with `LOG_LEVEL` (default `WARNING`), for example `LOG_LEVEL=DEBUG`.
+- Never log secrets or learner content.
+
 ## Domain Vocabulary
 
 - Read `CONTEXT.md` before naming domain concepts.

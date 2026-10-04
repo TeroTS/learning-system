@@ -82,7 +82,12 @@ working on many subjects.
 ### Operations / Deployment
 
 - Everything runs locally. There is no CI.
-- Tests use `unittest`. `coverage.py` is the only dev dependency, with an 80% minimum, run locally.
+- Tests use `unittest`. Coverage is measured with `coverage.py`, with an 80% minimum, run locally.
+- `ruff` is used for both formatting and linting.
+- Dev dependencies are `coverage` and `ruff` only, pinned in `requirements-dev.txt`.
+- Logging uses the standard `logging` module, configured by `scripts/logging_setup.py`.
+  Logs go to stderr so that stdout stays free for command output. The level is set by `LOG_LEVEL` (default `WARNING`),
+  and an invalid value is an error. Secrets and learner content are never logged.
 
 ## Core Business Rules
 
