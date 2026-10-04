@@ -28,13 +28,16 @@ skill's directory.
 - Use the learner's supplied rubric when available. If none is given, present a concise checklist derived from
   applicable sources and the task's stated requirements. Clarify materially ambiguous requirements one question
   at a time; do not silently impose personal preferences or invent a numeric grading scheme.
-- A rubric organizes the review but does not replace source evidence. If no applicable source exists, say so,
-  do not grade or assert correctness, and do not invent mistakes, correct ideas, or mistake-based cards. Record
-  `not graded: no source` in the single session line instead.
+- A rubric organizes the review but does not replace source evidence; an applicable source always takes
+  precedence. If `sources/` is missing or empty, or no source covers this work, announce `no applicable source;
+  grading by agent judgement` without asking, then review by agent judgement. For that review, read
+  `source-supported` below as `supported by agent judgement`, cite agent judgement instead of a source passage, and
+  record `graded: agent judgement` in the session line. Judgement-based findings have the same effects as
+  source-based ones: mistakes are recorded and cards suggested.
 
 ## Review every intermediate step
 
-With applicable sources, walk through the submitted work in its original order against the rubric. Do not stop
+Walk through the submitted work in its original order against the rubric. Do not stop
 at the first mistake or infer that a plausible final result proves all intermediate steps are valid.
 
 - For a summary, check each claim, its support, and source-required points omitted from the learner's account.
@@ -44,8 +47,8 @@ at the first mistake or infer that a plausible final result proves all intermedi
   Do not execute learner code, install dependencies, or modify files to check it. State static-review limitations;
   never claim tests ran or runtime behavior was demonstrated when it was not.
 - For an unclear step, ask a focused clarification rather than supplying the missing reasoning yourself.
-- Where source coverage is insufficient or conflicting, mark that portion `unverified` and explain the evidence
-  limitation. Do not grade it from general knowledge or treat your uncertainty as the learner's mistake.
+- Where an applicable source's coverage is insufficient or conflicting, mark that portion `unverified` and explain
+  the evidence limitation. Do not fill it from judgement or treat your uncertainty as the learner's mistake.
 
 For each confirmed error or missing step, identify the exact step number, paragraph, quoted claim, or file/line
 location, the rubric criterion involved, and the relevant source file and section or passage. State what is wrong

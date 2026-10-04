@@ -1,6 +1,6 @@
 # AI Learning System Decisions
 
-Status: Draft v1
+Status: Draft v2
 
 ## Problem Summary
 
@@ -99,7 +99,7 @@ working on many subjects.
 - `checker` reviews the learner's process and intermediate steps against a rubric. It points out errors and
   shorter paths but does not rewrite the learner's work.
 - `listener` grades the learner's spoken (transcribed), written and drawn explanations against the source
-  and lists what was missed.
+  (or by agent judgement when no source applies) and lists what was missed.
 - `diagnostician` reads `mistakes.md` and `sessions.md` across all subjects and names the root
   misunderstandings that keep coming up.
 - `sparring-partner` runs a timed, tough simulation (interview, sales call, speaking). Difficulty can be
@@ -129,8 +129,16 @@ working on many subjects.
 
 - Skill directory: `.agents/skills/<skill>/SKILL.md`, using portable frontmatter (`name`, `description`).
 - Card CLI: `python3 scripts/cards.py add|due|grade` acting on `subjects/<subject>/cards.json`.
-- Grading is based only on files in `subjects/<subject>/sources/`. If there is no source, the skill says so
-  and does not grade.
+- Grading uses applicable files in `subjects/<subject>/sources/` whenever they exist. Sources always take
+  precedence over agent judgement.
+- If `sources/` is missing or empty, or no source covers the topic or card, the skill automatically grades by agent
+  judgement. It first announces "no applicable source; grading by agent judgement" and does not ask the learner.
+- Gaps or conflicts within an applicable source stay marked `unverified`; agent judgement does not fill them.
+- Judgement-based grades say so in the feedback, and the `sessions.md` line records `graded: agent judgement`
+  (replacing `not graded: no source`). `mistakes.md` entries keep their existing format with no basis tag.
+- Judgement-based grades have the same effects as source-based grades: mistakes are logged, cards are suggested,
+  `review` calls `grade`, and `examiner` updates map statuses (including `passed`).
+- `clerk` is unchanged: it organises only the learner's own notes and never adds content from judgement.
 - Resource links are suggested only when they have been checked with a web or browser tool.
   Links that were not checked are marked as unverified.
 
@@ -157,4 +165,4 @@ working on many subjects.
 
 - Status: yes
 - Reason: Scope, skills, store layout, scheduling rules, mistake and session logging, source handling,
-  language and testing are all decided. The few remaining defaults are recorded under Assumptions.
+  language and testing are all decided, including the fallback to agent judgement when no source applies. The few remaining defaults are recorded under Assumptions.

@@ -24,8 +24,9 @@ reads, file writes, and shell commands. Resolve repository paths from the reposi
 - Ask the learner to outline what they already know or give a concrete unaided example before offering a map.
   Reuse specific evidence already supplied; clarify vague claims one question at a time. Do not supply answers
   before the learner attempts production.
-- Grade correctness only against applicable files in `sources/`. If none are available, say there is no source and
-  do not grade; use the goal and learner's self-report as provisional scope information, not proof of mastery.
+- Grade correctness against applicable files in `sources/`; they always take precedence. If `sources/` is missing
+  or empty, or no source covers the learner's examples, announce `no applicable source; grading by agent judgement`
+  without asking, grade by agent judgement, and record `graded: agent judgement` in the session line.
 
 ## Propose and refine the map
 

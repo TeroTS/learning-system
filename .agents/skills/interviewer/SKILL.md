@@ -41,10 +41,10 @@ Then ask goal-relevant level questions, starting easy and progressing to harder 
 recall, explain, predict, or attempt something unaided. Do not provide the answer, hints, or an explanation before
 an attempt. Stop when the learner cannot proceed or starts guessing, or when the goal's required level is demonstrated.
 
-Grade correctness only against files in this subject's `sources/`. If no applicable source is available, say so
-and do not grade; ask progressively more demanding production questions anyway, and describe the level as a
-provisional assessment based on demonstrated attempts and self-report, with correctness unverified.
-With sources, describe the assessed level using what the learner demonstrated and where they needed help.
+Grade correctness against applicable files in this subject's `sources/`; they always take precedence. If
+`sources/` is missing or empty, or no source covers these questions, announce `no applicable source; grading by
+agent judgement` without asking, grade by agent judgement, and note `graded: agent judgement` in the level and
+session line. Describe the assessed level using what the learner demonstrated and where they needed help.
 Do not claim mastery beyond the evidence. Do not turn this interview into a lesson or a topic exam.
 
 ## Summarize and save

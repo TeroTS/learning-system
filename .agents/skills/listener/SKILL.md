@@ -29,15 +29,17 @@ skill's directory.
 - Keep explanations in the conversation or read learner-authorized text files without copying or modifying them.
   Do not save explanations, transcripts, or drawing descriptions in the subject store.
 
-## Grade only against sources
+## Grade against sources, or by judgement when none apply
 
-Read applicable learner-supplied text files in `subjects/<subject>/sources/`. These are the **only** grading basis;
-never add to or change them. A learner's explanation, your general knowledge, and another explanation format are
-not substitutes for a source.
+Read applicable learner-supplied text files in `subjects/<subject>/sources/`; never add to or change them. When an
+applicable source exists it is the grading basis and takes precedence over your general knowledge. A learner's
+explanation and another explanation format are never substitutes for a source.
 
-If the folder is missing, empty, or contains no usable source for the topic, explicitly say there is no applicable
-source and do not grade, assert correctness, invent corrections, record unsupported mistakes, or suggest
-unsupported mistake-based cards. Finish with one session line recording `not graded: no source`.
+If the folder is missing, empty, or contains no source covering the topic, announce `no applicable source; grading
+by agent judgement` without asking, then grade by agent judgement. For that grading, read `source-supported` below
+as `supported by agent judgement`, cite agent judgement instead of a source passage, and record
+`graded: agent judgement` in the session line. Judgement-based grades have the same effects as source-based grades:
+mistakes are recorded and cards suggested.
 
 Use a rubric in the applicable sources if one exists. Otherwise, derive a concise checklist of required key ideas
 and relationships from those sources within the agreed topic scope. Make the grade basis explicit in the feedback,
@@ -56,8 +58,8 @@ For **each supplied explanation separately**:
   For a drawing description, distinguish `missing from the description` from claims about an unseen drawing.
 - Ask one focused clarification for genuinely ambiguous wording or relationships, without supplying the missing
   answer. Do not silently fill in a gap and award credit for your own interpretation.
-- If a source is insufficient or conflicting for a criterion or extra claim, mark that portion unverified and
-  explain the limitation rather than grade from outside knowledge. Identify any excluded criteria so partial
+- If an applicable source is insufficient or conflicting for a criterion or extra claim, mark that portion
+  unverified and explain the limitation rather than fill it from judgement. Identify any excluded criteria so partial
   source coverage cannot be mistaken for full validation.
 
 Do not merge formats into a single score that hides their differences or let a correct written explanation erase

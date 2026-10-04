@@ -35,8 +35,11 @@ Never show the raw due JSON, a list of backs, source excerpts, hints, or explana
 
 If the command fails, report the failure without exposing card content and do not treat it as an empty queue.
 If no cards are due, say so and finish with one session line recording `no cards due`; do not create card storage.
-If there are no usable sources, say there is no source and do not grade or change card scheduling. Finish with
-one session line recording `not graded: no source`, without labeling any answers right or wrong.
+An applicable source always takes precedence. If `sources/` is missing or empty, or no source covers a card,
+announce `no applicable source; grading by agent judgement` without asking, then grade that card by agent judgement.
+For such cards, read `source-supported` below as `supported by agent judgement`. Judgement-based grades have the same
+effects as source-based grades: run `grade`, record mistakes, and suggest cards. Include `graded: agent judgement`
+in the session line when any card was graded this way.
 
 ## Recall and grade one card at a time
 
@@ -47,13 +50,13 @@ For each card in the initial due queue:
 2. After the attempt, retrieve the current card through `due` with stdout captured, selecting only that card's id
    before displaying anything. Do not expose the other cards' backs. If it is no longer due or is missing, report
    that its state changed and do not grade the stale queue entry.
-3. Judge correctness only against applicable files in `sources/`. The stored back is the recall target, not a
-   substitute for a source. Accept source-supported paraphrases; do not require a verbatim answer or invent a
-   rubric from outside knowledge. If an answer is ambiguous, ask one clarification before revealing the back.
-4. If no source supports this card, or the back conflicts with the source, explain this after the attempt and leave
-   the card ungraded. Show the stored back only as unverified or conflicting content; do not silently repair it,
+3. Judge correctness against applicable files in `sources/`, or by agent judgement when none cover the card. The
+   stored back is the recall target, not a substitute for a source. Accept supported paraphrases; do not require a
+   verbatim answer. If an answer is ambiguous, ask one clarification before revealing the back.
+4. If the back conflicts with an applicable source, explain this after the attempt and leave
+   the card ungraded. Show the stored back only as conflicting content; do not silently repair it,
    claim correctness, or record an unsupported mistake.
-5. With an applicable source, show whether the attempt was right or wrong, the back, and a concise source-supported
+5. Otherwise, show whether the attempt was right or wrong, the back, and a concise source-supported
    correction when needed. For every wrong answer, append the mistake as described below without asking permission.
 6. Run exactly one grade command for this attempted card, using the learner's local date at grading time:
 

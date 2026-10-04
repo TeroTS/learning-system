@@ -20,8 +20,9 @@ and shell commands. Resolve repository paths from the repository root, not this 
   If the goal or its level is missing or unclear, treat the level as unknown and ask the learner what they can
   already do. Use their stated level; do not turn this session into a level assessment or rewrite the goal.
 - Read applicable learner-supplied text files in `sources/` for context and later correctness checks; never add
-  or change sources. If there is no applicable source, say so and do not grade correctness. A focused explanation
-  may still be given, but do not claim it was verified against a source.
+  or change sources. An applicable source always takes precedence. If `sources/` is missing or empty, or no source
+  covers this task, announce `no applicable source; grading by agent judgement` without asking; later correctness
+  checks then use agent judgement, and the explanation must not claim source verification.
 - Collect the concrete task, the exact stuck step, and the learner's attempted work up to that point, one question
   at a time. Reuse information already supplied. Ask the learner to attempt or explain what they tried before
   giving an explanation; an explicit account of an unsuccessful attempt is sufficient.
@@ -48,12 +49,10 @@ step or repeating your example is not a complete redo.
 - If they ask for help during the redo, mark that attempt as aided, not successful unaided production. If they want
   another explanation, first identify their attempted stuck step, explain only that step, and require a fresh
   from-start redo. Keep this within the same session; do not add a session line for each attempt.
-- With an applicable source, check the completed redo only after the learner submits it. Report whether it
-  succeeded unaided, failed, or needed help, using only the source for correctness judgments. A failed redo is
+- Check the completed redo only after the learner submits it. Report whether it succeeded unaided, failed, or
+  needed help, judging correctness against the applicable source, or by agent judgement when none applies. A failed
+  redo is
   still an attempt; do not force endless retries or pretend that explanation alone resolved the task.
-- Without an applicable source, record whether a full unaided redo was demonstrated, but leave correctness
-  unverified. If needed, ask the learner whether their redo achieved the task's outcome and label success as
-  learner-reported, not independently graded.
 
 Do not call the session complete until a from-start redo has been attempted. If the learner explicitly stops or
 refuses before attempting it, respect that choice and record `incomplete: redo not attempted`, never success.
@@ -68,7 +67,7 @@ At session end, append exactly one line to `subjects/<subject>/sessions.md`, cre
 ```
 
 Use a concise task topic, or `-` if no topic is established. When no source applies, explicitly include
-`correctness unverified` and identify any claimed success as learner-reported. Use the learner's local calendar
+`graded: agent judgement`. Use the learner's local calendar
 date in ISO `YYYY-MM-DD`; ask if their local date is uncertain. Replace literal `|` inside fields with `/` and
 collapse field newlines to spaces. Preserve all existing lines; do not append separate entries for explanations,
 corrections, or repeated attempts.

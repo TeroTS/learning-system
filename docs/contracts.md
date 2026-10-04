@@ -171,7 +171,10 @@ every skill reads and writes the same formats. Source: `SPEC.md`, with `DECISION
 - Payload / Shape: any text-readable files in `subjects/<subject>/sources/`.
 - Ordering / Idempotency expectations: None.
 - Visibility / Security: Skills never change or add to sources.
-- Failure / Retry expectations: If the folder is missing or empty, the skill says there is no source and does not grade.
+- Failure / Retry expectations: Applicable sources always take precedence. If the folder is missing or empty, or no
+  source covers the topic or card, the skill announces "no applicable source; grading by agent judgement", grades by
+  agent judgement with the same effects as source-based grading, and records `graded: agent judgement` in the
+  session line. Gaps or conflicts within an applicable source stay `unverified`.
 
 ### Contract 8: Skill file
 

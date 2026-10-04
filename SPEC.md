@@ -36,8 +36,9 @@ Source: `DECISIONS.md`
 - Skills that catch mistakes (`socratic-questioner`, `examiner`, `checker`, `listener`, `sparring-partner`, `review`)
   add each mistake to `subjects/<subject>/mistakes.md` with the date, skill, mistake and correct idea. At the end of the session
   they suggest cards based on those mistakes and add only the ones the learner confirms, using `scripts/cards.py add`.
-- Grading against a source uses only files in `subjects/<subject>/sources/`. If there is no source, the skill says so
-  and does not grade.
+- Grading uses applicable files in `subjects/<subject>/sources/` whenever they exist, and sources always take precedence.
+  If no source applies (folder missing or empty, or no source covers the topic or card), the skill grades by agent
+  judgement as described in US-14. Gaps or conflicts within an applicable source stay marked `unverified`.
 - Resource links are given only after they have been checked with a web or browser tool. Otherwise they are
   marked as unverified.
 - Dates are the learner's local calendar date in ISO `YYYY-MM-DD` format.
@@ -250,7 +251,7 @@ Authoritative state transition: Missed points are added to `mistakes.md`, and on
 Slice boundary: `listener` skill, `sources/`, `mistakes.md`, `sessions.md`, card suggestions.
 
 Acceptance criteria:
-- Grading uses only `sources/`. If there is no source, the skill says so and does not grade.
+- Grading uses `sources/` when an applicable source exists. Otherwise it falls back to agent judgement (US-14).
 - Card suggestions follow the shared rule.
 
 Deferred follow-ups:
@@ -311,6 +312,34 @@ Slice boundary: `diagnostician` skill, all `subjects/*/mistakes.md` and `subject
 Acceptance criteria:
 - Every root misunderstanding cites the specific mistakes behind it, which may come from different subjects.
 - If there are no mistakes, the skill says so and diagnoses nothing.
+
+Deferred follow-ups:
+- None.
+
+### US-14: Get graded without a source
+Primary actor: Learner
+
+Trigger: The learner runs a grading skill (`interviewer`, `mapmaker`, `explainer`, `socratic-questioner`, `examiner`,
+`checker`, `listener`, `review` or `sparring-partner`) on a topic or card that no file in `subjects/<subject>/sources/` covers.
+
+Happy-path action: The skill announces "no applicable source; grading by agent judgement" without asking the learner,
+then grades the learner's answers by agent judgement.
+
+Visible outcome: The learner sees grades and feedback marked as based on agent judgement.
+
+Authoritative state transition: One line is added to `sessions.md` that records `graded: agent judgement` instead of
+`not graded: no source`.
+
+Slice boundary: The source rules in the affected `SKILL.md` files, plus `sessions.md`. No script changes.
+
+Acceptance criteria:
+- The fallback applies only when `sources/` is missing or empty, or no source covers the topic or card. An applicable
+  source is always used instead of judgement.
+- Gaps or conflicts within an applicable source stay marked `unverified` and are not filled by judgement.
+- Judgement-based grades have the same effects as source-based grades: mistakes are logged to `mistakes.md` in the
+  existing format (no basis tag), cards are suggested, `review` calls `scripts/cards.py grade`, and `examiner` updates
+  `map.md` statuses, including `passed`.
+- `clerk` is unchanged and never adds content from judgement.
 
 Deferred follow-ups:
 - None.

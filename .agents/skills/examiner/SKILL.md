@@ -22,10 +22,13 @@ shell commands. Resolve repository paths from the repository root, not this skil
 - Resolve the selected topic to its exact, unique kebab-case name in the map, not a substring or similarly named
   topic. If the map or topic is missing, report that its status cannot be updated and do not create or change the
   map. If the topic's entry is duplicated or malformed, report the ambiguity and leave the map unchanged. An exam
-  can still proceed on the clearly identified topic when applicable sources support it.
-- Read learner-supplied text files in `sources/` for grading; never add or change sources. If none support this
-  topic, say there is no applicable source and do not grade, report an assessed level, assert mistakes, suggest
-  unsupported cards, or change map statuses. End with one session line recording `not graded: no source`.
+  can still proceed on the clearly identified topic.
+- Read learner-supplied text files in `sources/` for grading; never add or change sources. An applicable source
+  always takes precedence. If `sources/` is missing or empty, or no source covers this topic, announce
+  `no applicable source; grading by agent judgement` without asking, then grade by agent judgement. For that exam,
+  read `source-supported` below as `supported by agent judgement` and record `graded: agent judgement` in the
+  session line. Judgement-based results have the same effects as source-based ones: level report, mistakes, card
+  suggestions, and map status updates, including `passed`.
 
 Before the first question, establish a finite ladder of increasingly demanding, source-supported tasks for this
 topic, from basic recall to the target outcome. Briefly state the target and score basis without showing questions,
@@ -39,8 +42,9 @@ only this topic's status may change, including a previously `passed` topic retur
 
 1. Ask an easy, topic-relevant production question. Wait for the learner's unaided answer; never supply a hint,
    answer, solution, or grading-source excerpt before their attempt.
-2. Judge the answer only against the applicable sources. Require the reasoning needed by the question, not a
-   word-for-word match. A correct result explicitly admitted to be a guess does not demonstrate understanding.
+2. Judge the answer against the applicable sources, or by agent judgement when none apply. Require the reasoning
+   needed by the question, not a word-for-word match. A correct result explicitly admitted to be a guess does not
+   demonstrate understanding.
 3. If the answer is genuinely ambiguous, ask one non-leading clarification about their reasoning before deciding.
    This clarifies the same scored question; it is not a retry, another scored level, or permission to teach the
    answer. Do not treat uncertainty in your grading evidence as proof that the learner failed.
@@ -52,7 +56,7 @@ only this topic's status may change, including a previously `passed` topic retur
 6. If the learner demonstrates every level through the announced target without failure or guessing, end as
    target completed. Do not keep raising difficulty indefinitely to force a failure beyond the target.
 
-If sources become insufficient or conflicting, stop as inconclusive rather than grade from outside knowledge.
+If applicable sources become insufficient or conflicting, stop as inconclusive rather than fill gaps from judgement.
 If the learner explicitly ends early, respect that choice and record partial completion, not a pass. An exam
 stopped by missing evidence or interruption does not justify a new map status.
 
@@ -78,7 +82,7 @@ Update `map.md` only when the exam has a supported terminal result and the selec
 
 - First clear failure or guess: set that topic's status to `learning`.
 - Entire announced target demonstrated unaided: set that topic's status to `passed`.
-- No grading source, insufficient evidence, or interrupted exam: leave its status unchanged.
+- Insufficient evidence within an applicable source, or interrupted exam: leave its status unchanged.
 
 Re-read the map before saving. Replace **only the selected topic's status token**, preserving its name,
 dependencies, sticking points, order, formatting, and every other byte. Never change other topics, prerequisites,

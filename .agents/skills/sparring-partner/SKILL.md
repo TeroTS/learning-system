@@ -28,9 +28,11 @@ file writes, and shell commands. Resolve repository paths from the repository ro
   Use their rubric if available, otherwise derive a small set of source-backed criteria relevant to the scenario.
   Explain the basis without supplying model answers. Do not invent a global score scale.
 
-If no applicable source exists, say so and do not grade correctness, invent a score, or record unsupported mistakes
-or correct ideas. A simulation may still proceed as explicitly ungraded production with in-character requests
-for specifics; record `not graded: no source` at the end. Fictional scenario details are simulation context, not
+An applicable source always takes precedence. If `sources/` is missing or empty, or no source covers this scenario,
+announce `no applicable source; grading by agent judgement` without asking, then derive criteria and score by agent
+judgement. For that session, read `source-supported` and `source evidence` below as `agent judgement`, and record
+`graded: agent judgement` in the session line. Judgement-based scores have the same effects as source-based ones:
+mistakes are recorded and cards suggested. Fictional scenario details are simulation context, not
 new grading sources or real-world facts.
 
 ## Establish real per-answer timing
@@ -78,10 +80,11 @@ a simulation transcript, audio, or video, or invent delivery details unavailable
 
 ## Score, capture mistakes, and suggest cards
 
-With applicable sources, report the source-rubric score or satisfied criteria out of applicable assessed criteria,
+Report the source-rubric score or satisfied criteria out of applicable assessed criteria,
 and explain the strongest and weakest answers using specific prompt locations and source evidence. Mark any
-unsupported or conflicting criteria ungraded rather than substituting general knowledge. Do not claim an overall
-score if nothing was gradable. State which rounds were assessed and which were incomplete or unverified.
+criteria an applicable source leaves unsupported or conflicting as ungraded rather than filling them from judgement.
+Do not claim an overall score if nothing was gradable. State which rounds were assessed and which were incomplete
+or unverified.
 
 Report timing separately as on-time, late, timeout, or unverified for each answer and a compliance count with its
 measurement provenance. If the source rubric includes timing, apply the supplied limit using the agreed timing
