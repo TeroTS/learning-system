@@ -1,3 +1,16 @@
+type Task = {
+  id: number,
+  title: string,
+  completed: boolean,
+  description?: string
+}
+
+function getDescription(task: Task): string | undefined {
+  if (task.description !== undefined) {
+    return task.description;
+  }
+}
+
 function normalizeTitle(value: unknown): string | undefined {
   if (typeof value === "string") {
     return value.trim();

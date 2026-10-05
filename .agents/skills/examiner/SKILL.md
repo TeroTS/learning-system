@@ -20,9 +20,9 @@ shell commands. Resolve repository paths from the repository root, not this skil
   and test format. If the goal or level is missing, treat it as unknown and ask the learner about their current
   level and intended outcome, one question at a time; do not write a goal.
 - Resolve the selected topic to its exact, unique kebab-case name in the map, not a substring or similarly named
-  topic. If the map or topic is missing, report that its status cannot be updated and do not create or change the
-  map. If the topic's entry is duplicated or malformed, report the ambiguity and leave the map unchanged. An exam
-  can still proceed on the clearly identified topic.
+  topic. If the map, topic or accepted scope/target is missing, report the gate limitation and offer a mapmaker
+  handoff; do not create or change scope or begin an exam. If an entry is duplicated or malformed, report the
+  ambiguity and leave the map unchanged. A clearly named topic alone is not an accepted exam target.
 - Read learner-supplied text files in `sources/` for grading; never add or change sources. An applicable source
   always takes precedence. If `sources/` is missing or empty, or no source covers this topic, announce
   `no applicable source; grading by agent judgement` without asking, then grade by agent judgement. For that exam,
@@ -34,21 +34,19 @@ shell commands. Resolve repository paths from the repository root, not this skil
 
 Apply `Check exam readiness` independently before the first question, including after a handoff from another skill.
 
-- Compare the selected topic's sticking points in `map.md` with concrete learner production in `sessions.md` and
-  the current conversation. Sticking points are a minimum checklist, not an exhaustive topic specification.
-  Use the goal and applicable sources to establish the goal-relevant scope; do not add unrelated concepts.
-- Coverage requires learner production with a resolved outcome. Aided production may establish coverage, not
-  unaided mastery. Passive exposure, self-report, topic status and dependency status are not coverage evidence.
-  Missing or vague evidence means coverage is unknown, not complete. If the map or scope is missing or ambiguous,
-  clarify the scope and evidence with the learner rather than assume readiness.
-- A single correction or successful redo does not establish whole-topic readiness.
-- If any required concept is uncovered, unresolved, or unknown, do not propose or start a whole-topic exam.
-  Name the gaps and offer continued learning within the current role or a learner-confirmed handoff; do not teach
-  outside this role's boundaries or silently switch roles. Readiness checks never change map status.
+- Read `docs/contracts.md` Contracts 4 and 6 and `Progression gate` before offering continuation, an exam or the next topic.
+  Apply its ordered decision table using the accepted checklist and passing target in `map.md` and cited production
+  evidence. Do not infer additional required concepts from goals, sources or sticking points.
+- Missing accepted scope requires a mapmaker handoff, not an invented checklist. Unmet dependencies require the
+  disclosed dependency action; unknown or unresolved requirements require continued learning in checklist order.
+  All requirements resolved permits an exam offer, not a pass. Readiness checks never change map status.
+- Wait for confirmation before switching roles or applying a disclosed progression override. Readiness alone does
+  not justify moving topics; do not offer the next topic merely because one redo or correction succeeded.
 - An early diagnostic exam is allowed only when explicitly requested by the learner. Disclose the uncovered or
   unknown concepts and that this exam can set the topic to `learning` on failure or `passed` on target completion,
-  then obtain informed confirmation before starting or handing off. A bare `ok` to a premature exam offer is not
-  an informed diagnostic request. Do not silently shrink the exam target to the concepts already covered.
+  and any unmet dependencies, then obtain informed confirmation before starting or handing off. A bare `ok` to a
+  premature exam offer is not an informed diagnostic request. Do not silently shrink the exam target to the concepts
+  already covered. No accepted target means no diagnostic exam.
 
 If readiness is blocked and the learner ends or chooses continued learning before the exam starts, record
 `not started: coverage incomplete or unknown` in the single session line, with the specific gaps and no invented
@@ -57,12 +55,29 @@ score. Leave the map unchanged.
 ## Announce the exam target
 
 Only after readiness or an informed diagnostic request is established, create a finite ladder of increasingly
-demanding, source-supported tasks for this topic, from basic recall to the target outcome. Briefly state the target
-and score basis without showing questions, answers, or source excerpts. Use the goal's target, or the learner's stated target when no goal exists; do not
-invent a fixed global passing threshold or move the target after the exam starts.
+demanding, source-supported tasks for this topic, from basic recall to the target outcome. Use the accepted passing target in `map.md`
+and cover every accepted requirement. Do not add requirements or change passing criteria during the exam.
+Question wording may vary, not required concepts or success conditions. Briefly state the accepted target and score
+basis without showing questions, answers, or source excerpts. Do not invent a global passing threshold. If the target
+cannot support a clear ladder, offer a mapmaker clarification rather than silently revising it.
 
 Completing the target unaided counts as `passed`; a clear failure or guess counts as `learning`. Disclose that
 only this topic's status may change, including a previously `passed` topic returning to `learning` on failure.
+
+## Choose fresh exam tasks
+
+Compare proposed tasks with learning and previous exam examples in the current conversation and `sessions.md` task summaries
+before presenting each scored question. Do not reuse learning examples as scored exam questions.
+Do not repeat previous exam solutions either. Renaming identifiers or swapping values alone is not sufficient.
+Change the reasoning task and context/data so the learner must apply the same accepted concepts independently,
+without adding requirements, unlearned concepts or difficulty beyond the accepted target. Standard syntax intrinsic
+to the concept may recur; a previously solved task and its solution chain must not.
+
+If prior task history is insufficient, choose a new scenario and report `freshness unverified`, not proven novelty.
+Replace a duplicate before asking. If duplication is discovered after presentation, withdraw it unscored and replace
+it at the same level before giving feedback; it is not a learner failure or a scored retry.
+Repeated examples do not count as transfer evidence. Do not retroactively rewrite historical grades or force a
+re-exam when the learner declines one.
 
 ## Ask until the first failure or guess
 
@@ -136,6 +151,9 @@ Append exactly one line to `sessions.md`, creating it with `# Sessions` if missi
 - <YYYY-MM-DD> | examiner | <topic or -> | <correct/attempted; highest level/target levels; failure point or target completed; persistence limitations>
 ```
 
+Record tested requirement IDs, resolved/unresolved/unknown states, unaided attribution and concise evidence per
+`docs/contracts.md` Contract 6. Include short task context and any freshness-comparison limits, not full questions,
+solutions or transcripts. Never claim unasked requirements were demonstrated.
 For ungraded or inconclusive sessions, record that limitation instead of inventing a score. Use the learner's
 local calendar date in ISO `YYYY-MM-DD`, asking if uncertain. Date mistakes when caught, cards when added, and
 the session line at session end. Replace literal `|` inside log fields with `/` and collapse field newlines to

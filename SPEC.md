@@ -42,6 +42,13 @@ Source: `DECISIONS.md`
 - Resource links are given only after they have been checked with a web or browser tool. Otherwise they are
   marked as unverified.
 - Dates are the learner's local calendar date in ISO `YYYY-MM-DD` format.
+- Before choosing a continuation role, offering an exam or moving topics, apply `docs/contracts.md` `Progression gate`.
+  Topic scope is a finite learner-approved checklist and passing target in `map.md`; goals, sources and sticking points
+  cannot silently expand it. Scope amendments and progression overrides require explicit approval. Role changes require
+  confirmation; readiness never changes map status.
+- Evidence states are resolved, unresolved or unknown. Use requirement-specific learner production, citing the latest
+  substantive applicable outcome in append order. Aided production establishes coverage, not unaided mastery; missing,
+  vague or unverified evidence is unknown. Interruptions without production do not erase earlier evidence. Preserve history.
 
 ## User Stories
 
@@ -77,12 +84,18 @@ Happy-path action: The learner reviews and accepts the proposed map.
 
 Visible outcome: The learner sees the topics in dependency order, with the usual sticking points marked.
 
-Authoritative state transition: `subjects/<subject>/map.md` is written, with every topic set to `todo`.
+Authoritative state transition: `subjects/<subject>/map.md` is written. Initial creation and full replacement set
+included topics to `todo`; approved scope amendments preserve unaffected statuses and disclose affected resets.
 
 Slice boundary: `mapmaker` skill, `map.md`, `sessions.md` line.
 
 Acceptance criteria:
-- `map.md` lists the main parts of the subject, how the topics depend on each other and where learners usually get stuck. Each topic has a status.
+- `map.md` lists the main parts of the subject, dependencies and sticking points. Each topic has a status, a finite
+  learner-approved requirement checklist with observable success criteria, and a passing target, per Contract 4.
+- Require approval before writing scope; unchanged criteria retain IDs, materially changed criteria get new IDs.
+- Scope-only amendments preserve unaffected statuses and history. Changing a passed topic's target requires a disclosed,
+  approved reset of that topic to `todo`; full map replacement retains the disclosed reset of included topics.
+- Legacy maps without accepted requirements and targets need scope approval before readiness can be claimed.
 - The map is fitted to `goal.md` when it exists, and topics the learner already knows are skipped.
 - Resource links follow the link-checking rule.
 - One line is added to `sessions.md`.
@@ -172,8 +185,8 @@ Slice boundary: `explainer` skill, `sessions.md` line.
 Acceptance criteria:
 - The explanation covers only the stuck step, at the level recorded in `goal.md` or stated by the learner.
 - The skill requires the redo from the start and does not count the session as complete until the redo is attempted.
-- The session result names the specific concepts attempted and their outcomes (unaided, aided, unresolved or
-  incomplete); historical lines are not rewritten.
+- The session result names concepts, accepted requirement IDs when available, coverage states (resolved, unresolved or
+  unknown), aided/unaided attribution and concise production evidence per Contract 6; history is not rewritten.
 - A successful redo does not automatically trigger a whole-topic exam offer. Apply the exam-readiness rule in US-08
   before offering a handoff, and wait for explicit confirmation before switching roles.
 
@@ -195,8 +208,8 @@ Slice boundary: `socratic-questioner` skill, `mistakes.md`, `sessions.md`, card 
 
 Acceptance criteria:
 - The skill never gives the answer directly. It responds with follow-up questions.
-- The session result names the specific concepts attempted and their outcomes (unaided, aided, unresolved or
-  incomplete); historical lines are not rewritten.
+- The session result names concepts, accepted requirement IDs when available, coverage states (resolved, unresolved or
+  unknown), aided/unaided attribution and concise production evidence per Contract 6; history is not rewritten.
 - A demonstrated correction does not automatically trigger a whole-topic exam offer. Apply the exam-readiness rule
   in US-08 before offering a handoff, and wait for explicit confirmation before switching roles.
 - Card suggestions follow the shared rule.
@@ -218,16 +231,25 @@ Authoritative state transition: The topic's status in `map.md` is updated (`lear
 Slice boundary: `examiner` skill, `map.md`, `mistakes.md`, `sessions.md`, card suggestions.
 
 Acceptance criteria:
-- Before proposing or starting an exam, compare the selected topic's sticking points in `map.md` with concrete
-  learner production in `sessions.md` and the current conversation. Sticking points are a minimum checklist,
-  not an exhaustive topic specification; establish the goal-relevant scope using the goal and applicable sources.
-- Coverage requires concrete learner production with a resolved outcome. Aided production establishes coverage,
-  not unaided mastery. Passive exposure, self-report, missing or vague evidence, and unresolved attempts do not
-  establish readiness. One correction or redo is not evidence of whole-topic readiness.
-- The examiner independently checks readiness before the first question. If coverage is incomplete or unknown,
-  name the gaps and offer continued learning without silently switching roles or changing map status.
-- An early diagnostic exam requires an explicit learner request and informed confirmation after disclosing gaps
-  and the normal map-status effects. A bare `ok` to a premature offer is insufficient. Do not shrink the target to
+- Before proposing or starting an exam, independently apply `docs/contracts.md` `Progression gate`, using the accepted
+  requirement checklist, passing target and cited production evidence. Do not infer extra requirements at runtime.
+- Missing accepted scope blocks the exam; unmet dependencies block normal progression; unknown or unresolved requirements
+  require continued learning. All requirements resolved permits an exam offer, not a pass or automatic topic advancement.
+- Use the accepted passing target to build the finite difficulty ladder. Questions may vary but requirements and passing
+  criteria cannot change during the exam. Completing the entire accepted target unaided earns `passed`.
+- Scored exam tasks use fresh applications of accepted concepts, not learning examples or previous exam solutions.
+  Changing only identifiers or values is insufficient; vary the reasoning task and context/data within accepted scope.
+  Standard syntax may recur. Compare tasks with available conversation and session summaries before presenting them.
+- If task history is insufficient, choose new scenarios and report freshness unverified. A duplicate discovered during
+  an exam is withdrawn unscored and replaced at the same level before feedback; it is not a learner failure.
+  Repeated examples do not count as transfer evidence. Log short task context without full questions or solutions.
+- Learning follow-ups and required explainer redos may reuse the original task; exam handoffs preserve concept evidence,
+  not a pre-solved question. Do not retroactively rewrite historical grades when updating these instructions.
+- After a pass, offer the first unpassed, dependency-ready topic in map order; all topics passed with valid accepted
+  scope and resolved coverage means map completion. Requested re-exams use the same accepted target and gate.
+  Explicit skips never mark topics passed or satisfy dependencies and require disclosed, confirmed overrides.
+- An early diagnostic exam requires an accepted passing target, an explicit learner request and informed confirmation
+  after disclosing gaps and the normal map-status effects. A bare `ok` to a premature offer is insufficient. Do not shrink the target to
   covered concepts; diagnostic exams keep the normal grading and status rules.
 - Each question is harder than the last, and the exam stops at the first clear failure or guess.
 - Only the examined topic's status changes in `map.md`; interrupted or unstarted exams leave it unchanged.
@@ -362,6 +384,34 @@ Acceptance criteria:
 
 Deferred follow-ups:
 - None.
+
+### US-15: Resume learning with fixed progression
+Primary actor: Learner
+
+Trigger: The learner asks to continue a subject, select another topic, or move on.
+
+Happy-path action: Before choosing a role, the agent reads accepted scope and cited production evidence and applies
+`docs/contracts.md` `Progression gate` in its specified order.
+
+Visible outcome: The learner sees the next required action and the evidence supporting it, not an improvised scope.
+
+Authoritative state transition: None from routing. Scope amendments require mapmaker approval; exam results retain
+US-08 status rules. Role handoffs and disclosed progression overrides require confirmation.
+
+Slice boundary: `AGENTS.md`, the shared progression contract, affected skills and instruction-contract tests.
+
+Acceptance criteria:
+- Explicit topic selection is respected but cannot silently bypass unmet dependencies or missing accepted scope.
+- Missing accepted scope offers mapmaker approval; unknown/unresolved evidence offers the first gap in checklist order.
+- Complete coverage offers an exam, not a pass; passing offers the first unpassed, dependency-ready topic in map order.
+- No selection means the first unpassed topic in map order; all topics passed requires valid scope and coverage before
+  reporting completion. A requested re-exam uses the same accepted target and readiness rules.
+- Same accepted map and evidence imply the same prescribed action. Question wording and grading may involve judgement.
+- Skips, dependency overrides and diagnostics follow the disclosed confirmation rules and do not invent passes.
+- Repository maintenance does not create learning-session entries or approve scope for the learner.
+
+Deferred follow-ups:
+- An executable progression engine or live agent-evaluation runner; instruction checks do not prove agent compliance.
 
 ## Open Questions
 - None. Card ids, CLI arguments and output, and where the diagnostician's session line goes are settled in `docs/contracts.md`.

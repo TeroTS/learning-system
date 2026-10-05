@@ -1,59 +1,58 @@
 # Current Slice
 
-Status: done
+Status: implementation complete; TypeScript scope approval pending
 
 ## Slice Goal
-- Let the learner get graded by agent judgement when no source applies, instead of getting no grade.
 
-## Slice Boundary
-- Learner runs a grading skill on a topic or card that no source covers; the skill announces "no applicable source;
-  grading by agent judgement", grades by agent judgement, and appends one session line recording
-  `graded: agent judgement`.
+Fix accepted topic scope and make continuation, exam readiness and next-topic routing use one ordered decision rule.
 
 ## Stories In Scope
-- `US-14 Get graded without a source`
 
-## Stories Completed In This Slice
-- `US-14 Get graded without a source`
+- US-02: approved finite topic requirements, targets and scope amendments.
+- US-06 and US-07: requirement-specific production evidence and gated handoffs.
+- US-08: independent readiness checks and exams against fixed accepted targets.
+- US-15: general continuation applies the same gate before choosing a role.
 
-## Stories Remaining In This Slice
-- None.
+## Contract and Decision Inputs
 
-## Contract Inputs
-- `docs/contracts.md`: Contract 7 (`sources/`) failure expectation changes from "does not grade" to the judgement
-  fallback; Contract 6 session line format is unchanged.
+- `DECISIONS.md`: fixed scope, evidence rules, progression, approval and diagnostic exceptions.
+- `docs/contracts.md`: Contracts 4 and 6 and `Progression gate`.
+- `docs/plans/deterministic-learning-progression.md`: accepted implementation plan.
 
-## Decision Inputs
-- `DECISIONS.md` Interface / Contract Expectations: fallback trigger, announcement, labeling, and full side effects.
+## Surfaces Changed
 
-## Shared State Required Now
-- None new. The session line result field carries `graded: agent judgement`; mistake line format is unchanged.
+- `AGENTS.md`, mapmaker, explainer, socratic-questioner and examiner instructions.
+- Decisions, specification, contracts, README and regression scenario documentation.
+- `tests/test_exam_readiness.py`: instruction-contract checks, not a live behavioral runner.
 
-## Operations / Endpoints / Surfaces In This Slice
-- `SKILL.md` of `interviewer`, `mapmaker`, `explainer`, `socratic-questioner`, `examiner`, `checker`, `listener`,
-  `review`, `sparring-partner`.
-- `docs/contracts.md` Contract 7.
+## State and Ownership
+
+- No new subject files, CLI changes, dependencies or card-format changes.
+- Mapmaker owns approved scope amendments; examiner changes only the examined topic's status.
+- History remains append-only; coverage is derived and cited, not stored in a second mutable ledger.
+- Learner files are unchanged. The pre-existing AWS session modification is outside this slice.
 
 ## Tests Required
-- Instruction review of each affected skill against US-14 acceptance criteria.
-- Grep confirms no remaining `not graded: no source` or "do not grade" no-source rule in skills or contracts.
-- `make check` and `git diff --check` pass. No automated skill-Markdown tests per SPEC.md.
 
-## Not Now
-- `clerk` and `diagnostician` changes; basis tags in `mistakes.md`; Python changes.
+```bash
+.venv/bin/python -m unittest tests.test_exam_readiness
+make test
+make coverage
+make check
+git diff --check
+```
 
-## Done When
-- Every affected skill grades by agent judgement when no source applies, announces it, labels it, and applies the
-  same side effects as source-based grading, while applicable sources still take precedence and in-source gaps
-  stay `unverified`.
+## Verification
 
-## Completion Summary
-- Nine grading skills now announce `no applicable source; grading by agent judgement` and grade by judgement when
-  `sources/` is missing, empty, or does not cover the topic or card, recording `graded: agent judgement`.
-- Judgement grades have full effects: mistakes, card suggestions, `review` scheduling, `examiner` map statuses.
-- Applicable sources still take precedence; in-source gaps or conflicts stay `unverified`. Contract 7 updated.
-- `sparring-partner` also had the no-source block; added to US-14 in `SPEC.md`.
-- `make check` (100% coverage) and `git diff --check` pass. No live agent-session test was run.
+- Baseline: 52 passing tests, 100% script coverage.
+- New instruction checks observed failing before changes: 43 assertion failures across 9 tests.
+- Final results: 58 tests pass; 100% script coverage unchanged; `make check` and `git diff --check` pass.
+  Details: `docs/plans/deterministic-learning-progression.md` implementation record.
+- Synthetic rule review: documented in `docs/testing/exam-readiness.md`; independent live agent replay not run.
 
-## Next Slice Recommendation
-- No explicit next story remains in `SPEC.md`.
+## Deferred / Pending
+
+- `docs/plans/typescript-scope-proposal.md` proposes criteria and evidence mapping, not accepted learner scope.
+- Obtain explicit approval before amending `subjects/typescript/map.md` or resuming learning under that scope.
+- Other subjects remain legacy maps until individually approved; do not automatically migrate them.
+- Executable routing, LLM behavioral evaluation and CI remain outside this change.

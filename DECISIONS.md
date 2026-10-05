@@ -63,8 +63,8 @@ working on many subjects.
 - One learner, several subjects. Each subject has its own folder, `subjects/<subject>/`.
 - Files in each subject folder:
   - `goal.md`: goal, current level, deadline and how the learner will be tested (written by `interviewer`).
-  - `map.md`: curriculum topics, each with a status of `todo`, `learning` or `passed` (written by `mapmaker`;
-    status updated by `examiner`).
+  - `map.md`: topics, dependencies, sticking points, learner-approved requirement checklists and passing targets;
+    each topic has a status of `todo`, `learning` or `passed` (written by `mapmaker`; exam status updated by `examiner`).
   - `mistakes.md`: entries appended automatically. Each entry has the date, skill, mistake and correct idea.
   - `sessions.md`: one line per session with the date, skill, topic and result or score.
   - `cards.json`: flashcards. Only `scripts/cards.py` writes to this file.
@@ -116,16 +116,33 @@ working on many subjects.
 
 - Typical flow: `interviewer` → `mapmaker` → study, with `explainer` as needed → `socratic-questioner` /
   `examiner` / `checker` / `listener` / `sparring-partner` → `review` on a schedule → `diagnostician` from time to time.
-- Before proposing or starting a whole-topic exam, compare the topic's sticking points in `map.md` with concrete
-  learner production in `sessions.md` and the current conversation. Sticking points are a minimum checklist,
-  not an exhaustive topic specification; use the goal and applicable sources to establish the topic's scope.
-- Coverage requires concrete learner production with a resolved outcome. Aided production can establish coverage,
-  not unaided mastery. Passive exposure, self-report, missing or vague evidence, and unresolved attempts do not
-  establish readiness. One successful correction or redo does not establish whole-topic readiness.
-- If coverage is incomplete or unknown, name the gaps and offer continued learning without silently switching roles.
-  The examiner independently checks readiness before the first question. Readiness checks never change map status.
-- An early diagnostic exam requires an explicit learner request and informed confirmation after disclosing gaps
-  and the existing map-status effects (`learning` on failure, `passed` on target completion). A bare `ok` to a
+- Each topic has a finite learner-approved checklist of observable requirements and a passing target in `map.md`.
+  Goals and sources inform scope proposals and grading, not silent scope expansion. Sticking points are annotations.
+- Apply `docs/contracts.md` `Progression gate` before choosing a continuation role, offering an exam or moving topics.
+  Missing accepted scope requires a mapmaker handoff; unmet dependencies require learning the earliest unmet dependency;
+  unknown or unresolved requirements require continued learning in checklist order; complete coverage offers an exam;
+  only a passed topic permits normal progression to the first unpassed, dependency-ready topic in map order.
+- Coverage requires concrete learner production with a resolved outcome. Aided production establishes coverage,
+  not unaided mastery. Missing, vague or unverified evidence is unknown; misconceptions without correction are unresolved.
+  Use the latest substantive applicable outcome in append order and cite its session entry. Interrupted sessions without
+  production do not erase earlier evidence. Legacy evidence must clearly match an accepted criterion.
+- Scope changes require explicit approval through mapmaker. Unchanged criteria keep their IDs; materially changed criteria
+  get new IDs. Scope amendments preserve unaffected statuses; changing a passed topic's target requires a disclosed,
+  approved reset to `todo`. Full replacement keeps its existing disclosed reset rule.
+- Scope and evidence use Contracts 4 and 6 in `docs/contracts.md`; no new store files or dependencies are added.
+- The examiner independently applies the gate before the first question and uses only the accepted passing target.
+  Readiness checks never change map status. Only an unaided completed target earns `passed`.
+- Exams test transfer using fresh tasks within the same accepted requirements, not repeated learning examples or
+  previous exam solutions. Renaming identifiers or swapping values alone is insufficient; vary the reasoning task
+  and context/data without adding scope or difficulty beyond the target. Standard syntax may recur.
+- Compare exam tasks against available conversation and concise session task summaries before scoring. If history
+  is insufficient, choose a new scenario and report freshness as unverified, not proven. Store short task context
+  in the existing session result field, not full questions, solutions or transcripts. Learning follow-ups and
+  explainer redos may reuse the learning task; an exam handoff does not convert that redo into an exam question.
+- Explicit skips and dependency overrides require disclosure and confirmation; they never mark topics passed or satisfy
+  dependencies. Explicit topic selection alone is not approval to bypass the gate. Role changes require confirmation.
+- An early diagnostic exam requires an accepted passing target, an explicit learner request and informed confirmation
+  after disclosing gaps and the existing map-status effects (`learning` on failure, `passed` on target completion). A bare `ok` to a
   premature offer is insufficient. Diagnostic exams keep the whole-topic target and normal grading rules.
 - Focused automated instruction-contract checks protect these rules; scenario review complements them but neither
   proves that every agent will follow the instructions.

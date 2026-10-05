@@ -108,9 +108,12 @@ every skill reads and writes the same formats. Source: `SPEC.md`, with `DECISION
 ### Contract 4: `map.md`
 
 - Kind: Markdown file format.
-- Producers / Owners: `mapmaker` writes it. `examiner` changes only the status of the examined topic.
-- Consumers: `examiner`, `socratic-questioner`, `explainer`, `diagnostician`.
-- Trigger / Direction: Written when the learner accepts a map. The status is updated after an exam.
+- Producers / Owners: `mapmaker` writes approved maps and scope amendments. `examiner` changes only the status of
+  the examined topic. Scope amendments preserve unaffected statuses; changing a passed topic's target requires an
+  explicitly approved reset of that topic to `todo`. A legacy passed topic without an accepted target also requires
+  that disclosed, approved reset. Full replacement resets included statuses after disclosure.
+- Consumers: `mapmaker`, `examiner`, `socratic-questioner`, `explainer`, `diagnostician` and general continuation routing.
+- Trigger / Direction: Written when the learner accepts a map or scope amendment. The status is updated after an exam.
 - Payload / Shape: topics in dependency order, one line each:
 
   ```md
@@ -124,6 +127,31 @@ every skill reads and writes the same formats. Source: `SPEC.md`, with `DECISION
   - Line pattern: `- [<status>] <topic> [| depends on: <topic>, ...] [| sticking points: <text>]`.
   - `<status>`: `todo`, `learning` or `passed`.
   - `<topic>`: a lowercase, hyphenated (kebab-case) name, unique within the map.
+  - Keep topic lines compatible. After them, include exactly one `### Requirements: <topic>` scope section per topic:
+
+    ```md
+    ## Topic Scope
+
+    ### Requirements: spread
+    Scope: accepted
+    - spread-compare: Explain how variance and standard deviation differ, including their units.
+    - spread-calculate: Calculate both for a supplied small population and explain each step.
+    Passing target: Complete both requirements unaided, including calculation and interpretation.
+    ```
+
+  - Requirements form the complete finite learner-approved scope, not a set of examples. Each ID is a unique
+    kebab-case name within the subject; each criterion describes observable production and success conditions.
+    List requirements in learning order. The passing target covers every requirement and names required forms of
+    production and success conditions; it must not introduce unnamed extra concepts.
+  - Only mapmaker writes `Scope: accepted`, after explicit approval of the checklist and target. Proposed scope
+    stays outside the subject store until accepted. Empty, duplicate, malformed or unaccepted sections are unknown scope.
+  - Goals and sources inform proposals and grading, not silent changes to accepted scope. Sticking points are
+    annotations only. Extras cannot become blockers without approval.
+  - Preserve IDs for unchanged criteria. A materially changed criterion gets a new requirement ID, never a reused
+    retired ID. Changed criteria cannot automatically inherit evidence for their previous criteria. Show affected
+    targets, resets and removals before approval. Preserve unaffected statuses and unrelated learner content.
+  - Legacy maps remain readable, but missing accepted checklists or targets block readiness. Add sections through
+    an approved scope amendment, not a destructive full replacement. Existing topic names remain unchanged.
 - Ordering / Idempotency expectations: Each topic appears after the topics it depends on.
 - Visibility / Security: Learner-owned.
 - Failure / Retry expectations: If the topic being examined isn't in the map, `examiner` reports this and doesn't change the map.
@@ -158,9 +186,29 @@ every skill reads and writes the same formats. Source: `SPEC.md`, with `DECISION
   ```
 
   - Line pattern: `- <YYYY-MM-DD> | <skill> | <topic or "-"> | <result or score>`. A literal `|` inside a field is written as `/`.
-  - `explainer` and `socratic-questioner` name specific concepts attempted and their outcomes (unaided, aided,
-    unresolved or incomplete) in the existing result field. Historical lines stay unchanged; vague entries do not
-    establish exam readiness. No new fields or tracking files are required.
+  - Learning sessions name accepted requirement IDs when available, coverage state, aided/unaided attribution,
+    and a concise description of concrete learner production in the existing result field, for example:
+    `spread-compare: resolved, aided, explained units correctly; spread-calculate: unresolved, unaided, omitted division`.
+    Use resolved, unresolved or unknown: resolved requires correct learner production matching the criterion;
+    unresolved means a demonstrated misconception without correction; unknown means missing, vague, incomplete
+    or unverified evidence. Mere explanation, agreement, self-report or a topic status is not coverage evidence.
+  - Derive coverage from the latest substantive applicable outcome in append order, then any current-session
+    production. A later demonstrated misconception supersedes earlier success. An interruption without production
+    does not erase earlier evidence. A resolved outcome can include correction within the same session.
+  - Cite the session path and line number (or specific current-session attempt) for each reported requirement state.
+    Missing evidence is reported as `none`; aided production establishes coverage, not unaided mastery.
+  - Legacy evidence counts only when its specific production and resolved outcome clearly match an accepted
+    criterion. Ambiguous mappings remain unknown. Criterion changes do not automatically inherit old evidence.
+  - Historical lines stay unchanged. No new fields or tracking files are required; readiness checks never write
+    derived coverage or fabricate session outcomes. Log interruptions and verification limits explicitly.
+  - Learning and exam results include short task context (scenario, relevant data shape and reasoning demanded)
+    sufficient to compare future exam tasks with prior examples, not full questions, solutions or transcripts.
+    No new field or tracking file is needed; vague legacy summaries cannot establish proven task freshness.
+  - Exam results cite tested requirement IDs, outcomes, score, terminal result and task-freshness limitations.
+    Exams use fresh applications of accepted requirements, not repeated learning examples or prior exam solutions;
+    changing only names/values is insufficient. Unavailable history means freshness unverified, not proven novelty.
+    Only completion of the whole accepted target unaided yields a pass; unasked requirements are never reported
+    as demonstrated. Learning follow-ups and explainer redos may reuse the original task.
 - Ordering / Idempotency expectations: Append only, in chronological order.
 - Visibility / Security: Learner-owned.
 - Failure / Retry expectations: A missing file is created on the first append.
@@ -191,6 +239,48 @@ every skill reads and writes the same formats. Source: `SPEC.md`, with `DECISION
 - Ordering / Idempotency expectations: None.
 - Visibility / Security: No tools, syntax or instructions specific to one agent. Only file reads and writes and shell commands.
 - Failure / Retry expectations: Not applicable.
+
+## Progression gate
+
+This is the shared decision rule for general continuation requests and skill handoffs. Read Contracts 4 and 6
+before using it; all consumers of `docs/contracts.md` apply the same order rather than inventing additional scope.
+
+1. Validate the subject name as `^[a-z0-9]+(-[a-z0-9]+)*$`; reject paths, slashes, `..` and empty names.
+   Do not follow subject-folder symlinks outside `subjects/` or goal/map/session symlinks outside the subject folder.
+   Read the selected subject's goal, map and sessions. Use an explicitly selected topic if given. Otherwise choose
+   the first unpassed topic in map order; this resumes the earliest unfinished topic rather than skipping it.
+   If all topics are passed, validate accepted scope and coverage for every topic before reporting completion;
+   the first invalid scope or unknown/unresolved requirement in map order determines the action instead.
+   Missing subject or ambiguous topic selection requires clarification, not creation or guessed progress.
+2. Validate accepted scope/targets, unique topic names and dependency ordering for the selected topic and its
+   dependencies. Missing, duplicate, dangling or cyclic dependencies block routing and require mapmaker repair.
+   A passed status without accepted scope is legacy state, not proof of completion under the new contract.
+3. Derive requirement coverage using Contract 6. Report IDs, states and evidence citations, then take the first
+   matching row below. Selection/coverage are read-only; a gate refusal is not an exam failure.
+
+| State | Required next action |
+| --- | --- |
+| Missing, malformed or unaccepted scope/target | Offer a mapmaker scope-approval handoff; do not invent completeness or begin an exam. |
+| Required dependency not passed | Offer the earliest unmet dependency in map order before the selected topic. |
+| Unknown or unresolved requirement | Offer the first such requirement in accepted checklist order; cite its evidence state. |
+| Every requirement resolved; topic not passed or re-exam requested | Offer the accepted topic exam; wait for confirmation, not automatic advancement. |
+| Topic passed; unpassed topics remain | Offer the first unpassed, dependency-ready topic in map order, applying this gate again before starting it. |
+| Every topic passed | Report map completion; do not automatically expand scope. |
+
+- A request to re-examine an already passed topic uses the same accepted target and readiness/diagnostic rules;
+  it does not automatically redirect to the next topic. Otherwise a pass offers normal progression.
+- Scope changes require explicit approval through mapmaker. Readiness never writes map status or log entries on its own.
+- Before bypassing an unmet dependency or choosing to skip a requirement/topic, disclose what remains incomplete and
+  obtain explicit confirmation. Explicit topic selection does not itself authorize bypassing the gate.
+  A skip never marks a topic passed or satisfies a dependency. An approved bypass applies only to the disclosed
+  request, not future sessions; never silently shrink the exam target.
+- An early diagnostic requires an explicit request, an accepted target, disclosure of coverage/dependency gaps and
+  normal status effects (`learning` on failure, `passed` on completion), then informed confirmation. No accepted target
+  means no diagnostic exam. A bare `ok` to a premature offer is insufficient.
+- Do not silently switch roles. Wait for confirmation for a handoff; respect an explicitly requested role, but still
+  apply its gate. A role request cannot be reinterpreted as a diagnostic or an override.
+- Same accepted map and evidence imply the same prescribed next action. Grading and question wording may involve
+  judgement; instruction-contract tests do not prove that every agent follows the rule.
 
 ## Slice Handoff
 

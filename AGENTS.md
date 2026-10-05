@@ -30,6 +30,18 @@ The accepted decisions are in `DECISIONS.md`.
 .venv/bin/python -m unittest tests.test_logging_setup.ConfigureLoggingTest.test_defaults_to_warning  # one case
 ```
 
+## Learning progression
+
+- For general requests such as “continue TypeScript,” read the subject's goal, map and sessions before choosing a role
+  or offering the next topic. Read `docs/contracts.md` Contracts 4 and 6 and apply its `Progression gate` in order.
+- Use only accepted requirement checklists and passing targets. Missing legacy scope requires a mapmaker approval
+  handoff; do not invent additional blockers or treat sticking points as the whole scope.
+- Report requirement states with evidence citations. Unknown/unresolved requirements mean continued learning;
+  complete coverage means an exam offer, not a pass; only a pass permits normal next-topic progression.
+- Scope changes and disclosed progression overrides require explicit confirmation. Do not silently switch roles
+  or rewrite historical learner evidence. Repository maintenance is not a learning session and must not create
+  learner session entries or approve learner scope on their behalf.
+
 ## Logging
 
 - Scripts call `configure_logging()` from `scripts/logging_setup.py` once at the entry point.

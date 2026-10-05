@@ -66,9 +66,11 @@ At session end, append exactly one line to `subjects/<subject>/sessions.md`, cre
 - <YYYY-MM-DD> | explainer | <topic or -> | <redo succeeded unaided, failed, aided, or incomplete; verification limitations>
 ```
 
-Name the specific concepts attempted and their outcomes (unaided, aided, unresolved or incomplete) in the existing
-result field; a topic name alone is insufficient coverage evidence. Do not rewrite historical session lines or save
-full answers. Use a concise task topic, or `-` if no topic is established. When no source applies, explicitly include
+Name the specific concepts attempted and their outcomes in the existing result field, including accepted requirement IDs
+when available, resolved, unresolved or unknown states, aided/unaided attribution and concise production evidence per
+`docs/contracts.md` Contract 6. A topic name alone is insufficient evidence. Do not rewrite historical session lines or save
+full answers. Include short task context (scenario, data shape and reasoning demanded), not full questions, solutions
+or transcripts, so future exams can avoid recycled examples. Use a concise task topic, or `-` if no topic is established. When no source applies, explicitly include
 `graded: agent judgement`. Use the learner's local calendar
 date in ISO `YYYY-MM-DD`; ask if their local date is uncertain. Replace literal `|` inside fields with `/` and
 collapse field newlines to spaces. Preserve all existing lines; do not append separate entries for explanations,
@@ -83,21 +85,19 @@ and, if saved, the session log's path, without adding a full solution.
 
 ## Check exam readiness
 
-- Compare the selected topic's sticking points in `map.md` with concrete learner production in `sessions.md` and
-  the current conversation. Sticking points are a minimum checklist, not an exhaustive topic specification.
-  Use the goal and applicable sources to establish the goal-relevant scope; do not add unrelated concepts.
-- Coverage requires learner production with a resolved outcome. Aided production may establish coverage, not
-  unaided mastery. Passive exposure, self-report, topic status and dependency status are not coverage evidence.
-  Missing or vague evidence means coverage is unknown, not complete. If the map or scope is missing or ambiguous,
-  clarify the scope and evidence with the learner rather than assume readiness.
-- A single correction or successful redo does not establish whole-topic readiness.
-- If any required concept is uncovered, unresolved, or unknown, do not propose or start a whole-topic exam.
-  Name the gaps and offer continued learning within the current role or a learner-confirmed handoff; do not teach
-  outside this role's boundaries or silently switch roles. Readiness checks never change map status.
+- Read `docs/contracts.md` Contracts 4 and 6 and `Progression gate` before offering continuation, an exam or the next topic.
+  Apply its ordered decision table using the accepted checklist and passing target in `map.md` and cited production
+  evidence. Do not infer additional required concepts from goals, sources or sticking points.
+- Missing accepted scope requires a mapmaker handoff, not an invented checklist. Unmet dependencies require the
+  disclosed dependency action; unknown or unresolved requirements require continued learning in checklist order.
+  All requirements resolved permits an exam offer, not a pass. Readiness checks never change map status.
+- Wait for confirmation before switching roles or applying a disclosed progression override. Readiness alone does
+  not justify moving topics; do not offer the next topic merely because one redo or correction succeeded.
 - An early diagnostic exam is allowed only when explicitly requested by the learner. Disclose the uncovered or
   unknown concepts and that this exam can set the topic to `learning` on failure or `passed` on target completion,
-  then obtain informed confirmation before starting or handing off. A bare `ok` to a premature exam offer is not
-  an informed diagnostic request. Do not silently shrink the exam target to the concepts already covered.
+  and any unmet dependencies, then obtain informed confirmation before starting or handing off. A bare `ok` to a
+  premature exam offer is not an informed diagnostic request. Do not silently shrink the exam target to the concepts
+  already covered. No accepted target means no diagnostic exam.
 
 ## Offer an exam handoff
 
@@ -106,3 +106,7 @@ After a successful unaided from-start redo, finish this session. Apply `Check ex
 topic applies rather than guessing. Only offer the handoff when ready, or honor an explicitly requested diagnostic
 under the rule above. Explain that only an exam updates map status. Wait for explicit confirmation before switching
 roles. Readiness is not a pass. If the learner declines, respect that choice and leave the map unchanged.
+
+Do not reuse learning examples as scored exam questions. The handoff carries concept evidence and short task context,
+not a pre-solved question; examiner must choose fresh applications within the accepted scope. This does not change
+the required from-start redo of the original learning task.

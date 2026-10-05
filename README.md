@@ -52,9 +52,10 @@ mkdir -p subjects/statistics/sources
 Put your own text-readable study material, explanations, or grading rubrics in that folder. Markdown and plain
 text are straightforward choices. The skills read these files but never add to or change them.
 
-**Correctness grading uses only applicable files in `sources/`.** Without them, skills report that grading is
-unavailable or correctness is unverified; they do not substitute general knowledge. In particular, `review`
-needs source support even when a card already has a back. Organising notes with `clerk` does not require sources.
+**Applicable files in `sources/` take precedence for correctness grading.** If none applies, skills announce
+`no applicable source; grading by agent judgement` and label their results accordingly. Gaps or conflicts within
+an applicable source stay unverified; agent judgement does not fill them. Organising notes with `clerk` uses only
+your own content and does not require sources.
 
 ### 3. Accept a map
 
@@ -62,9 +63,33 @@ needs source support even when a card already has a back. Organising notes with 
 Use mapmaker for statistics. Fit the map to my goal and skip topics I already know.
 ```
 
-Review the proposed topics, dependencies, and sticking points. Only after acceptance does the skill write
-`map.md`, with included topics initially marked `todo`. Replacing a map resets its included statuses, so check
-the proposal before accepting.
+Review the proposed topics, dependencies, sticking points, finite requirement checklists and passing targets.
+Only after explicit acceptance does mapmaker write `map.md`, with included topics initially marked `todo`.
+Sticking points are annotations; they cannot silently become extra requirements. Goals and sources inform the
+proposal, but accepted scope cannot change without approval.
+
+Full map replacement resets included statuses after disclosure. Scope-only amendments preserve unaffected statuses;
+changing a passed topic's target requires approval to reset that topic to `todo`. Legacy maps need approved
+checklists and targets before readiness can be claimed; existing learner files are not automatically migrated.
+
+### Predictable continuation
+
+Requests such as “continue TypeScript” use the shared [progression gate](docs/contracts.md#progression-gate):
+
+- Missing accepted scope → approve scope with mapmaker.
+- Unpassed dependency → address the earliest unmet dependency in map order.
+- Unknown/unresolved requirement → address the first one in accepted checklist order.
+- All requirements resolved → offer the topic exam, not a pass or automatic advancement.
+- Topic passed → offer the first unpassed, dependency-ready topic in map order.
+- All topics passed → report completion, without inventing more scope.
+
+Requirement coverage cites concrete production in session entries or the current conversation. Aided success
+counts as coverage, not unaided mastery. Missing or vague evidence is unknown; interrupted sessions without
+production do not erase earlier evidence. The latest substantive applicable outcome controls coverage.
+
+Explicit skips, dependency overrides and role handoffs require confirmation and do not grant passes. An early
+diagnostic requires an accepted target and informed confirmation of gaps and normal status effects. Grading still
+involves judgement; the fixed scope and routing rules are not a guarantee that every agent will comply.
 
 ### 4. Produce answers and get feedback
 
@@ -146,7 +171,7 @@ Files are created as needed, not all at once:
 ```text
 subjects/statistics/
 ├── goal.md       # Specific goal, assessed level, deadline, test format
-├── map.md        # Topics, dependencies, sticking points; todo/learning/passed
+├── map.md        # Topics, dependencies, approved requirements/targets; todo/learning/passed
 ├── mistakes.md   # Append-only dated mistakes and correct ideas
 ├── sessions.md   # Append-only session outcomes or scores
 ├── cards.json    # Card storage managed only by scripts/cards.py
@@ -177,7 +202,8 @@ python3 scripts/cards.py grade statistics 1 --result right
 ```
 
 `add` prints the created card as JSON, including its id and due date. Replace `1` with the actual card id when
-grading, and grade only after an answer has been judged against your sources. Use `--result wrong` for a wrong answer.
+grading, and grade only after an answer has been judged against applicable sources or the announced agent-judgement
+fallback. Use `--result wrong` for a wrong answer.
 
 `due` prints a JSON array sorted by due date, then id; `[]` means no cards are due. **Its raw output includes
 backs**, so use the review skill rather than reading it before a recall attempt. A newly added card is not due

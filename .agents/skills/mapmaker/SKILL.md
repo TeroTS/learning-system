@@ -34,7 +34,12 @@ Cover the main parts needed for the goal, not every possible topic in the subjec
 knows based on the goal and concrete examples or clarified self-report. Explain briefly which known prerequisites
 were omitted and that unverified self-report remains provisional.
 
-Use this exact persisted structure, with one line per included topic:
+Read `docs/contracts.md` Contract 4 before proposing scope. Use its persisted structure: keep one line per
+included topic, followed by a scope section for each topic. Propose a finite checklist of requirements with stable
+IDs and observable success criteria, plus a passing target covering every requirement. Goals and sources inform
+the proposal, not silent additions after acceptance. Sticking points remain annotations, not extra requirements.
+
+The topic-line structure remains:
 
 ```md
 # <Subject title> Map
@@ -50,7 +55,11 @@ Use this exact persisted structure, with one line per included topic:
   before asking for acceptance.
 - Mark the usual sticking points using `| sticking points: <text>` on the relevant topic lines. Keep fields on
   one line and replace literal `|` within a field with `/`. Omit optional fields when they do not apply.
-- Set every included topic to `todo`; this is a new accepted map, not an exam or a status update.
+- Set every included topic to `todo` for initial creation or full replacement; this is not an exam.
+- After the topic list add `## Topic Scope`, then `### Requirements: <topic>`, `Scope: accepted`, ordered
+  `- <requirement-id>: <observable criterion>` lines, and `Passing target: <success conditions>` for every topic.
+  Only write `Scope: accepted` after explicit approval of both requirements and target. Keep proposed scope in
+  the conversation, not a second subject map. Targets cannot add requirements absent from their checklist.
 - Resource links are optional, not a reason to expand the map. Give links only after checking them with a web
   or browser tool; otherwise explicitly label each link `unverified`. With only the allowed file and shell tools,
   do not claim web or browser verification. Keep resource suggestions outside the contracted map topic lines.
@@ -58,11 +67,32 @@ Use this exact persisted structure, with one line per included topic:
 Show the complete proposed map and ask one question inviting acceptance or specific changes. Refine it as needed
 and wait for explicit acceptance before writing. If replacing an existing map, explicitly disclose that its topic
 statuses will reset to `todo` and omitted topics will be removed; include this in the acceptance question.
-Do not silently preserve `learning` or `passed` statuses or overwrite a map the learner has not accepted.
+For full replacement, do not silently preserve `learning` or `passed` statuses. Scope-only amendments follow
+`Amend scope without replacing the map` instead. Never overwrite a map the learner has not accepted.
+
+## Amend scope without replacing the map
+
+For legacy maps without scope, or a requested scope change, propose a scope-only amendment rather than replacing
+all topics. Read the existing map and sessions; preserve topic names, dependencies, unrelated learner content and
+historical session lines. Do not infer readiness from sticking points or reset all statuses for a scope addition.
+
+- Show the complete affected checklists and targets, changes, removals and status-reset effects; wait for explicit
+  acceptance before writing. Approval to fix repository instructions is not approval of a learner's topic scope.
+- Keep IDs for unchanged criteria. Use a new requirement ID for a materially changed criterion, never a retired ID;
+  do not automatically transfer old evidence to the changed criterion.
+- For amendments, preserve unaffected statuses. If a passed topic's accepted target changes, disclose and obtain
+  approval to reset the affected passed topic to `todo`. A legacy passed topic with no accepted target also needs
+  this approved reset before it can claim a pass under the new contract. No reset is an exam failure.
+- Pending or declined approval leaves the map untouched; record only that the amendment was not accepted when
+  the mapmaker session ends. Other skills cannot amend scope.
+- Re-read the map before saving; if it changed since the approved proposal, reconcile and obtain approval again.
+  Save atomically with the same failure/retry rules as full map creation. Record `scope amended` and affected topics
+  in the session result, not `map replaced`. Show the evidence-to-requirement mapping after approval, without
+  inventing learner production or rewriting history; apply `docs/contracts.md` `Progression gate` before handoff.
 
 ## Save and finish
 
-After acceptance, create `subjects/<subject>/` if missing and write the accepted map to its single `map.md`.
+After acceptance, create `subjects/<subject>/` if missing and write the accepted map or amendment to its single `map.md`.
 Use a same-folder temporary file and replacement so a failed write does not truncate the existing map.
 Do not create a second map file. If unrelated learner content in an existing map would be removed, show that
 removal before acceptance; never silently discard it.
@@ -70,7 +100,7 @@ removal before acceptance; never silently discard it.
 At the end of the session, append exactly one line to `sessions.md`, creating it with `# Sessions` if missing:
 
 ```md
-- <YYYY-MM-DD> | mapmaker | <subject> | <map created or replaced; number of topics>
+- <YYYY-MM-DD> | mapmaker | <subject> | <map created, replaced or scope amended; number of topics; affected topics>
 ```
 
 Use the learner's local calendar date, not UTC; ask if their local date is uncertain. Replace literal `|` inside
