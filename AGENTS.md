@@ -42,6 +42,11 @@ The accepted decisions are in `DECISIONS.md`.
   or rewrite historical learner evidence. Repository maintenance is not a learning session and must not create
   learner session entries or approve learner scope on their behalf.
 
+## Evidence Citations
+
+- Cite local files as inline-code `path:line`, not clickable Markdown links.
+- Use clickable links only for HTTP/HTTPS URLs.
+
 ## Logging
 
 - Scripts call `configure_logging()` from `scripts/logging_setup.py` once at the entry point.
