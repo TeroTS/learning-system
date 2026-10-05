@@ -38,5 +38,13 @@
     "box": 1,
     "due": "2026-10-06",
     "created": "2026-10-05"
+  },
+  {
+    "id": 6,
+    "front": "How do the types of findTask(7) and await findTask(7) differ?",
+    "back": "Promise<Task | undefined> versus Task | undefined. Check the awaited value before accessing title.",
+    "box": 1,
+    "due": "2026-10-06",
+    "created": "2026-10-05"
   }
 ]
