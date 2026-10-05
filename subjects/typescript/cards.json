@@ -22,5 +22,21 @@
     "box": 1,
     "due": "2026-10-05",
     "created": "2026-10-04"
+  },
+  {
+    "id": 4,
+    "front": "What happens in console.log(value?.toString()) when value is undefined?",
+    "back": "The method call is skipped; console.log receives and prints the value undefined, not a string.",
+    "box": 1,
+    "due": "2026-10-06",
+    "created": "2026-10-05"
+  },
+  {
+    "id": 5,
+    "front": "Does an unchecked method call on an unknown parameter compile when the caller supplies a compatible value?",
+    "back": "No. The body is checked against unknown regardless of caller arguments; narrow before calling the method.",
+    "box": 1,
+    "due": "2026-10-06",
+    "created": "2026-10-05"
   }
 ]

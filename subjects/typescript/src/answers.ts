@@ -38,3 +38,13 @@ function readTitle(value: unknown): string | undefined {
   }
   return undefined;
 }
+
+function firstItem1(value: unknown) {
+    return value.slice(0, 1);
+}
+
+function firstItem(value: unknown): unknown[] | undefined {
+  if (Array.isArray(value)) {
+    return value.slice(0, 1);
+  }
+}
