@@ -48,3 +48,23 @@ function firstItem(value: unknown): unknown[] | undefined {
     return value.slice(0, 1);
   }
 }
+
+function displaySetting(value: string | boolean | undefined): string {
+  if (value === undefined) {
+    return "Not set";
+  }
+  return value.toString();
+}
+
+//const response = { task: { title: "Ship it" } };
+function readTaskTitle(response: unknown): string | undefined {
+  if (response !== null && // null check
+    typeof response === "object" && // is object
+    "task" in response && // task field available
+    response.task !== null && // null check
+    typeof response.task === "object" && // is object
+    "title" in response.task && // title field available
+    typeof response.task.title === "string") { // is string
+    return response.task.title;
+    }
+}
