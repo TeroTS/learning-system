@@ -19,10 +19,13 @@ and shell commands. Resolve repository paths from the repository root, not this 
 - Read `goal.md`, `map.md`, and `sessions.md` if present. Use the level recorded in the goal to choose vocabulary and depth.
   If the goal or its level is missing or unclear, treat the level as unknown and ask the learner what they can
   already do. Use their stated level; do not turn this session into a level assessment or rewrite the goal.
-- Read applicable learner-supplied text files in `sources/` for context and later correctness checks; never add
-  or change sources. An applicable source always takes precedence. If `sources/` is missing or empty, or no source
-  covers this task, announce `no applicable source; grading by agent judgement` without asking; later correctness
-  checks then use agent judgement, and the explanation must not claim source verification.
+- Read learner-supplied text files in `sources/` for context; never add or change sources.
+- Read `docs/contracts.md` Contract 9. Always grade by agent judgement; accepted requirements and passing targets
+  fix topic scope. Sources provide context, not answer keys or grading prerequisites.
+  No separate answer files or fallback announcement are required.
+  Genuine grading uncertainty stays `unverified`, not a learner mistake or failure.
+  Identify agent judgement in feedback and include `graded: agent judgement` in the session result.
+  Preserve historical evidence and its attribution. Do not claim source verification.
 - Collect the concrete task, the exact stuck step, and the learner's attempted work up to that point, one question
   at a time. Reuse information already supplied. Ask the learner to attempt or explain what they tried before
   giving an explanation; an explicit account of an unsuccessful attempt is sufficient.
@@ -49,10 +52,9 @@ step or repeating your example is not a complete redo.
 - If they ask for help during the redo, mark that attempt as aided, not successful unaided production. If they want
   another explanation, first identify their attempted stuck step, explain only that step, and require a fresh
   from-start redo. Keep this within the same session; do not add a session line for each attempt.
-- Check the completed redo only after the learner submits it. Report whether it succeeded unaided, failed, or
-  needed help, judging correctness against the applicable source, or by agent judgement when none applies. A failed
-  redo is
-  still an attempt; do not force endless retries or pretend that explanation alone resolved the task.
+- Check the completed redo only after the learner submits it. Report whether it succeeded unaided, failed, needed
+  help or remains unverified, judging correctness by agent judgement. A failed redo is still an attempt;
+  do not force endless retries or pretend that explanation alone resolved the task.
 
 Do not call the session complete until a from-start redo has been attempted. If the learner explicitly stops or
 refuses before attempting it, respect that choice and record `incomplete: redo not attempted`, never success.
@@ -70,9 +72,8 @@ Name the specific concepts attempted and their outcomes in the existing result f
 when available, resolved, unresolved or unknown states, aided/unaided attribution and concise production evidence per
 `docs/contracts.md` Contract 6. A topic name alone is insufficient evidence. Do not rewrite historical session lines or save
 full answers. Include short task context (scenario, data shape and reasoning demanded), not full questions, solutions
-or transcripts, so future exams can avoid recycled examples. Use a concise task topic, or `-` if no topic is established. When no source applies, explicitly include
-`graded: agent judgement`. Use the learner's local calendar
-date in ISO `YYYY-MM-DD`; ask if their local date is uncertain. Replace literal `|` inside fields with `/` and
+or transcripts, so future exams can avoid recycled examples. Use a concise task topic, or `-` if no topic is established.
+Use the learner's local calendar date in ISO `YYYY-MM-DD`; ask if their local date is uncertain. Replace literal `|` inside fields with `/` and
 collapse field newlines to spaces. Preserve all existing lines; do not append separate entries for explanations,
 corrections, or repeated attempts.
 

@@ -145,7 +145,8 @@ every skill reads and writes the same formats. Source: `SPEC.md`, with `DECISION
     production and success conditions; it must not introduce unnamed extra concepts.
   - Only mapmaker writes `Scope: accepted`, after explicit approval of the checklist and target. Proposed scope
     stays outside the subject store until accepted. Empty, duplicate, malformed or unaccepted sections are unknown scope.
-  - Goals and sources inform proposals and grading, not silent changes to accepted scope. Sticking points are
+  - Goals and sources inform scope proposals and provide context; the accepted map fixes requirements and passing
+    targets. Sources do not silently change scope or become answer-file prerequisites. Sticking points are
     annotations only. Extras cannot become blockers without approval.
   - Preserve IDs for unchanged criteria. A materially changed criterion gets a new requirement ID, never a reused
     retired ID. Changed criteria cannot automatically inherit evidence for their previous criteria. Show affected
@@ -161,7 +162,8 @@ every skill reads and writes the same formats. Source: `SPEC.md`, with `DECISION
 - Kind: Append-only Markdown log.
 - Producers / Owners: `socratic-questioner`, `examiner`, `checker`, `listener`, `sparring-partner`, `review`.
 - Consumers: `diagnostician`, and skills that suggest cards.
-- Trigger / Direction: Appended when a mistake is caught during a session.
+- Trigger / Direction: Appended when agent judgement establishes a learner mistake during a session (Contract 9).
+  Genuine grading uncertainty is not a learner mistake and is not appended here.
 - Payload / Shape: one line per mistake, created with a `# Mistakes` heading if missing:
 
   ```md
@@ -204,6 +206,9 @@ every skill reads and writes the same formats. Source: `SPEC.md`, with `DECISION
   - Learning and exam results include short task context (scenario, relevant data shape and reasoning demanded)
     sufficient to compare future exam tasks with prior examples, not full questions, solutions or transcripts.
     No new field or tracking file is needed; vague legacy summaries cannot establish proven task freshness.
+  - Results from grading skills identify `graded: agent judgement` in the existing result field, whether sources
+    are absent, topic-only or substantive. Record genuine grading uncertainty as `unverified`, not a learner failure;
+    unverified evidence remains unknown for coverage. Preserve historical evidence and its original attribution.
   - Exam results cite tested requirement IDs, outcomes, score, terminal result and task-freshness limitations.
     Exams use fresh applications of accepted requirements, not repeated learning examples or prior exam solutions;
     changing only names/values is insufficient. Unavailable history means freshness unverified, not proven novelty.
@@ -217,15 +222,16 @@ every skill reads and writes the same formats. Source: `SPEC.md`, with `DECISION
 
 - Kind: A folder of learner-supplied files.
 - Producers / Owners: the learner.
-- Consumers: `listener` and `checker` (grading). Other skills may read it for context.
+- Consumers: Skills proposing scope or reading subject context; sources are not grading authorities.
 - Trigger / Direction: Read-only for skills.
-- Payload / Shape: any text-readable files in `subjects/<subject>/sources/`.
+- Payload / Shape: any text-readable files in `subjects/<subject>/sources/`, including topic-only guides.
+  These inform scope proposals and provide context, not answer keys. The accepted map fixes requirements and targets.
 - Ordering / Idempotency expectations: None.
 - Visibility / Security: Skills never change or add to sources.
-- Failure / Retry expectations: Applicable sources always take precedence. If the folder is missing or empty, or no
-  source covers the topic or card, the skill announces "no applicable source; grading by agent judgement", grades by
-  agent judgement with the same effects as source-based grading, and records `graded: agent judgement` in the
-  session line. Gaps or conflicts within an applicable source stay `unverified`.
+- Failure / Retry expectations: Missing, empty, topic-only, incomplete or conflicting sources do not create an
+  answer-file requirement or a source-first grading branch. Agent judgement always supplies the grading basis
+  (Contract 9); missing answer files alone do not make an assessment unverified. Genuine grading uncertainty is
+  reported as `unverified`, not a learner mistake or failure.
 
 ### Contract 8: Skill file
 
@@ -239,6 +245,30 @@ every skill reads and writes the same formats. Source: `SPEC.md`, with `DECISION
 - Ordering / Idempotency expectations: None.
 - Visibility / Security: No tools, syntax or instructions specific to one agent. Only file reads and writes and shell commands.
 - Failure / Retry expectations: Not applicable.
+
+### Contract 9: Agent-judgement assessment
+
+- Kind: Shared assessment and evidence contract (US-14).
+- Producers / Owners: The agent running `interviewer`, `mapmaker`, `explainer`, `socratic-questioner`, `examiner`,
+  `checker`, `listener`, `review` or `sparring-partner`.
+- Consumers: The learner, mistake/session logs, card review and topic progression.
+- Trigger / Direction: The learner supplies production for assessment; the skill assesses it before recording outcomes.
+- Payload / Shape:
+  - The agent generates questions within accepted scope and judges answers against accepted requirements and passing
+    targets. Agent judgement is always the grading basis, whether sources are absent, topic-only or substantive.
+  - Feedback identifies agent judgement, not source verification. Session results include `graded: agent judgement`
+    in the existing Contract 6 result field; no new store fields or files are introduced.
+  - Established mistakes use Contract 5. Cards are suggested and added only after confirmation through Contract 1.
+    Review judges recall before calling `grade`; examiner retains accepted-target and unaided-pass rules.
+- Ordering / Idempotency expectations: Learner production precedes assessment and feedback. Preserve historical
+  evidence and its attribution; do not retroactively relabel earlier assessments. Exactly one session line is appended
+  per session under Contract 6, not one per assessed answer. Card transitions retain Contracts 1 and 2.
+- Visibility / Security: No grading-permission prompt, fallback announcement or separate answer files are required.
+  Clerk still organises only learner content; diagnostician cites stored evidence rather than inventing learner mistakes.
+- Failure / Retry expectations: Genuine grading uncertainty remains `unverified`, not a learner mistake or failure.
+  Do not record it as a wrong-card transition or a failed exam; unverified evidence cannot establish coverage or a pass.
+  Missing answer files alone do not make an assessment unverified. Existing role-specific interruption and persistence
+  rules remain in force. Instruction-contract tests check these rules, not the correctness of every agent judgement.
 
 ## Progression gate
 
@@ -285,4 +315,6 @@ before using it; all consumers of `docs/contracts.md` apply the same order rathe
 ## Slice Handoff
 
 - Contract artifacts implementers must read:
-  - `docs/contracts.md`
+  - `docs/contracts.md` (Contracts 4–9 and the Progression gate for US-14 alignment).
+- Next step: `$lean-story-delivery`. List `docs/contracts.md` under `## Contract Inputs` in
+  `docs/slices/current-slice.md` when slice planning starts. No HTTP surface or OpenAPI artifact is required.

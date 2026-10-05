@@ -41,7 +41,7 @@ Running it again updates the same goal rather than creating another subject.
 Start new subjects with `interviewer`; most other skills require an existing subject folder. Names use lowercase
 letters/digits separated by hyphens, such as `statistics` or `technical-interviews`.
 
-### 2. Supply material for grading
+### 2. Optionally supply scope/context material
 
 After the subject exists:
 
@@ -49,13 +49,14 @@ After the subject exists:
 mkdir -p subjects/statistics/sources
 ```
 
-Put your own text-readable study material, explanations, or grading rubrics in that folder. Markdown and plain
-text are straightforward choices. The skills read these files but never add to or change them.
+Put text-readable topic guides or study material in that folder. Markdown and plain text are straightforward
+choices. Sources inform scope proposals and provide context; skills never add to or change them.
 
-**Applicable files in `sources/` take precedence for correctness grading.** If none applies, skills announce
-`no applicable source; grading by agent judgement` and label their results accordingly. Gaps or conflicts within
-an applicable source stay unverified; agent judgement does not fill them. Organising notes with `clerk` uses only
-your own content and does not require sources.
+**The agent always generates questions and grades by agent judgement against accepted requirements and targets.**
+Topic-only guides are sufficient; separate questions or answer files are not required. Sources are not answer keys
+or a grading prerequisite. Feedback and session results identify `graded: agent judgement`, not source verification.
+Genuine grading uncertainty stays `unverified`, not a learner mistake or failure; historical attribution is preserved.
+Organising notes with `clerk` still uses only your own content.
 
 ### 3. Accept a map
 
@@ -101,7 +102,7 @@ Here is my attempt: ...
 ```
 
 ```text
-Use examiner on the spread topic in statistics. Assess me against my sources.
+Use examiner on the spread topic in statistics. Assess me against the accepted requirements and passing target.
 ```
 
 ```text
@@ -153,7 +154,7 @@ Each name links to its full instructions.
 | [socratic-questioner](.agents/skills/socratic-questioner/SKILL.md) | Discover a gap through questions, not supplied answers. |
 | [examiner](.agents/skills/examiner/SKILL.md) | Answer increasingly hard questions and update one topic's status. |
 | [checker](.agents/skills/checker/SKILL.md) | Check intermediate steps against a rubric without rewriting work. |
-| [listener](.agents/skills/listener/SKILL.md) | Grade transcribed speech, writing, or a drawing description against sources. |
+| [listener](.agents/skills/listener/SKILL.md) | Assess transcribed speech, writing, or a drawing description by agent judgement. |
 | [sparring-partner](.agents/skills/sparring-partner/SKILL.md) | Simulate an interview, sales call, or speaking scenario with pushback. |
 | [clerk](.agents/skills/clerk/SKILL.md) | Organise only your own notes into an outline or proposed cards. |
 | [review](.agents/skills/review/SKILL.md) | Recall due cards before seeing their backs and update their schedule. |
@@ -175,7 +176,7 @@ subjects/statistics/
 ├── mistakes.md   # Append-only dated mistakes and correct ideas
 ├── sessions.md   # Append-only session outcomes or scores
 ├── cards.json    # Card storage managed only by scripts/cards.py
-└── sources/      # Learner-supplied grading material; read-only for skills
+└── sources/      # Optional learner-supplied scope/context material; read-only for skills
 ```
 
 Ordinary skill sessions append one session line. `diagnostician` appends one per subject with related findings,
@@ -202,8 +203,8 @@ python3 scripts/cards.py grade statistics 1 --result right
 ```
 
 `add` prints the created card as JSON, including its id and due date. Replace `1` with the actual card id when
-grading, and grade only after an answer has been judged against applicable sources or the announced agent-judgement
-fallback. Use `--result wrong` for a wrong answer.
+grading, and grade only after an answer has been assessed by agent judgement. Use `--result wrong` for an established
+wrong answer. Leave genuinely uncertain assessments or incorrect stored backs ungraded; do not change their schedule.
 
 `due` prints a JSON array sorted by due date, then id; `[]` means no cards are due. **Its raw output includes
 backs**, so use the review skill rather than reading it before a recall attempt. A newly added card is not due

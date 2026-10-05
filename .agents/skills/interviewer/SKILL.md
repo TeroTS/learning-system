@@ -18,8 +18,8 @@ not from this skill's directory.
   Never use a supplied path, slash, `..`, or an empty name as the subject name.
 - If the name is ambiguous, or two titles would map to the same folder, ask which subject the learner means.
   Do not overwrite another subject or follow a subject-folder symlink outside `subjects/`.
-- Read the subject's `goal.md` and `sessions.md` if present. Read learner-supplied text files in `sources/`
-  if available for assessment; never add or change sources. Treat a missing goal as level unknown.
+- Read the subject's `goal.md`, `map.md` and `sessions.md` if present. Learner-supplied text files in `sources/`
+  may provide scope/context; never add or change sources. Treat a missing goal as level unknown.
 - Keep answers in the current conversation until they are specific enough to save. Do not store a conversation transcript.
 
 ## Interview and assess
@@ -41,10 +41,12 @@ Then ask goal-relevant level questions, starting easy and progressing to harder 
 recall, explain, predict, or attempt something unaided. Do not provide the answer, hints, or an explanation before
 an attempt. Stop when the learner cannot proceed or starts guessing, or when the goal's required level is demonstrated.
 
-Grade correctness against applicable files in this subject's `sources/`; they always take precedence. If
-`sources/` is missing or empty, or no source covers these questions, announce `no applicable source; grading by
-agent judgement` without asking, grade by agent judgement, and note `graded: agent judgement` in the level and
-session line. Describe the assessed level using what the learner demonstrated and where they needed help.
+Read `docs/contracts.md` Contract 9. Always grade by agent judgement; accepted requirements and passing targets
+fix topic scope. Sources provide context, not answer keys or grading prerequisites. No separate answer files or
+fallback announcement are required. Genuine grading uncertainty stays `unverified`, not a learner mistake or failure.
+Identify agent judgement in feedback and include `graded: agent judgement` in the session result.
+Preserve historical evidence and its attribution. For initial level assessment, use the clarified goal and test format;
+do not invent accepted map scope. Describe the assessed level using demonstrated production and help needed.
 Do not claim mastery beyond the evidence. Do not turn this interview into a lesson or a topic exam.
 
 ## Summarize and save
@@ -72,7 +74,7 @@ Create `subjects/<subject>/` if missing. Write one `goal.md` using this exact st
 
 If `goal.md` already exists, update these sections in that same file, preserving unrelated learner content.
 Do not create a second goal file. Use a same-folder temporary file and replacement for goal updates to avoid
-leaving a truncated goal on write failure. Do not follow goal or session file symlinks outside the subject folder.
+leaving a truncated goal on write failure. Do not follow goal, map or session file symlinks outside the subject folder.
 
 At the end of the session, append exactly one line to `sessions.md`, creating it with `# Sessions` if missing:
 

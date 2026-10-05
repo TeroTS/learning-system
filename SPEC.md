@@ -1,12 +1,38 @@
 # Product Specification
 
-Source: `DECISIONS.md`
+Source: `DECISIONS.md` (Draft v3)
 
 ## Summary
 - An agent-agnostic learning system for one learner and many subjects. It has 11 repo-local skills in
   `.agents/skills/` (the 10 roles from `transcript.txt` plus `review`), a Markdown/JSON store in `subjects/<subject>/`,
   and a standard-library Python script, `scripts/cards.py`, that schedules Leitner-box spaced repetition. Every skill pushes the
   learner to produce answers rather than just consume explanations.
+
+- The skill lives at `.agents/skills/<skill>/SKILL.md` with portable frontmatter (`name`, `description`), and uses only
+  file reads and writes and shell commands.
+- Everything is in English. Skills ask one question at a time when the role involves questioning.
+- The skill prompts the learner to produce an answer before it explains anything.
+- The skill writes only to the subject files listed in `DECISIONS.md`. `cards.json` is changed only through `scripts/cards.py`.
+- Each session adds exactly one line to `subjects/<subject>/sessions.md`: date, skill, topic and result or score.
+- Skills that catch mistakes (`socratic-questioner`, `examiner`, `checker`, `listener`, `sparring-partner`, `review`)
+  add each mistake to `subjects/<subject>/mistakes.md` with the date, skill, mistake and correct idea. At the end of the session
+  they suggest cards based on those mistakes and add only the ones the learner confirms, using `scripts/cards.py add`.
+- The agent generates questions and always judges answers against accepted requirements and passing targets by
+  agent judgement (US-14). Sources, including topic-only guides, inform scope proposals and provide context;
+  they are not answer keys or prerequisites for grading. Separate answer files are not required.
+- Genuine grading uncertainty stays `unverified`, not a learner mistake or failure. Missing answer files alone
+  do not make an assessment unverified. Feedback and session results identify `graded: agent judgement`;
+  historical evidence and its attribution are preserved.
+- Resource links are given only after they have been checked with a web or browser tool. Otherwise they are
+  marked as unverified.
+- Dates are the learner's local calendar date in ISO `YYYY-MM-DD` format.
+- Before choosing a continuation role, offering an exam or moving topics, apply `docs/contracts.md` `Progression gate`.
+  Topic scope is a finite learner-approved checklist and passing target in `map.md`; goals, sources and sticking points
+  cannot silently expand it. Scope amendments and progression overrides require explicit approval. Role changes require
+  confirmation; readiness never changes map status.
+- Evidence states are resolved, unresolved or unknown. Use requirement-specific learner production, citing the latest
+  substantive applicable outcome in append order. Aided production establishes coverage, not unaided mastery; missing,
+  vague or unverified evidence is unknown. Interruptions without production do not erase earlier evidence. Preserve history.
 
 ## Goals
 - Each of the 10 transcript roles is available as one repo-local skill, plus a `review` skill.
@@ -26,31 +52,40 @@ Source: `DECISIONS.md`
 - Global skill installation.
 - Features specific to one agent.
 
-## Rules That Apply to Every Skill
-- The skill lives at `.agents/skills/<skill>/SKILL.md` with portable frontmatter (`name`, `description`), and uses only
-  file reads and writes and shell commands.
-- Everything is in English. Skills ask one question at a time when the role involves questioning.
-- The skill prompts the learner to produce an answer before it explains anything.
-- The skill writes only to the subject files listed in `DECISIONS.md`. `cards.json` is changed only through `scripts/cards.py`.
-- Each session adds exactly one line to `subjects/<subject>/sessions.md`: date, skill, topic and result or score.
-- Skills that catch mistakes (`socratic-questioner`, `examiner`, `checker`, `listener`, `sparring-partner`, `review`)
-  add each mistake to `subjects/<subject>/mistakes.md` with the date, skill, mistake and correct idea. At the end of the session
-  they suggest cards based on those mistakes and add only the ones the learner confirms, using `scripts/cards.py add`.
-- Grading uses applicable files in `subjects/<subject>/sources/` whenever they exist, and sources always take precedence.
-  If no source applies (folder missing or empty, or no source covers the topic or card), the skill grades by agent
-  judgement as described in US-14. Gaps or conflicts within an applicable source stay marked `unverified`.
-- Resource links are given only after they have been checked with a web or browser tool. Otherwise they are
-  marked as unverified.
-- Dates are the learner's local calendar date in ISO `YYYY-MM-DD` format.
-- Before choosing a continuation role, offering an exam or moving topics, apply `docs/contracts.md` `Progression gate`.
-  Topic scope is a finite learner-approved checklist and passing target in `map.md`; goals, sources and sticking points
-  cannot silently expand it. Scope amendments and progression overrides require explicit approval. Role changes require
-  confirmation; readiness never changes map status.
-- Evidence states are resolved, unresolved or unknown. Use requirement-specific learner production, citing the latest
-  substantive applicable outcome in append order. Aided production establishes coverage, not unaided mastery; missing,
-  vague or unverified evidence is unknown. Interruptions without production do not erase earlier evidence. Preserve history.
-
 ## User Stories
+
+### US-14: Get assessed by agent judgement
+Primary actor: Learner
+
+Trigger: The learner submits an answer for assessment by a grading skill (`interviewer`, `mapmaker`, `explainer`,
+`socratic-questioner`, `examiner`, `checker`, `listener`, `review` or `sparring-partner`).
+
+Happy-path action: The skill assesses the learner's answer by agent judgement against the accepted requirements
+and passing target.
+
+Visible outcome: The learner receives an assessment identified as based on agent judgement, not source verification.
+
+Authoritative state transition: The skill appends its session result with `graded: agent judgement` to `sessions.md`.
+
+Slice boundary: Shared grading instructions, affected skills, session attribution and instruction-contract tests.
+No card-scheduling changes.
+
+Acceptance criteria:
+- Agent judgement is always the grading basis, whether sources are absent, topic-only or substantive.
+  No source-first branch, fallback announcement, answer-file requirement or grading-permission prompt remains.
+- Sources inform scope proposals and provide context; only the accepted map fixes topic requirements and targets.
+  The agent generates questions within that scope rather than requiring supplied questions or answers.
+- Genuine grading uncertainty remains `unverified`, not a learner mistake or failure. Missing answer files alone
+  do not make an assessment unverified.
+- Grading retains normal role-specific effects: established mistakes are logged in the existing format, cards are
+  suggested and added only after confirmation, review calls `grade`, and completed unaided exams can earn `passed`.
+- Historical evidence and its attribution are not rewritten. `clerk` still uses only the learner's own content;
+  `diagnostician` still bases findings on stored evidence, not invented learner mistakes.
+- A focused instruction-contract check covers the universal grading rule and its uncertainty and attribution safeguards;
+  it does not claim to establish the correctness of every agent assessment.
+
+Deferred follow-ups:
+- None.
 
 ### US-01: Start a subject with the interviewer
 Primary actor: Learner
@@ -283,16 +318,17 @@ Primary actor: Learner
 
 Trigger: The learner runs `listener` and gives their explanation (transcribed speech, writing and/or a drawing description).
 
-Happy-path action: The listener grades each explanation against the subject's sources.
+Happy-path action: The listener grades the learner's explanation by agent judgement against accepted requirements.
 
 Visible outcome: The learner sees what they missed or got wrong, for each format.
 
 Authoritative state transition: Missed points are added to `mistakes.md`, and one line with the grade is added to `sessions.md`.
 
-Slice boundary: `listener` skill, `sources/`, `mistakes.md`, `sessions.md`, card suggestions.
+Slice boundary: `listener` skill, `mistakes.md`, `sessions.md`, card suggestions and instruction-contract tests.
 
 Acceptance criteria:
-- Grading uses `sources/` when an applicable source exists. Otherwise it falls back to agent judgement (US-14).
+- For each supplied format, feedback identifies omissions and mistakes by agent judgement (US-14).
+- Genuine grading uncertainty remains `unverified` and is not logged as a learner mistake.
 - Card suggestions follow the shared rule.
 
 Deferred follow-ups:
@@ -323,11 +359,11 @@ Primary actor: Learner
 
 Trigger: The learner runs `clerk` with messy notes.
 
-Happy-path action: The clerk turns the notes into a clean outline, or into proposed cards.
+Happy-path action: The clerk organises the learner's notes into the requested outline or proposed-card format.
 
-Visible outcome: The learner sees the outline or the proposed cards.
+Visible outcome: The learner sees their own content organised in the requested format.
 
-Authoritative state transition: One line is added to `sessions.md`. Proposed cards are added through `scripts/cards.py add` only after the learner confirms.
+Authoritative state transition: One line is added to `sessions.md`. Saving confirmed cards is handled by US-03.
 
 Slice boundary: `clerk` skill, `sessions.md`, `scripts/cards.py add`.
 
@@ -353,34 +389,6 @@ Slice boundary: `diagnostician` skill, all `subjects/*/mistakes.md` and `subject
 Acceptance criteria:
 - Every root misunderstanding cites the specific mistakes behind it, which may come from different subjects.
 - If there are no mistakes, the skill says so and diagnoses nothing.
-
-Deferred follow-ups:
-- None.
-
-### US-14: Get graded without a source
-Primary actor: Learner
-
-Trigger: The learner runs a grading skill (`interviewer`, `mapmaker`, `explainer`, `socratic-questioner`, `examiner`,
-`checker`, `listener`, `review` or `sparring-partner`) on a topic or card that no file in `subjects/<subject>/sources/` covers.
-
-Happy-path action: The skill announces "no applicable source; grading by agent judgement" without asking the learner,
-then grades the learner's answers by agent judgement.
-
-Visible outcome: The learner sees grades and feedback marked as based on agent judgement.
-
-Authoritative state transition: One line is added to `sessions.md` that records `graded: agent judgement` instead of
-`not graded: no source`.
-
-Slice boundary: The source rules in the affected `SKILL.md` files, plus `sessions.md`. No script changes.
-
-Acceptance criteria:
-- The fallback applies only when `sources/` is missing or empty, or no source covers the topic or card. An applicable
-  source is always used instead of judgement.
-- Gaps or conflicts within an applicable source stay marked `unverified` and are not filled by judgement.
-- Judgement-based grades have the same effects as source-based grades: mistakes are logged to `mistakes.md` in the
-  existing format (no basis tag), cards are suggested, `review` calls `scripts/cards.py grade`, and `examiner` updates
-  `map.md` statuses, including `passed`.
-- `clerk` is unchanged and never adds content from judgement.
 
 Deferred follow-ups:
 - None.
@@ -414,4 +422,4 @@ Deferred follow-ups:
 - An executable progression engine or live agent-evaluation runner; instruction checks do not prove agent compliance.
 
 ## Open Questions
-- None. Card ids, CLI arguments and output, and where the diagnostician's session line goes are settled in `docs/contracts.md`.
+- None.

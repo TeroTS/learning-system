@@ -74,7 +74,8 @@ _Avoid:_ Root cause, core issue
 
 ### Source
 
-Material the learner supplies in `subjects/<subject>/sources/`. It is the only basis for grading.
+Material the learner supplies in `subjects/<subject>/sources/`, including topic-only guides. It informs scope proposals
+and provides context, not answer keys or grading prerequisites. Answers are always assessed by agent judgement.
 
 _Avoid:_ Reference, document
 

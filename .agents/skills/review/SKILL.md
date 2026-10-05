@@ -1,6 +1,6 @@
 ---
 name: review
-description: Use when the learner wants to recall a subject's due cards from memory, receive source-supported feedback, and update their Leitner schedule.
+description: Use when the learner wants to recall a subject's due cards from memory, receive feedback by agent judgement, and update their Leitner schedule.
 ---
 
 # Review
@@ -14,10 +14,10 @@ repository paths from the repository root, not this skill's directory.
 - Ask which subject to review if it is not given. Reuse its existing folder under `subjects/`; never create a
   subject during review. If the subject is missing, direct the learner to `interviewer` and do not write elsewhere.
 - Require a subject name matching `^[a-z0-9]+(-[a-z0-9]+)*$`; reject paths, slashes, `..`, and empty names.
-  Ask about ambiguous names. Do not follow a subject-folder symlink outside `subjects/`, or source and log file
+  Ask about ambiguous names. Do not follow a subject-folder symlink outside `subjects/`, or map, source and log file
   symlinks outside the subject folder.
-- Read existing `mistakes.md` and `sessions.md` if present. Read learner-supplied text files in `sources/` for
-  correctness judgments; never add or change sources. A missing goal means level unknown, not a blocked review.
+- Read existing `map.md`, `mistakes.md` and `sessions.md` if present. Read learner-supplied text files in `sources/`
+  for context; never add or change sources. A missing goal means level unknown, not a blocked review.
 - Establish the learner's local calendar date in `YYYY-MM-DD`, asking if uncertain. Pass it explicitly as
   `--today` so the script's system date cannot silently substitute a different local date.
 - All card access goes through `scripts/cards.py`; never read or edit `cards.json` directly.
@@ -35,11 +35,11 @@ Never show the raw due JSON, a list of backs, source excerpts, hints, or explana
 
 If the command fails, report the failure without exposing card content and do not treat it as an empty queue.
 If no cards are due, say so and finish with one session line recording `no cards due`; do not create card storage.
-An applicable source always takes precedence. If `sources/` is missing or empty, or no source covers a card,
-announce `no applicable source; grading by agent judgement` without asking, then grade that card by agent judgement.
-For such cards, read `source-supported` below as `supported by agent judgement`. Judgement-based grades have the same
-effects as source-based grades: run `grade`, record mistakes, and suggest cards. Include `graded: agent judgement`
-in the session line when any card was graded this way.
+Read `docs/contracts.md` Contract 9. Always grade by agent judgement; accepted requirements and passing targets
+fix topic scope. Sources provide context, not answer keys or grading prerequisites. No separate answer files or
+fallback announcement are required. Genuine grading uncertainty stays `unverified`, not a learner mistake or failure.
+Identify agent judgement in feedback and include `graded: agent judgement` in the session result.
+Preserve historical evidence and its attribution. Review assesses existing cards, not a new whole-topic exam.
 
 ## Recall and grade one card at a time
 
@@ -50,14 +50,14 @@ For each card in the initial due queue:
 2. After the attempt, retrieve the current card through `due` with stdout captured, selecting only that card's id
    before displaying anything. Do not expose the other cards' backs. If it is no longer due or is missing, report
    that its state changed and do not grade the stale queue entry.
-3. Judge correctness against applicable files in `sources/`, or by agent judgement when none cover the card. The
-   stored back is the recall target, not a substitute for a source. Accept supported paraphrases; do not require a
-   verbatim answer. If an answer is ambiguous, ask one clarification before revealing the back.
-4. If the back conflicts with an applicable source, explain this after the attempt and leave
-   the card ungraded. Show the stored back only as conflicting content; do not silently repair it,
-   claim correctness, or record an unsupported mistake.
-5. Otherwise, show whether the attempt was right or wrong, the back, and a concise source-supported
-   correction when needed. For every wrong answer, append the mistake as described below without asking permission.
+3. Judge correctness by agent judgement. The stored back is the recall target, not an unquestionable answer key.
+   Accept correct paraphrases; do not require a verbatim answer. If an answer is ambiguous, ask one clarification
+   before revealing the back.
+4. If grading is uncertain or the stored back is incorrect, leave the card ungraded. Explain the limitation after
+   the attempt; show the stored back only with that qualification, without silently repairing it or asserting correctness.
+   Do not call `grade` or log a learner mistake for that card. Skip the remaining steps for this card.
+5. Otherwise, show whether the attempt was right or wrong, the back, and a concise correction established by agent
+   judgement when needed. For every wrong answer, append the mistake as described below without asking permission.
 6. Run exactly one grade command for this attempted card, using the learner's local date at grading time:
 
    ```bash
@@ -77,7 +77,7 @@ leave the remaining cards unchanged and record partial completion accurately.
 Create `mistakes.md` with `# Mistakes` if missing and append one line per caught mistake:
 
 ```md
-- <YYYY-MM-DD> | review | <card id and concise mistaken idea or failed recall> | <source-supported correct idea>
+- <YYYY-MM-DD> | review | <card id and concise mistaken idea or failed recall> | <correct idea>
 ```
 
 Use the date the mistake was caught. Preserve all earlier lines. Store concise mistakes, not full answers or a

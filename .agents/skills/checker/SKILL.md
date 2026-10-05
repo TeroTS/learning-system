@@ -15,48 +15,47 @@ skill's directory.
 - Ask which subject the work belongs to if it is not given. Reuse its existing folder under `subjects/`; if the
   subject is missing, direct the learner to `interviewer` without creating a folder or writing elsewhere.
 - Require a subject name matching `^[a-z0-9]+(-[a-z0-9]+)*$`; reject paths, slashes, `..`, and empty names. Ask about
-  ambiguous names. Do not follow a subject-folder symlink outside `subjects/`, or goal, source, or log file
+  ambiguous names. Do not follow a subject-folder symlink outside `subjects/`, or goal, map, source, or log file
   symlinks outside the subject folder.
-- Read `goal.md`, `mistakes.md`, and `sessions.md` if present. Use the goal for the intended outcome, test format,
+- Read `goal.md`, `map.md`, `mistakes.md`, and `sessions.md` if present. Use the goal for the intended outcome, test format,
   and feedback depth. If the level is missing, treat it as unknown and ask when necessary; do not assess or update it.
 - Ask for the learner's work if it has not been supplied. An already supplied summary, proof, code, or solution
   satisfies the production requirement; do not ask them to produce it again. If only a final answer is supplied,
   ask for the intermediate steps before claiming to have checked the process.
-- Read learner-supplied text files in `sources/` for correctness judgments; never add or change sources. Work
-  supplied in the conversation or another learner-authorized file is the material being checked, not an additional
-  grading source. Do not copy it into the subject store or overwrite its original file.
+- Read learner-supplied text files in `sources/` for context; never add or change sources. Work supplied in the
+  conversation or another learner-authorized file is the material being checked. Do not copy it into the subject
+  store or overwrite its original file.
 - Use the learner's supplied rubric when available. If none is given, present a concise checklist derived from
-  applicable sources and the task's stated requirements. Clarify materially ambiguous requirements one question
+  accepted topic scope and the task's stated requirements. Clarify materially ambiguous requirements one question
   at a time; do not silently impose personal preferences or invent a numeric grading scheme.
-- A rubric organizes the review but does not replace source evidence; an applicable source always takes
-  precedence. If `sources/` is missing or empty, or no source covers this work, announce `no applicable source;
-  grading by agent judgement` without asking, then review by agent judgement. For that review, read
-  `source-supported` below as `supported by agent judgement`, cite agent judgement instead of a source passage, and
-  record `graded: agent judgement` in the session line. Judgement-based findings have the same effects as
-  source-based ones: mistakes are recorded and cards suggested.
+- Read `docs/contracts.md` Contract 9. Always grade by agent judgement; accepted requirements and passing targets
+  fix topic scope. A rubric organizes the review, not an answer-key requirement or silent scope expansion.
+  Sources provide context, not answer keys or grading prerequisites. No separate answer files or fallback announcement
+  are required. Genuine grading uncertainty stays `unverified`, not a learner mistake or failure.
+  Identify agent judgement in feedback and include `graded: agent judgement` in the session result.
+  Preserve historical evidence and its attribution.
 
 ## Review every intermediate step
 
 Walk through the submitted work in its original order against the rubric. Do not stop
 at the first mistake or infer that a plausible final result proves all intermediate steps are valid.
 
-- For a summary, check each claim, its support, and source-required points omitted from the learner's account.
+- For a summary, check each claim, its support, and required points omitted from the learner's account.
 - For a proof or solution, check each inference, assumption, calculation, and transition; distinguish a missing
-  justification from a conclusion shown false by the source.
-- For code, inspect the relevant statements, branches, and assumptions against the source-backed requirements.
+  justification from a conclusion judged false.
+- For code, inspect the relevant statements, branches, and assumptions against the accepted requirements.
   Do not execute learner code, install dependencies, or modify files to check it. State static-review limitations;
   never claim tests ran or runtime behavior was demonstrated when it was not.
 - For an unclear step, ask a focused clarification rather than supplying the missing reasoning yourself.
-- Where an applicable source's coverage is insufficient or conflicting, mark that portion `unverified` and explain
-  the evidence limitation. Do not fill it from judgement or treat your uncertainty as the learner's mistake.
+- Where grading is genuinely uncertain, mark that portion `unverified` and explain the limitation.
+  Do not invent a correction or treat your uncertainty as the learner's mistake.
 
 For each confirmed error or missing step, identify the exact step number, paragraph, quoted claim, or file/line
-location, the rubric criterion involved, and the relevant source file and section or passage. State what is wrong
+location, the rubric criterion involved, and the reasoning supporting your agent judgement. State what is wrong
 or missing and the correct idea concisely, without composing a replacement step or solution. Distinguish downstream
 effects of an earlier mistake from independent mistakes; do not count the same mistake repeatedly as it propagates.
 
-Identify any source-supported shorter path by pointing to unnecessary steps and the principle that could remove
-them. Describe the opportunity, not a fully worked alternative, replacement proof, revised summary, patch, or code
+Identify any shorter path by agent judgement: point to unnecessary steps and the principle that could remove them. Describe the opportunity, not a fully worked alternative, replacement proof, revised summary, patch, or code
 rewrite. A longer valid approach is not a mistake just because a shorter one exists. If no shorter path is supported,
 say none was identified rather than inventing one.
 
@@ -65,11 +64,11 @@ If they ask for a rewrite, explain that this skill provides findings and leave t
 
 ## Capture mistakes and propose cards
 
-Automatically append each distinct source-supported mistake to `mistakes.md`, creating it with `# Mistakes` if
-missing. Include its location so the learner can connect it to the finding:
+Automatically append each distinct mistake established by agent judgement to `mistakes.md`, creating it with
+`# Mistakes` if missing. Include its location so the learner can connect it to the finding:
 
 ```md
-- <YYYY-MM-DD> | checker | <topic, work location, and concise mistake or missing step> | <source-supported correct idea>
+- <YYYY-MM-DD> | checker | <topic, work location, and concise mistake or missing step> | <correct idea>
 ```
 
 Do not ask permission to record mistakes. Preserve earlier entries and do not store full work or a transcript.
@@ -97,7 +96,7 @@ that unchecked or unsupported work was validated. Keep the learner's work unchan
 Append exactly one line to `sessions.md`, creating it with `# Sessions` if missing:
 
 ```md
-- <YYYY-MM-DD> | checker | <topic or -> | <steps checked; confirmed findings; source/review limitations or incomplete review>
+- <YYYY-MM-DD> | checker | <topic or -> | <steps checked; confirmed findings; grading/review limitations or incomplete review>
 ```
 
 Use the learner's local calendar date in ISO `YYYY-MM-DD`, asking if uncertain. Date mistakes when caught, cards

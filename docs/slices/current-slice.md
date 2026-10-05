@@ -1,58 +1,66 @@
 # Current Slice
 
-Status: implementation complete; TypeScript scope approval pending
+Status: done
 
 ## Slice Goal
+- Assess learner production by agent judgement without requiring answer files.
 
-Fix accepted topic scope and make continuation, exam readiness and next-topic routing use one ordered decision rule.
+## Slice Boundary
+- Learner submits an answer to a grading skill; the skill assesses it against accepted requirements and targets,
+  shows feedback identified as agent judgement, and appends the session result with `graded: agent judgement`.
 
 ## Stories In Scope
+- `US-14 Get assessed by agent judgement`
 
-- US-02: approved finite topic requirements, targets and scope amendments.
-- US-06 and US-07: requirement-specific production evidence and gated handoffs.
-- US-08: independent readiness checks and exams against fixed accepted targets.
-- US-15: general continuation applies the same gate before choosing a role.
+## Stories Completed In This Slice
+- `US-14 Get assessed by agent judgement`
 
-## Contract and Decision Inputs
+## Stories Remaining In This Slice
+- None.
 
-- `DECISIONS.md`: fixed scope, evidence rules, progression, approval and diagnostic exceptions.
-- `docs/contracts.md`: Contracts 4 and 6 and `Progression gate`.
-- `docs/plans/deterministic-learning-progression.md`: accepted implementation plan.
+## Contract Inputs
+- `docs/contracts.md`: Contracts 4–9 and Progression gate; Contracts 1–2 for unchanged card transitions.
 
-## Surfaces Changed
+## Decision Inputs
+- None.
 
-- `AGENTS.md`, mapmaker, explainer, socratic-questioner and examiner instructions.
-- Decisions, specification, contracts, README and regression scenario documentation.
-- `tests/test_exam_readiness.py`: instruction-contract checks, not a live behavioral runner.
+## Shared State Required Now
+- Existing accepted map requirements/targets, append-only mistakes/sessions and CLI-managed cards.
+- Agent judgement is universal; genuine uncertainty remains unverified, not a learner failure.
+- Historical evidence and attribution remain unchanged.
 
-## State and Ownership
-
-- No new subject files, CLI changes, dependencies or card-format changes.
-- Mapmaker owns approved scope amendments; examiner changes only the examined topic's status.
-- History remains append-only; coverage is derived and cited, not stored in a second mutable ledger.
-- Learner files are unchanged. The pre-existing AWS session modification is outside this slice.
+## Operations / Endpoints / Surfaces In This Slice
+- Nine grading skills, README and CONTEXT.md; focused instruction-contract tests.
+- Reconcile the completed legacy progression slice note into this single-story brief; learner scope approval remains
+  separate and is not granted by repository maintenance.
 
 ## Tests Required
+- Add regression checks covering universal grading, accepted scope, attribution, uncertainty and removal of source-first rules.
+- Preserve review's ungraded-card safeguard and examiner's inconclusive-result safeguard; preserve clerk/diagnostician boundaries.
+- Run `.venv/bin/python -m unittest tests.test_agent_judgement`, `make test`, `make coverage`, `make check`
+  and `git diff --check`.
+- Baseline: `make check` passed, 60 tests and 100% script coverage. New regression checks failed as expected
+  with 12 assertion failures before skill and public-guidance changes.
+- No live agent end-to-end harness exists; instruction checks do not establish agent compliance or answer correctness.
 
-```bash
-.venv/bin/python -m unittest tests.test_exam_readiness
-make test
-make coverage
-make check
-git diff --check
-```
+## Not Now
+- US-02 learner map approval/amendments and US-15 progression changes; existing routing is preserved.
+- Script/CLI/schema changes, dependencies, LLM evaluation, CI and learner-store edits.
+- Historical plan documents are not retroactively rewritten.
 
-## Verification
+## Done When
+- All grading skills use agent judgement regardless of source availability, without fallback announcements or answer-file prerequisites.
+- Feedback/session attribution and uncertainty safeguards match Contract 9; normal card/exam effects remain intact.
+- Vocabulary and README agree; automated checks pass without decreasing script coverage.
 
-- Baseline: 52 passing tests, 100% script coverage.
-- New instruction checks observed failing before changes: 43 assertion failures across 9 tests.
-- Final results: 58 tests pass; 100% script coverage unchanged; `make check` and `git diff --check` pass.
-  Details: `docs/plans/deterministic-learning-progression.md` implementation record.
-- Synthetic rule review: documented in `docs/testing/exam-readiness.md`; independent live agent replay not run.
+## Completion Summary
+- Nine grading skills now use agent judgement without source-first branches or answer-file prerequisites.
+- Genuine uncertainty stays unverified; uncertain/incorrect-back cards stay ungraded and inconclusive exams leave
+  status unchanged. Normal confirmed card additions, established mistakes and unaided exam passes remain supported.
+- README and source vocabulary align; learner files, historical evidence and scheduling code are unchanged.
+- Four new instruction-contract tests; 64 total tests pass, script coverage remains 100%, and format/lint/diff checks pass.
+- No live agent replay was run: instruction checks cannot prove assessment correctness or agent compliance.
 
-## Deferred / Pending
-
-- `docs/plans/typescript-scope-proposal.md` proposes criteria and evidence mapping, not accepted learner scope.
-- Obtain explicit approval before amending `subjects/typescript/map.md` or resuming learning under that scope.
-- Other subjects remain legacy maps until individually approved; do not automatically migrate them.
-- Executable routing, LLM behavioral evaluation and CI remain outside this change.
+## Next Slice Recommendation
+- No explicit next story remains in `SPEC.md` to implement; existing skills and CLI provide the other story surfaces.
+- Pending learner scope approval remains a separate US-02 learning workflow, not repository-maintenance authorization.

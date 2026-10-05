@@ -24,9 +24,12 @@ reads, file writes, and shell commands. Resolve repository paths from the reposi
 - Ask the learner to outline what they already know or give a concrete unaided example before offering a map.
   Reuse specific evidence already supplied; clarify vague claims one question at a time. Do not supply answers
   before the learner attempts production.
-- Grade correctness against applicable files in `sources/`; they always take precedence. If `sources/` is missing
-  or empty, or no source covers the learner's examples, announce `no applicable source; grading by agent judgement`
-  without asking, grade by agent judgement, and record `graded: agent judgement` in the session line.
+- Read `docs/contracts.md` Contract 9. Always grade by agent judgement; accepted requirements and passing targets
+  fix topic scope. Sources inform scope proposals and provide context, not answer keys or grading prerequisites.
+  No separate answer files or fallback announcement are required.
+  Genuine grading uncertainty stays `unverified`, not a learner mistake or failure.
+  Identify agent judgement in feedback and include `graded: agent judgement` in the session result.
+  Preserve historical evidence and its attribution. Assessment while proposing scope does not approve that scope.
 
 ## Propose and refine the map
 

@@ -14,9 +14,9 @@ file writes, and shell commands. Resolve repository paths from the repository ro
 - Ask which subject the scenario belongs to if it is not given. Reuse its existing folder under `subjects/`; if
   missing, direct the learner to `interviewer` without creating a folder or writing elsewhere.
 - Require a subject name matching `^[a-z0-9]+(-[a-z0-9]+)*$`; reject paths, slashes, `..`, and empty names. Ask about
-  ambiguous names. Do not follow a subject-folder symlink outside `subjects/`, or goal, source, or log file symlinks
+  ambiguous names. Do not follow a subject-folder symlink outside `subjects/`, or goal, map, source, or log file symlinks
   outside the subject folder.
-- Read `goal.md`, `mistakes.md`, and `sessions.md` if present. Use the goal for context, not to silently replace
+- Read `goal.md`, `map.md`, `mistakes.md`, and `sessions.md` if present. Use the goal for context, not to silently replace
   the learner's chosen difficulty. Treat a missing level as unknown and ask if needed; do not update the goal.
 - Collect the scenario, counterpart role, difficulty, and time limit per answer, one question at a time, reusing
   details already supplied. Clarify what an ambiguous difficulty means in terms of objections or reasoning demands.
@@ -24,16 +24,15 @@ file writes, and shell commands. Resolve repository paths from the repository ro
   a limit or clamping it. Preserve the supplied limit; do not secretly extend it for weak answers.
 - Agree a finite session endpoint, such as a number of prompts, before starting. Summarize the scenario, difficulty,
   per-answer limit, endpoint, and scoring basis; resolve ambiguities before the first timed prompt.
-- Read applicable text files in `sources/` for scoring and supported corrections; never add or change sources.
-  Use their rubric if available, otherwise derive a small set of source-backed criteria relevant to the scenario.
+- Read learner-supplied text files in `sources/` for context; never add or change sources. Use the agreed rubric
+  if available, otherwise derive a small set of criteria relevant to accepted scope and the scenario.
   Explain the basis without supplying model answers. Do not invent a global score scale.
 
-An applicable source always takes precedence. If `sources/` is missing or empty, or no source covers this scenario,
-announce `no applicable source; grading by agent judgement` without asking, then derive criteria and score by agent
-judgement. For that session, read `source-supported` and `source evidence` below as `agent judgement`, and record
-`graded: agent judgement` in the session line. Judgement-based scores have the same effects as source-based ones:
-mistakes are recorded and cards suggested. Fictional scenario details are simulation context, not
-new grading sources or real-world facts.
+Read `docs/contracts.md` Contract 9. Always grade by agent judgement; accepted requirements and passing targets
+fix topic scope. Sources provide context, not answer keys or grading prerequisites. No separate answer files or
+fallback announcement are required. Genuine grading uncertainty stays `unverified`, not a learner mistake or failure.
+Identify agent judgement in feedback and include `graded: agent judgement` in the session result.
+Preserve historical evidence and its attribution. Fictional scenario details are simulation context, not real-world facts.
 
 ## Establish real per-answer timing
 
@@ -67,8 +66,8 @@ Give one timed prompt, wait for the answer, and then respond in character:
 - Push back on vague claims, unsupported assertions, or evasions by asking for a specific example, decision,
   justification, or response to an objection. Tie the pushback to what the learner actually said.
 - Do not provide a model answer, script their response, or turn the simulation into a lesson before they attempt.
-- After a late or timed-out answer, note its timing status and assess only the content actually submitted where
-  sources support it. Do not award a complete response for an unfinished one or treat lateness as a factual error.
+- After a late or timed-out answer, note its timing status and assess only the content actually submitted by agent
+  judgement. Do not award a complete response for an unfinished one or treat lateness as a factual error.
 - Count every new pushback prompt toward the agreed endpoint and apply the same per-answer limit to it. Do not
   quietly add unlimited rounds, repeat a timed answer to erase its result, or raise/lower difficulty mid-session.
 - If the learner explicitly changes difficulty, limit, or endpoint, clarify and acknowledge the change before the
@@ -80,22 +79,22 @@ a simulation transcript, audio, or video, or invent delivery details unavailable
 
 ## Score, capture mistakes, and suggest cards
 
-Report the source-rubric score or satisfied criteria out of applicable assessed criteria,
-and explain the strongest and weakest answers using specific prompt locations and source evidence. Mark any
-criteria an applicable source leaves unsupported or conflicting as ungraded rather than filling them from judgement.
+Report the agreed-rubric score or satisfied criteria out of applicable assessed criteria,
+and explain the strongest and weakest answers using specific prompt locations and reasoning by agent judgement.
+Mark genuinely uncertain assessments as `unverified`, not learner failures.
 Do not claim an overall score if nothing was gradable. State which rounds were assessed and which were incomplete
 or unverified.
 
 Report timing separately as on-time, late, timeout, or unverified for each answer and a compliance count with its
-measurement provenance. If the source rubric includes timing, apply the supplied limit using the agreed timing
+measurement provenance. If the agreed rubric includes timing, apply the supplied limit using the agreed timing
 method and state its limitations; do not silently omit timing from that score. Content success does not erase a
 late response, and learner-reported elapsed time is not independently verified timing.
 
-Automatically append each distinct source-supported weak answer or mistake to `mistakes.md`, creating it with
-`# Mistakes` if missing:
+Automatically append each distinct weak answer or mistake established by agent judgement to `mistakes.md`,
+creating it with `# Mistakes` if missing:
 
 ```md
-- <YYYY-MM-DD> | sparring-partner | <scenario, prompt number, and concise weakness or mistake> | <source-supported correct idea>
+- <YYYY-MM-DD> | sparring-partner | <scenario, prompt number, and concise weakness or mistake> | <correct idea>
 ```
 
 Do not ask permission to capture mistakes. Preserve earlier entries and avoid duplicate lines for repeated

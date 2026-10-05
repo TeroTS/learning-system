@@ -1,6 +1,6 @@
 ---
 name: listener
-description: Use when the learner explains a topic through transcribed speech, writing, and/or a drawing description and wants source-based grades and feedback on what each format missed or got wrong.
+description: Use when the learner explains a topic through transcribed speech, writing, and/or a drawing description and wants grades by agent judgement and feedback on what each format missed or got wrong.
 ---
 
 # Listener
@@ -15,9 +15,10 @@ skill's directory.
 - Ask which subject and topic the learner means if either is missing, one question at a time. Reuse the existing
   subject folder under `subjects/`; if it is missing, direct the learner to `interviewer` without creating a folder.
 - Require a subject name matching `^[a-z0-9]+(-[a-z0-9]+)*$`; reject paths, slashes, `..`, and empty names. Ask about
-  ambiguous names. Do not follow a subject-folder symlink outside `subjects/`, or goal, source, or log file
+  ambiguous names. Do not follow a subject-folder symlink outside `subjects/`, or goal, map, source, or log file
   symlinks outside the subject folder.
-- Read `goal.md`, `mistakes.md`, and `sessions.md` if present. Use the goal for topic scope and feedback depth.
+- Read `goal.md`, `map.md`, `mistakes.md`, and `sessions.md` if present. Use accepted map scope and the goal
+  for feedback depth.
   Treat a missing level as unknown and ask when necessary; do not assess or rewrite the goal.
 - If no explanation has been supplied, ask the learner to explain the topic in their own words before giving
   hints, a model explanation, or source excerpts. Already supplied explanations satisfy the production requirement.
@@ -29,38 +30,33 @@ skill's directory.
 - Keep explanations in the conversation or read learner-authorized text files without copying or modifying them.
   Do not save explanations, transcripts, or drawing descriptions in the subject store.
 
-## Grade against sources, or by judgement when none apply
+## Grade by agent judgement
 
-Read applicable learner-supplied text files in `subjects/<subject>/sources/`; never add to or change them. When an
-applicable source exists it is the grading basis and takes precedence over your general knowledge. A learner's
-explanation and another explanation format are never substitutes for a source.
+Read learner-supplied text files in `subjects/<subject>/sources/` for context; never add to or change them.
+Read `docs/contracts.md` Contract 9. Always grade by agent judgement; accepted requirements and passing targets
+fix topic scope. Sources provide context, not answer keys or grading prerequisites. No separate answer files or
+fallback announcement are required. Genuine grading uncertainty stays `unverified`, not a learner mistake or failure.
+Identify agent judgement in feedback and include `graded: agent judgement` in the session result.
+Preserve historical evidence and its attribution.
 
-If the folder is missing, empty, or contains no source covering the topic, announce `no applicable source; grading
-by agent judgement` without asking, then grade by agent judgement. For that grading, read `source-supported` below
-as `supported by agent judgement`, cite agent judgement instead of a source passage, and record
-`graded: agent judgement` in the session line. Judgement-based grades have the same effects as source-based grades:
-mistakes are recorded and cards suggested.
-
-Use a rubric in the applicable sources if one exists. Otherwise, derive a concise checklist of required key ideas
-and relationships from those sources within the agreed topic scope. Make the grade basis explicit in the feedback,
-not an arbitrary letter grade or unexplained global scale. Apply the same relevant criteria to explanations of the
-same topic across formats, while respecting any source-defined format requirements.
+Use the agreed rubric when available. Otherwise, derive a concise checklist of key ideas and relationships from
+accepted requirements within the agreed topic scope. Make the criteria explicit, not an arbitrary letter grade or
+unexplained global scale. Apply the same relevant criteria across formats, respecting agreed format requirements.
 
 For **each supplied explanation separately**:
 
-- Mark each applicable source-backed criterion as correctly conveyed, missing, or incorrect. Accept accurate
-  paraphrases and described relationships rather than demanding source wording.
-- Report a grade as correctly conveyed criteria out of applicable criteria, or use the source's stated rubric.
+- Mark each applicable criterion as correctly conveyed, missing, or incorrect. Accept accurate paraphrases and
+  described relationships rather than demanding exact wording.
+- Report a grade as correctly conveyed criteria out of applicable criteria, or use the agreed rubric.
   An idea stated incorrectly does not count as correctly conveyed merely because it was mentioned.
-- Show the specific omissions and wrong ideas, citing the source file and section or passage that supports each
-  finding. Locate wrong claims in the learner's explanation; identify where a missing relationship belonged.
+- Show the specific omissions and wrong ideas, explaining the reasoning supporting each finding by agent judgement.
+  Locate wrong claims in the learner's explanation; identify where a missing relationship belonged.
 - For transcribed speech, judge the available conceptual content, not unheard tone, pronunciation, or delivery.
   For a drawing description, distinguish `missing from the description` from claims about an unseen drawing.
 - Ask one focused clarification for genuinely ambiguous wording or relationships, without supplying the missing
   answer. Do not silently fill in a gap and award credit for your own interpretation.
-- If an applicable source is insufficient or conflicting for a criterion or extra claim, mark that portion
-  unverified and explain the limitation rather than fill it from judgement. Identify any excluded criteria so partial
-  source coverage cannot be mistaken for full validation.
+- If grading a criterion or extra claim is genuinely uncertain, mark that portion `unverified` and explain the
+  limitation. Identify excluded criteria so a partial assessment cannot be mistaken for full validation.
 
 Do not merge formats into a single score that hides their differences or let a correct written explanation erase
 an incorrect spoken explanation. If nothing was missed or wrong in a supported explanation, say so without
@@ -69,11 +65,11 @@ explanation, lesson, or mandatory exam/redo.
 
 ## Record mistakes and suggest cards
 
-Automatically append every distinct source-supported omission or wrong idea to `mistakes.md`, creating it with
-`# Mistakes` if missing:
+Automatically append every distinct omission or wrong idea established by agent judgement to `mistakes.md`,
+creating it with `# Mistakes` if missing:
 
 ```md
-- <YYYY-MM-DD> | listener | <topic, affected format(s), and concise missed or wrong idea> | <source-supported correct idea>
+- <YYYY-MM-DD> | listener | <topic, affected format(s), and concise missed or wrong idea> | <correct idea>
 ```
 
 Do not ask permission to capture mistakes. Preserve earlier lines. If the same mistake occurs in multiple
@@ -99,7 +95,7 @@ Show the grade and key findings for each supplied format, including any unverifi
 line to `sessions.md`, creating it with `# Sessions` if missing:
 
 ```md
-- <YYYY-MM-DD> | listener | <topic or -> | <per-format grades; source coverage limitations or incomplete session>
+- <YYYY-MM-DD> | listener | <topic or -> | <per-format grades; grading limitations or incomplete session>
 ```
 
 Include all supplied-format grades in that single line; for ungraded portions, say why instead of inventing a

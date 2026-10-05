@@ -19,13 +19,14 @@ repository paths from the repository root, not this skill's directory.
   outside the subject folder.
 - Read `goal.md`, `map.md`, `mistakes.md`, and `sessions.md` if present. Use the recorded level to fit the questions; if the
   goal or level is missing, treat it as unknown and ask the learner about their current understanding.
-- Read applicable learner-supplied text files in `sources/` privately for correctness judgments. Never add or
-  change sources, and do not expose excerpts that would give the answer away.
-- An applicable source always takes precedence. If `sources/` is missing or empty, or no source covers this topic,
-  announce `no applicable source; grading by agent judgement` without asking, then judge correctness by agent
-  judgement. For that session, read `source-supported` and `supported by a source` below as `supported by agent
-  judgement`, and record `graded: agent judgement` in the session line. Judgement-based mistakes have the same
-  effects as source-based ones: they are recorded and may become cards.
+- Read learner-supplied text files in `sources/` privately for context. Never add or change sources,
+  and do not expose excerpts that would give the answer away.
+- Read `docs/contracts.md` Contract 9. Always grade by agent judgement; accepted requirements and passing targets
+  fix topic scope. Sources provide context, not answer keys or grading prerequisites.
+  No separate answer files or fallback announcement are required.
+  Genuine grading uncertainty stays `unverified`, not a learner mistake or failure.
+  Identify agent judgement in feedback and include `graded: agent judgement` in the session result.
+  Preserve historical evidence and its attribution. Attribution does not permit revealing answers.
 
 ## Question until the learner identifies the gap
 
@@ -37,7 +38,7 @@ assumption, test a prediction, or find a counterexample. Keep the focus on the c
 not a prewritten sequence or progressively harder exam.
 
 - Respond to vague answers with a specific clarification question, not an invented interpretation.
-- When a source (or, without one, your judgement) supports a mistake, ask a question that lets the learner
+- When agent judgement establishes a mistake, ask a question that lets the learner
   examine it; do not announce the corrected idea as feedback. An unsuccessful answer is a reason to ask a
   simpler or more focused question, not to explain.
 - Do not use leading questions that contain the answer, multiple-choice options that expose it, solved examples,
@@ -54,11 +55,11 @@ A discovered gap need not already be solved. Distinguish identifying the gap fro
 
 ## Capture mistakes without giving answers away
 
-For each mistake established against an applicable source, or by agent judgement when none applies, automatically
-append one line to `mistakes.md`, creating it with `# Mistakes` if missing:
+For each mistake established by agent judgement, automatically append one line to `mistakes.md`,
+creating it with `# Mistakes` if missing:
 
 ```md
-- <YYYY-MM-DD> | socratic-questioner | <topic and concise mistaken idea> | <source-supported correct idea>
+- <YYYY-MM-DD> | socratic-questioner | <topic and concise mistaken idea> | <correct idea>
 ```
 
 Do not ask permission to capture mistakes. Preserve all earlier lines and record each distinct caught mistake
@@ -66,14 +67,14 @@ once; do not duplicate it for every follow-up about the same misunderstanding. K
 out of learner-visible output while questioning: do not display the log or its correct-idea field as a hint.
 The stored correction is not permission to reveal the answer in the conversation.
 
-Do not store full answers or a transcript. Where an applicable source is insufficient or conflicting, do
-not write an asserted mistake or fabricated correction, and do not fill the gap from judgement. Record the
-verification limitation in the session result instead.
+Do not store full answers or a transcript. If grading is genuinely uncertain, do not write an asserted mistake
+or fabricated correction. Record the unverified assessment in the session result instead.
 
 ## Suggest only discovered cards
 
 At session end, suggest focused cards based on the captured mistakes **only when the learner has articulated the
-correct idea themselves and it is supported by a source**. Use that already-discovered idea for the proposed back;
+correct idea themselves and agent judgement establishes its correctness**. Use that already-discovered idea for
+the proposed back;
 do not smuggle an undiscovered answer into a card suggestion. Defer cards for unresolved gaps rather than supply
 an answer. If there are no eligible mistakes, say that no supported card suggestion is ready.
 

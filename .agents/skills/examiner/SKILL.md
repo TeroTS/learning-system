@@ -23,12 +23,13 @@ shell commands. Resolve repository paths from the repository root, not this skil
   topic. If the map, topic or accepted scope/target is missing, report the gate limitation and offer a mapmaker
   handoff; do not create or change scope or begin an exam. If an entry is duplicated or malformed, report the
   ambiguity and leave the map unchanged. A clearly named topic alone is not an accepted exam target.
-- Read learner-supplied text files in `sources/` for grading; never add or change sources. An applicable source
-  always takes precedence. If `sources/` is missing or empty, or no source covers this topic, announce
-  `no applicable source; grading by agent judgement` without asking, then grade by agent judgement. For that exam,
-  read `source-supported` below as `supported by agent judgement` and record `graded: agent judgement` in the
-  session line. Judgement-based results have the same effects as source-based ones: level report, mistakes, card
-  suggestions, and map status updates, including `passed`.
+- Read learner-supplied text files in `sources/` for context; never add or change sources.
+- Read `docs/contracts.md` Contract 9. Always grade by agent judgement; accepted requirements and passing targets
+  fix topic scope. Sources provide context, not answer keys or grading prerequisites.
+  No separate answer files or fallback announcement are required.
+  Genuine grading uncertainty stays `unverified`, not a learner mistake or failure.
+  Identify agent judgement in feedback and include `graded: agent judgement` in the session result.
+  Preserve historical evidence and its attribution. Normal mistake/card and exam-status effects remain in force.
 
 ## Check exam readiness
 
@@ -55,7 +56,7 @@ score. Leave the map unchanged.
 ## Announce the exam target
 
 Only after readiness or an informed diagnostic request is established, create a finite ladder of increasingly
-demanding, source-supported tasks for this topic, from basic recall to the target outcome. Use the accepted passing target in `map.md`
+demanding tasks for this topic, from basic recall to the target outcome. Use the accepted passing target in `map.md`
 and cover every accepted requirement. Do not add requirements or change passing criteria during the exam.
 Question wording may vary, not required concepts or success conditions. Briefly state the accepted target and score
 basis without showing questions, answers, or source excerpts. Do not invent a global passing threshold. If the target
@@ -82,8 +83,8 @@ re-exam when the learner declines one.
 ## Ask until the first failure or guess
 
 1. Ask an easy, topic-relevant production question. Wait for the learner's unaided answer; never supply a hint,
-   answer, solution, or grading-source excerpt before their attempt.
-2. Judge the answer against the applicable sources, or by agent judgement when none apply. Require the reasoning
+   answer, solution, or source excerpt before their attempt.
+2. Judge the answer by agent judgement against accepted requirements and the target. Require the reasoning
    needed by the question, not a word-for-word match. A correct result explicitly admitted to be a guess does not
    demonstrate understanding.
 3. If the answer is genuinely ambiguous, ask one non-leading clarification about their reasoning before deciding.
@@ -97,7 +98,7 @@ re-exam when the learner declines one.
 6. If the learner demonstrates every level through the announced target without failure or guessing, end as
    target completed. Do not keep raising difficulty indefinitely to force a failure beyond the target.
 
-If applicable sources become insufficient or conflicting, stop as inconclusive rather than fill gaps from judgement.
+If grading is genuinely uncertain, stop as inconclusive rather than invent a learner failure or award a pass.
 If the learner explicitly ends early, respect that choice and record partial completion, not a pass. An exam
 stopped by missing evidence or interruption does not justify a new map status.
 
@@ -105,25 +106,25 @@ stopped by missing evidence or interruption does not justify a new map status.
 
 After the exam stops, show the highest level demonstrated and what stopped it: the failed question or required
 reasoning, an admitted guess, the completed target, or an inconclusive/interrupted exam. Report the number of
-source-supported unaided answers out of scored attempts and the highest completed level out of the announced
-ladder. If the first question failed, report zero completed levels; never imply unasked questions were answered.
+correct unaided answers out of scored attempts, assessed by agent judgement, and the highest completed level out of
+the announced ladder. If the first question failed, report zero completed levels; never imply unasked questions were answered.
 
-For each distinct source-supported mistake caught during the exam, automatically append one line to
+For each distinct mistake established by agent judgement during the exam, automatically append one line to
 `mistakes.md`, creating it with `# Mistakes` if missing:
 
 ```md
-- <YYYY-MM-DD> | examiner | <topic and concise mistaken idea or missing reasoning> | <source-supported correct idea>
+- <YYYY-MM-DD> | examiner | <topic and concise mistaken idea or missing reasoning> | <correct idea>
 ```
 
 Do not ask permission to capture mistakes. For a correct guess, do not invent a factual mistake: record the
-failure to justify the answer with the source-supported reasoning that was needed. Give concise corrections only
+failure to justify the answer with the reasoning that was needed. Give concise corrections only
 after the attempt and exam stop. Preserve earlier entries; do not store full answers or a transcript.
 
 Update `map.md` only when the exam has a supported terminal result and the selected topic has one valid entry:
 
 - First clear failure or guess: set that topic's status to `learning`.
 - Entire announced target demonstrated unaided: set that topic's status to `passed`.
-- Insufficient evidence within an applicable source, or interrupted exam: leave its status unchanged.
+- Grading uncertainty or interrupted exam: leave its status unchanged.
 
 Re-read the map before saving. Replace **only the selected topic's status token**, preserving its name,
 dependencies, sticking points, order, formatting, and every other byte. Never change other topics, prerequisites,
