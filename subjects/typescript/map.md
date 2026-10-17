@@ -4,7 +4,7 @@
 - [passed] unions-and-narrowing | depends on: object-and-function-types | sticking points: unknown vs any, missing values, runtime type checks
 - [passed] async-functions | depends on: unions-and-narrowing | sticking points: Promise return types, undefined results, rejected promises
 - [passed] request-validation | depends on: unions-and-narrowing | sticking points: compile-time types do not validate JSON, false vs missing
-- [todo] api-contracts | depends on: object-and-function-types | sticking points: OpenAPI-first design, generated types vs handwritten duplicates
+- [passed] api-contracts | depends on: object-and-function-types | sticking points: OpenAPI-first design, generated types vs handwritten duplicates
 - [todo] create-and-update-inputs | depends on: request-validation, api-contracts | sticking points: omitted vs explicit values, Partial and Pick, protecting IDs
 - [todo] crud-handlers | depends on: async-functions, create-and-update-inputs | sticking points: ID vs array index, missing tasks, response types
 - [todo] error-handling | depends on: crud-handlers | sticking points: validation vs not-found vs unexpected failures, consistent error responses
@@ -43,17 +43,17 @@ Passing target: Write and explain validation unaided for valid data, missing fie
 
 ### Requirements: api-contracts
 Scope: accepted
-- contract-first: Define the task API in OpenAPI 3 YAML before handlers, including operation IDs, shared error schema and key examples; validate it.
-- contract-generation: Identify and run pinned, deterministic generation commands for backend contracts/models and a TypeScript client.
-- contract-use: Implement an operation against generated contracts without duplicating models; change YAML and regenerate when behavior changes.
-Passing target: Produce and explain a validated contract and its generation/use workflow unaided for a task operation.
+- contract-read: Explain a supplied operation's inputs, successful response, and error responses.
+- contract-artifacts: Explain the purpose of generated backend contracts/models and the TypeScript client, and why their types should not be duplicated.
+- contract-change-flow: Explain why an API change requires updating the contract and regenerating affected code.
+Passing target: Explain a supplied contract and its generated-code workflow unaided. No YAML authoring, generator commands, or deterministic-output exercises. AI may produce specifications and generation setup.
 
 ### Requirements: create-and-update-inputs
 Scope: accepted
-- input-create: Define create fields in the contract, excluding server-controlled IDs, and distinguish required from optional input.
-- input-update: Model update input and apply the intended difference between omission and explicit values without overwriting omitted fields.
+- input-create-use: Use a supplied generated create type to construct valid input, distinguishing required/optional fields and excluding server-controlled IDs.
+- input-update-values: Apply a supplied generated update type without overwriting omitted fields, preserving explicit values such as false and protecting IDs.
 - input-utilities: Explain Partial and Pick on supplied types, their lack of runtime validation, and why they do not replace generated API models.
-Passing target: Produce and explain create/update schemas and update application unaided, protecting IDs and preserving omitted fields.
+Passing target: Unaided, write and explain create input and update logic using supplied generated types, satisfying all three criteria. No schema authoring.
 
 ### Requirements: crud-handlers
 Scope: accepted
