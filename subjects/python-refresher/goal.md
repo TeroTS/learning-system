@@ -1,7 +1,21 @@
-# Python Refresher
+# Python Basics Refresher
 
 ## Goal
-Write backend service code in modern Python (3.10–3.14) that passes review by a senior Python reviewer without modern-Python feedback. Areas: syntax and fundamentals; data types, mutability, identity and equality; collections, comprehensions, iterators and generators; functions, closures, decorators and context managers; classes, inheritance, dataclasses and protocols; exception handling and custom exceptions; type hints, generics, TypedDict, Protocol and modern typing syntax; features introduced in 3.10–3.14; async/await; idiomatic Python, common pitfalls and best practices.
+Refresh my Python fundamentals efficiently. I am an experienced software engineer with previous Python experience, so focus on refreshing existing knowledge rather than teaching programming from scratch.
+
+Topics:
+1. Syntax, variables, operators, and control flow
+2. Data types, mutability, identity, and equality
+3. Collections: lists, tuples, sets, and dictionaries
+4. Strings, slicing, and comprehensions
+5. Functions, arguments, default values, *args, and **kwargs
+6. Scope, closures, and lambda functions
+7. Iterators, generators, and decorators
+8. Classes, inheritance, and dataclasses
+9. Exception handling and context managers
+10. Modules, imports, and packages
+11. Type hints and basic typing
+12. Common Python pitfalls and idiomatic patterns
 
 ## Level
 Provisional. Self-reported: built a production fraud prevention API with OAuth to a third-party service (Python 3.7) and AWS Lambda APIs (Python 3.10–3.11). Demonstrated: incorrectly predicted mutable default argument behaviour (answered `[1]`, `[2]`); could not attempt a structural pattern matching (`match`) function unaided. All other areas unverified.
@@ -10,4 +24,4 @@ Provisional. Self-reported: built a production fraud prevention API with OAuth t
 None
 
 ## Test Format
-One topic exam per area, answered unaided with no docs or REPL. A pass is a correct answer at the hardest level.
+Unaided topic exams focused on Python fundamentals rather than advanced modern-Python features, with no docs or REPL. Each exam's requirements and passing target must be explicitly approved in the map.

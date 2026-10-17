@@ -1,100 +1,89 @@
-# Python Refresher Map
+# Python Basics Refresher Map
 
-- [todo] core-data-model | sticking points: mutable default arguments; is vs ==; shallow vs deep copy; hash/eq contract
-- [todo] collections-and-comprehensions | depends on: core-data-model | sticking points: dict ordering guarantees; set/dict comprehension scope; collections module choice
-- [todo] iterators-and-generators | depends on: collections-and-comprehensions | sticking points: one-shot iterators exhausted; yield from vs return; lazy evaluation surprises
-- [todo] functions-and-closures | depends on: core-data-model | sticking points: late binding in closures; nonlocal; positional-only / and keyword-only * parameters
-- [todo] decorators-and-context-managers | depends on: functions-and-closures, iterators-and-generators | sticking points: functools.wraps; decorators with arguments; exception handling in __exit__ / contextmanager
-- [todo] classes-and-dataclasses | depends on: core-data-model, functions-and-closures | sticking points: super() and MRO; class vs instance attributes; dataclass field(default_factory) / frozen / slots / kw_only
-- [todo] exceptions | depends on: classes-and-dataclasses | sticking points: raise from vs implicit chaining; bare except; ExceptionGroup and except*
-- [todo] type-hints | depends on: classes-and-dataclasses, functions-and-closures | sticking points: Protocol vs ABC; invariance of list[T]; PEP 695 generics vs TypeVar; TypedDict total/Required/NotRequired
-- [todo] structural-pattern-matching | depends on: classes-and-dataclasses, collections-and-comprehensions | sticking points: capture vs value patterns; __match_args__; guard order
-- [todo] async-programming | depends on: iterators-and-generators, decorators-and-context-managers, exceptions | sticking points: blocking calls in event loop; TaskGroup vs gather; cancellation and timeouts
-- [todo] modern-python-features | depends on: type-hints, structural-pattern-matching, async-programming, exceptions | sticking points: which version introduced what; 3.14 deferred annotations
-- [todo] idioms-and-pitfalls | depends on: modern-python-features | sticking points: EAFP vs LBYL; pathlib/f-strings/enumerate over legacy forms
+- [todo] syntax-and-control-flow | sticking points: truthiness; operator precedence; loop boundaries
+- [todo] core-data-model | depends on: syntax-and-control-flow | sticking points: aliasing; mutation versus rebinding; is versus ==
+- [todo] collections | depends on: core-data-model | sticking points: empty sets; missing keys; mutation methods returning None
+- [todo] strings-and-comprehensions | depends on: collections | sticking points: negative indices; exclusive slice stops; unnecessary comprehensions
+- [todo] functions | depends on: strings-and-comprehensions | sticking points: mutable defaults; argument binding; implicit None
+- [todo] scope-and-closures | depends on: functions | sticking points: local assignment; late binding; lambda limitations
+- [todo] iterators-generators-and-decorators | depends on: scope-and-closures | sticking points: iterator exhaustion; lazy execution; wrappers dropping return values
+- [todo] classes-and-dataclasses | depends on: iterators-generators-and-decorators | sticking points: class versus instance attributes; shared mutable fields
+- [todo] exceptions-and-context-managers | depends on: classes-and-dataclasses | sticking points: broad catches; cleanup; exception suppression
+- [todo] modules-and-packages | depends on: exceptions-and-context-managers | sticking points: import-time execution; module versus package; circular imports
+- [todo] type-hints | depends on: modules-and-packages | sticking points: optional versus defaulted parameters; annotations not enforcing runtime types
+- [todo] idioms-and-pitfalls | depends on: type-hints | sticking points: mutation while iterating; in-place return values; unnecessarily manual loops
 
 ## Topic Scope
 
+### Requirements: syntax-and-control-flow
+Scope: accepted
+- scf-basics: Write and predict assignments, arithmetic, comparisons, Boolean expressions, and truthiness checks.
+- scf-control: Write `if`/`elif`/`else`, `for`, and `while` code using `range`, `break`, and `continue`.
+Passing target: Complete both requirements unaided, without docs or REPL, with correct code, predictions, and explanations as requested. No advanced features beyond the checklist are required.
+
 ### Requirements: core-data-model
 Scope: accepted
-- cdm-mutability: Classify built-in types by mutability and predict output of aliasing/mutation code, including mutable default arguments.
-- cdm-identity-equality: Explain and predict `is` vs `==`, including `None` checks and small-int/str interning caveats.
-- cdm-copying: Predict results of assignment, shallow copy and deep copy on nested structures.
-- cdm-hash-eq: Explain the `__hash__`/`__eq__` contract and why mutable objects are unhashable.
-Passing target: Complete all four requirements unaided (no docs or REPL), with correct predictions and explanations at the hardest level.
+- cdm-basic-types: Distinguish `None`, Boolean, integer, float, and string values; predict basic conversions and truthiness.
+- cdm-basic-mutation: Classify built-in types by mutability and predict mutation, rebinding, and aliasing in short snippets.
+- cdm-basic-comparison: Explain identity versus equality, use `is None`, and predict comparisons without relying on interning.
+Passing target: Complete all three requirements unaided, without docs or REPL, with correct code, predictions, and explanations as requested. No advanced features beyond the checklist are required.
 
-### Requirements: collections-and-comprehensions
+### Requirements: collections
 Scope: accepted
-- cc-choose: Choose among list, tuple, dict, set, deque, defaultdict, Counter and namedtuple for a stated need, justifying by complexity or semantics.
-- cc-comprehensions: Write list, dict, set and nested comprehensions and generator expressions, and predict scope behaviour.
-- cc-unpacking: Use starred unpacking, dict merge `|`/`|=` and `zip(strict=True)` correctly.
-Passing target: Complete all three requirements unaided (no docs or REPL), with correct code and justification at the hardest level.
+- col-builtins: Choose, create, access, iterate, and update lists, tuples, sets, and dictionaries; explain ordering, uniqueness, and basic key hashability.
+- col-operations: Use membership, unpacking, dictionary `get`/`items`, set operations, and shallow copies; predict effects on nested mutable values.
+Passing target: Complete both requirements unaided, without docs or REPL, with correct code, predictions, and explanations as requested. No advanced features beyond the checklist are required.
 
-### Requirements: iterators-and-generators
+### Requirements: strings-and-comprehensions
 Scope: accepted
-- ig-protocol: Implement the iterator protocol; explain iterable vs iterator and exhaustion.
-- ig-generators: Write generator functions, use `yield from` and generator return values, and predict lazy evaluation.
-- ig-itertools: Solve tasks with `itertools` (including `batched`, `pairwise`, `chain`, `islice`) instead of manual loops.
-Passing target: Complete all three requirements unaided (no docs or REPL), with working code and correct predictions at the hardest level.
+- str-operations: Use indexing, slicing, f-strings, `split`, `join`, `strip`, and `replace`; predict results and explain string immutability.
+- str-comprehensions: Write list, set, and dictionary comprehensions with filtering; translate between comprehensions and equivalent loops.
+Passing target: Complete both requirements unaided, without docs or REPL, with correct code, predictions, and explanations as requested. No advanced features beyond the checklist are required.
 
-### Requirements: functions-and-closures
+### Requirements: functions
 Scope: accepted
-- fc-parameters: Write signatures using positional-only `/`, keyword-only `*`, `*args` and `**kwargs`, and predict which calls are valid.
-- fc-closures: Predict and fix closure late-binding behaviour; use `nonlocal` correctly.
-- fc-first-class: Use functions as values, including `functools.partial`, lambda limits and `key=` functions.
-Passing target: Complete all three requirements unaided (no docs or REPL), with correct code and predictions at the hardest level.
+- fun-calls: Define functions with return values, positional and keyword arguments, defaults, `*args`, and `**kwargs`; use call unpacking and identify invalid calls.
+- fun-defaults: Predict repeated calls involving mutable defaults and correct unintended shared state using a `None` default.
+Passing target: Complete both requirements unaided, without docs or REPL, with correct code, predictions, and explanations as requested. No advanced features beyond the checklist are required.
 
-### Requirements: decorators-and-context-managers
+### Requirements: scope-and-closures
 Scope: accepted
-- dcm-decorators: Write a decorator with and without arguments, preserving metadata with `functools.wraps`.
-- dcm-stdlib-decorators: Use `functools.cache`/`lru_cache`, `cached_property`, `property`, `staticmethod` and `classmethod` correctly.
-- dcm-context-managers: Write a context manager as a class and with `contextlib.contextmanager`, handling exceptions; use parenthesised multi-item `with` and `ExitStack`.
-Passing target: Complete all three requirements unaided (no docs or REPL), with working, exception-correct code at the hardest level.
+- scope-binding: Predict local, enclosing, global, and built-in name lookup; use `global` and `nonlocal` in small examples.
+- scope-functions: Write a closure and a lambda-based sorting key; predict and fix late-bound loop-variable capture.
+Passing target: Complete both requirements unaided, without docs or REPL, with correct code, predictions, and explanations as requested. No advanced features beyond the checklist are required.
+
+### Requirements: iterators-generators-and-decorators
+Scope: accepted
+- igd-iteration: Distinguish iterable from iterator; use `iter` and `next`; write a generator function and generator expression, predicting execution and exhaustion.
+- igd-decoration: Write and apply a simple function decorator that forwards arguments and return values and preserves metadata with `functools.wraps`.
+Passing target: Complete both requirements unaided, without docs or REPL, with correct code, predictions, and explanations as requested. No advanced features beyond the checklist are required.
 
 ### Requirements: classes-and-dataclasses
 Scope: accepted
-- cd-classes: Write classes with inheritance, `super()` and MRO; explain class vs instance attributes.
-- cd-dunder: Implement relevant dunder methods (`__repr__`, `__eq__`, ordering, `__len__`/`__iter__`).
-- cd-dataclasses: Use `@dataclass` with `frozen`, `slots`, `kw_only`, `field(default_factory)` and `__post_init__`; choose dataclass vs NamedTuple vs plain class for a stated need.
-- cd-enum: Use `Enum`/`StrEnum` and `auto()` appropriately.
-Passing target: Complete all four requirements unaided (no docs or REPL), with correct code and justification at the hardest level.
+- cls-basics: Write a class with instance attributes and methods, then a single-inheritance subclass using overriding and `super()`.
+- cls-dataclasses: Write a dataclass, use `field(default_factory=...)`, and explain its generated initializer, representation, and equality compared with a plain class.
+Passing target: Complete both requirements unaided, without docs or REPL, with correct code, predictions, and explanations as requested. No advanced features beyond the checklist are required.
 
-### Requirements: exceptions
+### Requirements: exceptions-and-context-managers
 Scope: accepted
 - ex-handling: Write correct `try`/`except`/`else`/`finally` with narrow exception types; explain bare-except pitfalls.
-- ex-custom: Design a custom exception hierarchy for a service and use `raise ... from` chaining.
-- ex-groups: Use `ExceptionGroup`, `except*` and `add_note()`, and predict their behaviour.
-Passing target: Complete all three requirements unaided (no docs or REPL), with correct code and predictions at the hardest level.
+- ecm-resources: Raise and re-raise exceptions; use `with` for files and write a simple `contextlib.contextmanager` with cleanup on success and failure.
+Passing target: Complete both requirements unaided, without docs or REPL, with correct code, predictions, and explanations as requested. No advanced features beyond the checklist are required.
+
+### Requirements: modules-and-packages
+Scope: accepted
+- mod-structure: Organize a small program into modules and a regular package with `__init__.py`; use absolute and package-relative imports appropriately.
+- mod-execution: Explain import-time execution and the `if __name__ == "__main__"` guard; distinguish running a file from `python -m package.module` and identify a simple circular import.
+Passing target: Complete both requirements unaided, without docs or REPL, with correct code, predictions, and explanations as requested. No advanced features beyond the checklist are required.
 
 ### Requirements: type-hints
 Scope: accepted
-- th-basics: Annotate using `X | None`, built-in generics, `Callable`, `Literal`, `Final` and `Self`.
-- th-generics: Write generic functions and classes with PEP 695 syntax and `type` aliases; explain variance (list vs Sequence).
-- th-structural: Use `Protocol` and `TypedDict` (`Required`, `NotRequired`, `ReadOnly`); choose Protocol vs ABC.
-- th-advanced: Use `@override`, `TypeGuard`/`TypeIs`, `ParamSpec` for decorators; explain deferred annotation evaluation.
-Passing target: Complete all four requirements unaided (no docs or REPL), with type-checker-correct code and correct explanations at the hardest level.
-
-### Requirements: structural-pattern-matching
-Scope: accepted
-- spm-patterns: Write `match` statements using literal, capture, sequence, mapping, class, OR and `as` patterns with guards.
-- spm-semantics: Predict match results, including capture vs dotted value patterns and `__match_args__`.
-Passing target: Complete both requirements unaided (no docs or REPL), with working code and correct predictions at the hardest level.
-
-### Requirements: async-programming
-Scope: accepted
-- ap-basics: Explain coroutines, the event loop and `await`; predict execution order.
-- ap-concurrency: Run concurrent work with `TaskGroup`, `asyncio.timeout` and `gather`; handle cancellation and errors.
-- ap-pitfalls: Identify and fix blocking calls in async code (`asyncio.to_thread`); use `async with` and `async for`.
-Passing target: Complete all three requirements unaided (no docs or REPL), with working code and correct predictions at the hardest level.
-
-### Requirements: modern-python-features
-Scope: accepted
-- mpf-timeline: Name and correctly use key 3.10–3.14 features not covered above: improved error messages, `tomllib`, PEP 701 f-strings, `copy.replace`, free-threading/JIT awareness, template strings (t-strings), unparenthesised `except` lists.
-- mpf-upgrade: Rewrite a given 3.7-style snippet into idiomatic 3.14 code.
-Passing target: Complete both requirements unaided (no docs or REPL), with correct version attribution and working code at the hardest level.
+- typing-basics: Annotate parameters, return values, collections, and nullable values using built-in generics and `X | None`.
+- typing-purpose: Explain static checking versus runtime behavior and identify straightforward annotation mismatches in short snippets.
+Passing target: Complete both requirements unaided, without docs or REPL, with correct code, predictions, and explanations as requested. No advanced features beyond the checklist are required.
 
 ### Requirements: idioms-and-pitfalls
 Scope: accepted
-- ip-review: Review a given backend code sample and identify every non-idiomatic, outdated or buggy construct with justification.
-- ip-rewrite: Rewrite the sample idiomatically so a senior reviewer would raise no modern-Python findings.
-Passing target: Complete both requirements unaided (no docs or REPL), identifying all issues and producing a correct rewrite at the hardest level.
+- idiom-review: Identify and fix mutable defaults, aliasing mistakes, incorrect identity comparisons, collection mutation during iteration, and misuse of in-place method return values.
+- idiom-rewrite: Rewrite short loops using `enumerate`, `zip`, direct iteration, or comprehensions where appropriate; choose a narrow exception handler or explicit check for a stated scenario.
+Passing target: Complete both requirements unaided, without docs or REPL, with correct code, predictions, and explanations as requested. No advanced features beyond the checklist are required.
