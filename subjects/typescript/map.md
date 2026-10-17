@@ -1,77 +1,119 @@
 # TypeScript Map
 
-- [passed] object-and-function-types | sticking points: optional fields, parameter types, return types
-- [passed] unions-and-narrowing | depends on: object-and-function-types | sticking points: unknown vs any, missing values, runtime type checks
-- [passed] async-functions | depends on: unions-and-narrowing | sticking points: Promise return types, undefined results, rejected promises
-- [passed] request-validation | depends on: unions-and-narrowing | sticking points: compile-time types do not validate JSON, false vs missing
-- [passed] api-contracts | depends on: object-and-function-types | sticking points: OpenAPI-first design, generated types vs handwritten duplicates
-- [todo] create-and-update-inputs | depends on: request-validation, api-contracts | sticking points: omitted vs explicit values, Partial and Pick, protecting IDs
-- [todo] crud-handlers | depends on: async-functions, create-and-update-inputs | sticking points: ID vs array index, missing tasks, response types
-- [todo] error-handling | depends on: crud-handlers | sticking points: validation vs not-found vs unexpected failures, consistent error responses
-- [todo] api-tests | depends on: error-handling | sticking points: CRUD lifecycle, invalid requests, false values, missing IDs
+- [todo] variables-and-control-flow | sticking points: coercion, operator results, execution paths
+- [todo] declarations-and-scope | depends on: variables-and-control-flow | sticking points: reassignment vs mutation, hoisting, temporal dead zone
+- [todo] inference-and-literals | depends on: declarations-and-scope | sticking points: literal widening, annotations, as const
+- [todo] collections-and-destructuring | depends on: inference-and-literals | sticking points: tuples vs arrays, shallow copies, aliasing
+- [todo] functions-and-parameters | depends on: collections-and-destructuring | sticking points: missing returns, optional vs default parameters
+- [todo] interfaces-and-type-aliases | depends on: functions-and-parameters | sticking points: structural compatibility, declaration merging
+- [todo] unions-intersections-and-narrowing | depends on: interfaces-and-type-aliases | sticking points: safe property access, conflicting intersections, discriminants
+- [todo] special-types | depends on: unions-intersections-and-narrowing | sticking points: any vs unknown, never vs void, strict null checking
+- [todo] optional-and-nullish-values | depends on: special-types | sticking points: omitted vs undefined vs null, falsy vs nullish
+- [todo] generics | depends on: functions-and-parameters, unions-intersections-and-narrowing | sticking points: input/output relationships, constraints, keyof
+- [todo] classes-and-inheritance | depends on: interfaces-and-type-aliases | sticking points: private vs #private, abstract members, overriding
+- [todo] assertions-guards-and-validation | depends on: special-types, optional-and-nullish-values | sticking points: assertions do not validate, type-predicate correctness
+- [todo] utility-types | depends on: generics, optional-and-nullish-values | sticking points: shallow transformations, derived types, no runtime validation
+- [todo] promises-and-async | depends on: functions-and-parameters, special-types | sticking points: Promise vs resolved value, absence vs rejection, concurrency
+- [todo] modules-and-configuration | depends on: interfaces-and-type-aliases, promises-and-async | sticking points: type vs runtime exports, runtime-compatible configuration
+- [todo] pitfalls-and-idioms | depends on: assertions-guards-and-validation, utility-types, modules-and-configuration | sticking points: unchecked assertions, unhandled rejection, exhaustive handling
 
 ## Topic Scope
 
-### Requirements: object-and-function-types
-Scope: accepted
-- object-shape: Define a task object type with required fields and an optional description; explain allowed omissions.
-- object-parameters: Type function parameters for a task operation and identify invalid argument shapes.
-- object-return: Type and explain every return path of a function returning a string or undefined, including fall-through behavior.
-Passing target: Write and explain a task type and function unaided, satisfying all three criteria with consistent branches.
+Every passing target requires completing the topic's entire checklist unaided through short coding, prediction,
+or explanation tasks. No CRUD project or time limit. Sticking points are annotations, not additional requirements.
 
-### Requirements: unions-and-narrowing
+### Requirements: variables-and-control-flow
 Scope: accepted
-- union-unknown: Explain unknown versus any for unchecked method calls and predict both compile-time and runtime behavior.
-- union-missing: Distinguish undefined, empty string and false in truthiness checks, explicit missing-value checks and optional chaining.
-- union-runtime: Write a safe title reader for unknown input using primitive, object, null, property-existence and string-value checks.
-- union-discriminant: Branch on a discriminated union and access only properties available in the selected branch.
-Passing target: Complete all four criteria unaided through predictions, explanations, a safe title reader and a discriminated-union branch.
+- basics-values: Identify primitive types and predict arithmetic, comparison, logical-operator, and coercion results.
+- basics-flow: Write a short function using conditions and iteration; explain its execution paths.
+Passing target: Correctly predict supplied expressions and implement/explain the function.
 
-### Requirements: async-functions
+### Requirements: declarations-and-scope
 Scope: accepted
-- async-return: Type an async task lookup as a Promise of its actual possible results, including undefined for a missing task.
-- async-await: Call the lookup with await, distinguish its Promise from its resolved result and handle the missing result before use.
-- async-reject: Explain and demonstrate how a caller handles a rejected lookup separately from a resolved missing result.
-Passing target: Write and explain lookup and caller code unaided covering success, absence and rejection.
+- scope-bindings: Explain reassignment versus mutation for const, and choose appropriately between let and const.
+- scope-lifetime: Predict block/function scope, shadowing, and access-before-declaration behavior for let, const, and var.
+Passing target: Correctly explain declaration choices and predict scope examples.
 
-### Requirements: request-validation
+### Requirements: inference-and-literals
 Scope: accepted
-- validation-unknown: Treat parsed request data as unknown and explain why TypeScript annotations do not validate JSON.
-- validation-fields: Validate required and optional task fields, rejecting null and wrong types before use.
-- validation-false: Preserve a valid false completion value and distinguish it from a missing or invalid field.
-Passing target: Write and explain validation unaided for valid data, missing fields, null, wrong types and false values.
+- inference-types: Predict inferred types and identify where explicit annotations clarify or constrain a declaration.
+- inference-literals: Explain literal widening and use literal unions and as const appropriately.
+Passing target: Predict inferred types and write declarations meeting supplied constraints.
 
-### Requirements: api-contracts
+### Requirements: collections-and-destructuring
 Scope: accepted
-- contract-read: Explain a supplied operation's inputs, successful response, and error responses.
-- contract-artifacts: Explain the purpose of generated backend contracts/models and the TypeScript client, and why their types should not be duplicated.
-- contract-change-flow: Explain why an API change requires updating the contract and regenerating affected code.
-Passing target: Explain a supplied contract and its generated-code workflow unaided. No YAML authoring, generator commands, or deterministic-output exercises. AI may produce specifications and generation setup.
+- collections-shapes: Define and use typed arrays, tuples, and objects; distinguish tuple positions from array elements.
+- collections-unpacking: Use destructuring, defaults, rest, and spread; explain shallow-copy and aliasing behavior.
+Passing target: Write a small data transformation and correctly explain its types and mutation effects.
 
-### Requirements: create-and-update-inputs
+### Requirements: functions-and-parameters
 Scope: accepted
-- input-create-use: Use a supplied generated create type to construct valid input, distinguishing required/optional fields and excluding server-controlled IDs.
-- input-update-values: Apply a supplied generated update type without overwriting omitted fields, preserving explicit values such as false and protecting IDs.
-- input-utilities: Explain Partial and Pick on supplied types, their lack of runtime validation, and why they do not replace generated API models.
-Passing target: Unaided, write and explain create input and update logic using supplied generated types, satisfying all three criteria. No schema authoring.
+- functions-signatures: Type function parameters and return paths, including possible missing results.
+- functions-arguments: Use optional, default, and rest parameters; predict behavior for omitted arguments and explicit undefined.
+Passing target: Implement and explain functions covering both requirements.
 
-### Requirements: crud-handlers
+### Requirements: interfaces-and-type-aliases
 Scope: accepted
-- crud-identity: Find tasks by stable ID, not array position, and distinguish missing records from existing ones.
-- crud-lifecycle: Implement create, read, update and delete against generated contracts, preserving unmodified fields and intended state transitions.
-- crud-responses: Return contract-defined response types/statuses for successful operations and missing tasks; keep async signatures consistent.
-Passing target: Implement and explain the task CRUD lifecycle unaided, including stable identity, updates, deletion and missing records.
+- shapes-declarations: Express object contracts using both interfaces and type aliases; explain structural compatibility.
+- shapes-differences: Explain extension, declaration merging, and aliases for unions; justify a suitable choice.
+Passing target: Define compatible contracts and explain the relevant differences without treating either construct as universally preferable.
 
-### Requirements: error-handling
+### Requirements: unions-intersections-and-narrowing
 Scope: accepted
-- error-classify: Distinguish invalid requests, missing tasks and unexpected failures; map them to contract-defined error responses.
-- error-boundary: Handle asynchronous failures at the handler boundary without swallowing them or returning a false success.
-- error-safe: Return the shared error shape without internal details and log diagnostic information without request content or secrets.
-Passing target: Implement and explain the three failure categories unaided, with consistent safe responses and diagnostic handling.
+- composition-types: Define unions and intersections; explain allowed values, safe property access, and conflicting property types.
+- composition-narrowing: Narrow unions using primitive checks, property checks, and discriminants.
+Passing target: Predict accepted/rejected assignments and implement a correctly narrowed branching function.
 
-### Requirements: api-tests
+### Requirements: special-types
 Scope: accepted
-- tests-lifecycle: Automate the full create/read/update/delete lifecycle with assertions on responses and stored state.
-- tests-validation: Cover invalid bodies, omitted update fields, false values and missing IDs with meaningful contract-based assertions.
-- tests-failure: Test an unexpected async failure, its safe response and absence of unintended state mutation; run tests with coverage.
-Passing target: Write and run tests unaided demonstrating all three criteria and explain what each failure case protects.
+- special-boundaries: Compare any and unknown, including compile-time checks versus runtime behavior.
+- special-results: Distinguish never, void, null, and undefined; use them appropriately for non-returning functions, ignored results, and missing values under strict null checking.
+Passing target: Correctly classify examples and write appropriate signatures and safe access checks.
+
+### Requirements: optional-and-nullish-values
+Scope: accepted
+- optional-properties: Model optional properties and distinguish omission, explicit undefined, and null, stating relevant compiler assumptions.
+- optional-operators: Use optional chaining and nullish coalescing while preserving valid false, 0, and empty-string values; contrast with truthiness defaults.
+Passing target: Implement and explain missing-value handling for all listed cases.
+
+### Requirements: generics
+Scope: accepted
+- generic-relationships: Write a reusable generic function that preserves the relationship between input and output types.
+- generic-constraints: Use constraints and keyof for safe property access; explain inference and rejected calls.
+Passing target: Implement and explain both an unconstrained transformation and constrained property-access function without falling back to any.
+
+### Requirements: classes-and-inheritance
+Scope: accepted
+- classes-members: Implement a class with constructor initialization and public, protected, and private members; distinguish TypeScript private from JavaScript #private.
+- classes-abstraction: Extend an abstract class, implement its abstract member, and explain inherited versus overridden behavior.
+Passing target: Implement the class hierarchy and correctly explain access restrictions and runtime behavior.
+
+### Requirements: assertions-guards-and-validation
+Scope: accepted
+- safety-assertions: Explain why type assertions and non-null assertions perform no runtime validation; identify unsafe uses.
+- safety-validation: Write a user-defined type guard for unknown object input, validating required and optional fields without rejecting valid falsy values.
+Passing target: Audit assertion examples and implement/explain a guard covering valid, missing, null, and wrong-type inputs.
+
+### Requirements: utility-types
+Scope: accepted
+- utilities-objects: Apply Partial, Required, Pick, Omit, Record, and Readonly; explain resulting shapes and shallow behavior.
+- utilities-derived: Use Exclude, Extract, NonNullable, Parameters, ReturnType, and Awaited to derive types; explain that utilities do not validate runtime data.
+Passing target: Derive requested types and correctly predict accepted/rejected assignments.
+
+### Requirements: promises-and-async
+Scope: accepted
+- promises-results: Type Promise results and async functions; distinguish Promise objects, resolved values, missing results, and rejection.
+- promises-errors: Write an awaited caller with error handling; explain sequential versus concurrent execution and safely inspect an unknown caught value.
+Passing target: Implement and explain success, absence, and rejection paths, plus an appropriate concurrency choice.
+
+### Requirements: modules-and-configuration
+Scope: accepted
+- modules-boundaries: Split a small example across modules using named/default exports and type-only imports; distinguish type and runtime exports.
+- modules-config: Explain a supplied configuration's strict, target, module, moduleResolution, include, and outDir settings in its stated runtime context.
+Passing target: Produce consistent imports/exports and explain how the supplied configuration affects checking, output, and resolution.
+
+### Requirements: pitfalls-and-idioms
+Scope: accepted
+- idioms-audit: Identify and correct accidental any, unchecked assertions, truthiness-based missing checks, and unhandled Promise rejection in short examples.
+- idioms-design: Refactor a loosely typed example using inference, a discriminated union with exhaustive handling, and an appropriate existing utility type.
+Passing target: Correct the listed pitfalls and explain why the refactored example is safer.
