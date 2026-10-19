@@ -1,7 +1,7 @@
 # TypeScript Map
 
 - [passed] variables-and-control-flow | sticking points: coercion, operator results, execution paths
-- [todo] declarations-and-scope | depends on: variables-and-control-flow | sticking points: reassignment vs mutation, hoisting, temporal dead zone
+- [passed] declarations-and-scope | depends on: variables-and-control-flow | sticking points: reassignment vs mutation, hoisting, temporal dead zone
 - [todo] inference-and-literals | depends on: declarations-and-scope | sticking points: literal widening, annotations, as const
 - [todo] collections-and-destructuring | depends on: inference-and-literals | sticking points: tuples vs arrays, shallow copies, aliasing
 - [todo] functions-and-parameters | depends on: collections-and-destructuring | sticking points: missing returns, optional vs default parameters

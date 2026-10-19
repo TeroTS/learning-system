@@ -6,5 +6,13 @@
     "box": 1,
     "due": "2026-10-19",
     "created": "2026-10-18"
+  },
+  {
+    "id": 2,
+    "front": "How do `let`, `const`, and `var` behave when accessed before their declarations?",
+    "back": "`let` and `const` throw before initialization. `var` can be accessed and initially holds `undefined`.",
+    "box": 1,
+    "due": "2026-10-20",
+    "created": "2026-10-19"
   }
 ]
